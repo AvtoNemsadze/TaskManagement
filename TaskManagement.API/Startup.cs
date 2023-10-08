@@ -66,11 +66,6 @@ namespace TaskManagement.API
 
             app.UseCors("CorsPolicy");
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
-
             app.UseEndpoints(endpoints =>
             {
                 // Default

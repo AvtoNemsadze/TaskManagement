@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 
 
-namespace TaskManagement.Application.Interfaces.Repositories
+namespace TaskManagement.Common.Interfaces.Repositories
 {
     public interface ITaskManagementDbRepository
     {

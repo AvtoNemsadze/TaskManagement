@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using TaskManagement.Application.Interfaces.Repositories;
+using TaskManagement.Common.Interfaces.Repositories;
 
 namespace TaskManagement.Persistence.Repository
 {

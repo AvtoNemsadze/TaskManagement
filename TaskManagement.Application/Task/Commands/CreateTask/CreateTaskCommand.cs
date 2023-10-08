@@ -1,8 +1,8 @@
-﻿using TaskManagement.Application.Profiles;
-using TaskManagement.Application.Responses;
+﻿using TaskManagement.Application.Responses;
+using TaskManagement.Common.Mapping;
 using MediatR;
 
-namespace TaskManagement.Application.Features.Task.Commands.CreateTask
+namespace TaskManagement.Application.Task.Commands.CreateTask
 {
     public class CreateTaskCommand : MapFrom<CreateTaskModel>, IRequest<BaseCommandResponse>
     {

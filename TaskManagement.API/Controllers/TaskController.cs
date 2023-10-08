@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TaskManagement.Application.Features.Task.Commands.CreateTask;
+using TaskManagement.Application.Task.Commands.CreateTask;
 
 namespace TaskManagement.API.Controllers
 {

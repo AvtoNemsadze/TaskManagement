@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.Application.Enums
+﻿namespace TaskManagement.Common.Enums
 {
     public enum TaskPriorityEnum
     {

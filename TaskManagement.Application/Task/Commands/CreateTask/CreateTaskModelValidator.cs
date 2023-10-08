@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using TaskManagement.Application.Enums;
+using TaskManagement.Common.Enums;
 
-namespace TaskManagement.Application.Features.Task.Commands.CreateTask
+namespace TaskManagement.Application.Task.Commands.CreateTask
 {
     public class CreateTaskModelValidator : AbstractValidator<CreateTaskModel>
     {
-        public CreateTaskModelValidator() 
+        public CreateTaskModelValidator()
         {
             RuleFor(dto => dto.Title)
                 .NotEmpty()

@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.Application.Exceptions
+﻿namespace TaskManagement.Common.Exceptions
 {
     public class NotFoundException : ApplicationException
     {

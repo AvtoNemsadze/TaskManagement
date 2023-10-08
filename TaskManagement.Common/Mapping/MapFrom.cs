@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace TaskManagement.Application.Profiles
+namespace TaskManagement.Common.Mapping
 {
     public class MapFrom<T> : IMapFrom<T>
     {

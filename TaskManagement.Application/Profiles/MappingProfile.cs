@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TaskManagement.Application.Features.Task.Commands.CreateTask;
+using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Domain.Entities;
 
 namespace TaskManagement.Application.Profiles

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
-using TaskManagement.Application.Exceptions;
+using TaskManagement.Common.Exceptions;
 
 namespace TaskManagement.API.Middleware
 {

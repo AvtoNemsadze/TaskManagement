@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TaskManagement.Application.Interfaces.Repositories;
 using TaskManagement.Application.Responses;
 using TaskManagement.Domain.Entities;
-using TaskStatus = TaskManagement.Application.Enums.TaskStatusEnum;
+using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 using AutoMapper;
 using MediatR;
+using TaskManagement.Common.Interfaces.Repositories;
 
-namespace TaskManagement.Application.Features.Task.Commands.CreateTask
+namespace TaskManagement.Application.Task.Commands.CreateTask
 {
     public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, BaseCommandResponse>
     {
@@ -75,7 +75,7 @@ namespace TaskManagement.Application.Features.Task.Commands.CreateTask
             {
                 Success = true,
                 Message = "Task Created Successfully",
-                Id = newTask.Id 
+                Id = newTask.Id
             };
 
             return response;

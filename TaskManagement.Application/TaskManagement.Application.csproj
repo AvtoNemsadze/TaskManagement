@@ -8,7 +8,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-		<!--<PackageReference Include="FluentValidation" Version="11.7.1" />-->
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -16,14 +15,15 @@
 	</ItemGroup>
 	
   <ItemGroup>
+    <ProjectReference Include="..\TaskManagement.Common\TaskManagement.Common.csproj" />
     <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
   </ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Features\Task\Commands\DeleteTask\" />
-    <Folder Include="Features\Task\Commands\UpdateTask\" />
-    <Folder Include="Features\Task\Queries\GetSingleTask\" />
-    <Folder Include="Features\Task\Queries\GetTaskList\" />
+    <Folder Include="Task\Commands\DeleteTask\" />
+    <Folder Include="Task\Commands\UpdateTask\" />
+    <Folder Include="Task\Queries\GetSingleTask\" />
+    <Folder Include="Task\Queries\GetTaskList\" />
   </ItemGroup>
 
 </Project>

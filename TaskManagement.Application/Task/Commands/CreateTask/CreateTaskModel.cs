@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.Application.Features.Task.Commands.CreateTask
+﻿namespace TaskManagement.Application.Task.Commands.CreateTask
 {
     public class CreateTaskModel
     {
