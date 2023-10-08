@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using TaskManagement.Application.Responses;
+﻿using TaskManagement.Application.Responses;
 using TaskManagement.Domain.Entities;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 using AutoMapper;
@@ -53,12 +52,6 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 request.DueDate = DateTime.Now.AddDays(7);
             }
 
-            // validate DueDate
-            if (request.DueDate.HasValue && request.DueDate.Value < DateTime.Now)
-            {
-                throw new ValidationException("DueDate cannot be in the past.");
-            }
-
             var newTask = new TaskEntity
             {
                 Title = request.Title,
@@ -69,7 +62,6 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
             };
 
             await _dbRepository.AddAsync(newTask);
-            //await _dbRepository.SaveChangesAsync();
 
             var response = new BaseCommandResponse
             {

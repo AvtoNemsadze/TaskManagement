@@ -9,9 +9,11 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
         {
             RuleFor(dto => dto.Title)
                 .NotEmpty()
+                .MinimumLength(3)
                 .MaximumLength(100);
 
             RuleFor(dto => dto.Description)
+                .MinimumLength(5)
                 .MaximumLength(500);
 
             RuleFor(dto => dto.DueDate)
