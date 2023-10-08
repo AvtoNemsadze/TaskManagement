@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "TaskManagementConnectionString": "Server=.;Database=TaskManagementDataBase;Trusted_Connection=true;TrustServerCertificate=true;"
+  }
+}
