@@ -10,13 +10,7 @@ namespace TaskManagement.API.Controllers
     //[ApiVersion("1.0")]
     //[Route("api/v{version:apiVersion}/[controller]")]
 
-    //[Route("api/[controller]")]
-    //[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    //[ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    //[ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
-    //[ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    //[ProducesResponseType(typeof(string), StatusCodes.Status415UnsupportedMediaType)]
-    //[ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [Route("api/[controller]")]
     public class TaskController : ControllerBase
     {
         private readonly IMediator _mediator;
