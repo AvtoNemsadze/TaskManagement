@@ -20,7 +20,6 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Task\Commands\DeleteTask\" />
     <Folder Include="Task\Commands\UpdateTask\" />
   </ItemGroup>
 

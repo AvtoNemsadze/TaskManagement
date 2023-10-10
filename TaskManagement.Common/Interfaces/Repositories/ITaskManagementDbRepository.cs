@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-
+using TaskManagement.Domain.Entities;
 
 namespace TaskManagement.Common.Interfaces.Repositories
 {
@@ -26,5 +26,6 @@ namespace TaskManagement.Common.Interfaces.Repositories
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         void Update<TEntity>(TEntity entity) where TEntity : class;
+        Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class;
     }
 }

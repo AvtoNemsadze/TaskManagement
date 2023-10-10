@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Task.Commands.CreateTask;
+using TaskManagement.Application.Task.Commands.DeleteTask;
 using TaskManagement.Application.Task.Queries.GetTaskList;
 
 namespace TaskManagement.API.Controllers
@@ -44,6 +45,15 @@ namespace TaskManagement.API.Controllers
         {
             var tasks = await _mediator.Send(new GetTaskListQuery());
             return Ok(tasks);
+        }
+
+        [HttpDelete("{taskId}")]
+        public async Task<ActionResult> DeleteTask(int taskId)
+        {
+            var command = new DeleteTaskCommand { TaskId = taskId };
+            await _mediator.Send(command);
+
+            return NoContent();
         }
     }
 }

@@ -40,10 +40,16 @@ namespace TaskManagement.Persistence.Repository
         {
             _context.Update(entity);
         }
+        public virtual async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+        {
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
+        }
 
-        public virtual void HardDelete<TEntity>(TEntity entity) where TEntity : class
+        public async virtual void HardDelete<TEntity>(TEntity entity) where TEntity : class
         {
             _context.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
         public virtual void HardDeleteRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
