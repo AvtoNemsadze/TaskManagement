@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Application.Task.Commands.DeleteTask;
+using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Application.Task.Queries.GetTaskList;
 
 namespace TaskManagement.API.Controllers
@@ -51,6 +52,18 @@ namespace TaskManagement.API.Controllers
         public async Task<ActionResult> DeleteTask(int taskId)
         {
             var command = new DeleteTaskCommand { TaskId = taskId };
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
+
+
+        [HttpPut("{taskId}")]
+        public async Task<ActionResult> UpdateTask(int taskId, [FromForm] UpdateTaskModel taskModel)
+        {
+            var command = _mapper.Map<UpdateTaskCommand>(taskModel);
+            command.Id = taskId;
+
             await _mediator.Send(command);
 
             return NoContent();

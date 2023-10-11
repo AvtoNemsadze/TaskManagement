@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TaskManagement.Application.Task.Commands.CreateTask;
+using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Application.Task.Queries.GetTaskList;
 using TaskManagement.Domain.Entities;
 
@@ -35,6 +36,11 @@ namespace TaskManagement.Application.Profiles
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.Priority))
                 .ForMember(dest => dest.AttachFile, opt => opt.MapFrom(src => src.AttachFile));
+
+            // update task
+            CreateMap<UpdateTaskModel, UpdateTaskCommand>();
+            CreateMap<UpdateTaskCommand, UpdateTaskModel>();
+            CreateMap<UpdateTaskCommand, TaskEntity>(); 
             #endregion
 
         }
