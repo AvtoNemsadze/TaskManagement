@@ -59,11 +59,9 @@ namespace TaskManagement.API.Controllers
 
 
         [HttpPut("{taskId}")]
-        public async Task<ActionResult> UpdateTask(int taskId, [FromForm] UpdateTaskModel taskModel)
+        public async Task<ActionResult> UpdateTask(int taskId, [FromForm] UpdateTaskModel updateTaskModel)
         {
-            var command = _mapper.Map<UpdateTaskCommand>(taskModel);
-            command.Id = taskId;
-
+            var command = new UpdateTaskCommand { Id = taskId, UpdateTaskModel = updateTaskModel };
             await _mediator.Send(command);
 
             return NoContent();

@@ -39,6 +39,7 @@ namespace TaskManagement.Persistence.Repository
         public virtual void Update<TEntity>(TEntity entity) where TEntity : class
         {
             _context.Update(entity);
+            _context.SaveChanges();
         }
         public virtual async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
         {

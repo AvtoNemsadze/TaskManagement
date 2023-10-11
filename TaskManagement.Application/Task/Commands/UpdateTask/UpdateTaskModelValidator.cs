@@ -7,20 +7,20 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
     {
         public UpdateTaskModelValidator()
         {
-            RuleFor(dto => dto.Title)
+            RuleFor(t => t.Title)
                 .NotEmpty()
                 .MinimumLength(3)
                 .MaximumLength(100);
 
-            RuleFor(dto => dto.Description)
+            RuleFor(t => t.Description)
                 .MinimumLength(5)
                 .MaximumLength(500);
 
-            RuleFor(dto => dto.DueDate)
+            RuleFor(t => t.DueDate)
                 .GreaterThan(DateTime.UtcNow)
                 .When(dto => dto.DueDate.HasValue);
 
-            RuleFor(dto => dto.Priority)
+            RuleFor(t => t.Priority)
                  .IsEnumName(typeof(TaskPriorityEnum), caseSensitive: false)
                  .WithMessage("Invalid priority value. Please provide a valid priority.");
         }

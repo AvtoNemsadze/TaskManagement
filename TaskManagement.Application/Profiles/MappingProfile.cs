@@ -40,7 +40,7 @@ namespace TaskManagement.Application.Profiles
             // update task
             CreateMap<UpdateTaskModel, UpdateTaskCommand>();
             CreateMap<UpdateTaskCommand, UpdateTaskModel>();
-            CreateMap<UpdateTaskCommand, TaskEntity>(); 
+            CreateMap<UpdateTaskModel, TaskEntity>();
             #endregion
 
         }

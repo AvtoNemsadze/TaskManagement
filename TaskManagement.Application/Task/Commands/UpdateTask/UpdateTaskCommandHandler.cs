@@ -20,10 +20,9 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
 
         public async Task<Unit> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
         {
-            var updateTaskModel = _mapper.Map<UpdateTaskModel>(request);
-
             var validator = new UpdateTaskModelValidator();
-            var validationResult = await validator.ValidateAsync(updateTaskModel);
+
+            var validationResult = await validator.ValidateAsync(request.UpdateTaskModel);
 
             if (!validationResult.IsValid)
             {
@@ -38,10 +37,9 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
                 throw new NotFoundException("Task", request.Id);
             }
 
-            _mapper.Map(request, taskEntity);
+            _mapper.Map(request.UpdateTaskModel, taskEntity);
 
-            _dbRepository.Update(taskEntity);
-            await _dbRepository.SaveChangesAsync(cancellationToken);
+            await _dbRepository.UpdateAsync(taskEntity);
 
             return Unit.Value;
         }
