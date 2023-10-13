@@ -23,5 +23,3 @@ namespace TaskManagement.Persistence
         }
     }
 }
-
-// PSR
