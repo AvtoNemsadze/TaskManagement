@@ -10,11 +10,11 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
     public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, BaseCommandResponse>
     {
         private readonly IMapper _mapper;
-        private readonly ITaskManagementDbRepository _dbRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateTaskCommandHandler(ITaskManagementDbRepository dbRepository, IMapper mapper)
+        public CreateTaskCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _dbRepository = dbRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -61,7 +61,8 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 Priority = request.Priority,
             };
 
-            await _dbRepository.AddAsync(newTask);
+            await _unitOfWork.TaskRepository.AddAsync(newTask);
+            await _unitOfWork.Save();
 
             var response = new BaseCommandResponse
             {

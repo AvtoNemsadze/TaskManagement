@@ -7,16 +7,15 @@ namespace TaskManagement.Application.Task.Commands.DeleteTask
 {
     public class DeleteTaskCommandHandler : IRequestHandler<DeleteTaskCommand>
     {
-        private readonly ITaskManagementDbRepository _dbRepository;
-
-        public DeleteTaskCommandHandler(ITaskManagementDbRepository dbRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public DeleteTaskCommandHandler(IUnitOfWork unitOfWork)
         {
-            _dbRepository = dbRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
         {
-            var task = await _dbRepository.GetSingleAsync<TaskEntity>(t => t.Id == request.TaskId);
+            var task = await _unitOfWork.TaskRepository.GetSingleAsync<TaskEntity>(t => t.Id == request.TaskId);
 
             if (task == null)
             {
@@ -25,7 +24,8 @@ namespace TaskManagement.Application.Task.Commands.DeleteTask
 
             // Soft Delete 
             task.IsDeleted = true;
-            await _dbRepository.UpdateAsync(task);
+            await _unitOfWork.TaskRepository.UpdateAsync(task);
+            await _unitOfWork.Save();
 
             return Unit.Value;
         }

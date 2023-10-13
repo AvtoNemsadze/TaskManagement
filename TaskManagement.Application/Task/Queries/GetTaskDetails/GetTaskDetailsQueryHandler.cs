@@ -10,18 +10,18 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 {
     public class GetTaskDetailsQueryHandler : IRequestHandler<GetTaskDetailsQuery, GetTaskDetailsModel>
     {
-        private readonly ITaskManagementDbRepository _dbRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetTaskDetailsQueryHandler(ITaskManagementDbRepository dbRepository, IMapper mapper)
+        public GetTaskDetailsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _dbRepository = dbRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<GetTaskDetailsModel> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
         {
-            var taskEntity = await _dbRepository.GetSingleAsync<TaskEntity>(o => o.Id == request.TaskId && !o.IsDeleted, cancellationToken);
+            var taskEntity = await _unitOfWork.TaskRepository.GetSingleAsync<TaskEntity>(o => o.Id == request.TaskId && !o.IsDeleted, cancellationToken);
 
             if (taskEntity == null)
             {

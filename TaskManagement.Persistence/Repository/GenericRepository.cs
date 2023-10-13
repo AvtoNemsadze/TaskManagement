@@ -4,7 +4,7 @@ using TaskManagement.Common.Interfaces.Repositories;
 
 namespace TaskManagement.Persistence.Repository
 {
-    public class GenericRepository : ITaskManagementDbRepository
+    public class GenericRepository : IGenericRepository
     {
 
         public TaskManagementDbContext _context { get; set; }
@@ -14,20 +14,9 @@ namespace TaskManagement.Persistence.Repository
             _context = context;
         }
 
-        public int SaveChanges()
-        {
-            return _context.SaveChanges();
-        }
-
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             return _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public virtual void Add<TEntity>(TEntity entity) where TEntity : class
-        {
-            _context.Add(entity);
-            _context.SaveChanges();
         }
 
         public virtual async Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
@@ -36,11 +25,6 @@ namespace TaskManagement.Persistence.Repository
             await _context.SaveChangesAsync();
         }
 
-        public virtual void Update<TEntity>(TEntity entity) where TEntity : class
-        {
-            _context.Update(entity);
-            _context.SaveChanges();
-        }
         public virtual async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
         {
             _context.Update(entity);
@@ -58,19 +42,9 @@ namespace TaskManagement.Persistence.Repository
             _context.RemoveRange(entities);
         }
 
-        public virtual bool Any<TEntity>(Expression<Func<TEntity, bool>> @where) where TEntity : class
-        {
-            return _context.Set<TEntity>().Any(where);
-        }
-
         public virtual async Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> @where, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
         {
             return await _context.Set<TEntity>().AnyAsync(where, cancellationToken);
-        }
-
-        public virtual int Count<TEntity>(Expression<Func<TEntity, bool>> @where) where TEntity : class
-        {
-            return _context.Set<TEntity>().Count(where);
         }
 
         public virtual async Task<int> CountAsync<TEntity>(Expression<Func<TEntity, bool>> @where, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
@@ -81,16 +55,6 @@ namespace TaskManagement.Persistence.Repository
         public virtual async Task<int> CountAsync<TEntity>(IQueryable<TEntity> data, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
         {
             return await data.CountAsync(cancellationToken);
-        }
-
-        public virtual IQueryable<TEntity> GetAll<TEntity>() where TEntity : class
-        {
-            return _context.Set<TEntity>();
-        }
-
-        public virtual IQueryable<TEntity> GetAll<TEntity>(Expression<Func<TEntity, bool>> @where) where TEntity : class
-        {
-            return _context.Set<TEntity>().Where(where);
         }
 
         public virtual async Task<List<TEntity>> GetAllAsync<TEntity>(CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
@@ -116,11 +80,6 @@ namespace TaskManagement.Persistence.Repository
         public virtual async Task<List<TEntity>> ToListAsync<TEntity>(IQueryable<TEntity> data, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
         {
             return await data.ToListAsync(cancellationToken);
-        }
-
-        public virtual TEntity GetSingle<TEntity>(Expression<Func<TEntity, bool>> @where) where TEntity : class
-        {
-            return _context.Set<TEntity>().FirstOrDefault(where);
         }
 
         public virtual async Task<TEntity> GetSingleAsync<TEntity>(Expression<Func<TEntity, bool>> @where, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class

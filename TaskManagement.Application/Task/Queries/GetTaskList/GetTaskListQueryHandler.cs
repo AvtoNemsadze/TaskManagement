@@ -7,18 +7,18 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
 {
     public class GetTaskListQueryHandler : IRequestHandler<GetTaskListQuery, GetTaskListModel>
     {
-        private readonly ITaskManagementDbRepository _dbRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetTaskListQueryHandler(ITaskManagementDbRepository dbRepository, IMapper mapper)
+        public GetTaskListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _dbRepository = dbRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<GetTaskListModel> Handle(GetTaskListQuery request, CancellationToken cancellationToken)
         {
-            var tasks = await _dbRepository.GetAllAsync<TaskEntity>(o =>
+            var tasks = await _unitOfWork.TaskRepository.GetAllAsync<TaskEntity>(o =>
              !o.IsDeleted &&
              (string.IsNullOrEmpty(request.Title) || o.Title.Contains(request.Title)) &&
              (string.IsNullOrEmpty(request.Description) || o.Description.Contains(request.Description)) &&

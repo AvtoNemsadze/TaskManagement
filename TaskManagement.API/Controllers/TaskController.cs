@@ -57,7 +57,6 @@ namespace TaskManagement.API.Controllers
             return NoContent();
         }
 
-
         [HttpPut("{taskId}")]
         public async Task<ActionResult> UpdateTask(int taskId, [FromForm] UpdateTaskModel updateTaskModel)
         {

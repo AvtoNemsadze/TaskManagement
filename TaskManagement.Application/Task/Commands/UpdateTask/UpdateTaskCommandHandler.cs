@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Common.Exceptions;
 using TaskManagement.Common.Interfaces.Repositories;
 using TaskManagement.Domain.Entities;
@@ -10,11 +9,11 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
     public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, Unit>
     {
         private readonly IMapper _mapper;
-        private readonly ITaskManagementDbRepository _dbRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateTaskCommandHandler(ITaskManagementDbRepository dbRepository, IMapper mapper)
+        public UpdateTaskCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _dbRepository = dbRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -30,7 +29,7 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
             }
 
             // Retrieve the task entity from the database
-            var taskEntity = await _dbRepository.GetSingleAsync<TaskEntity>(t => t.Id == request.Id && !t.IsDeleted);
+            var taskEntity = await _unitOfWork.TaskRepository.GetSingleAsync<TaskEntity>(t => t.Id == request.Id && !t.IsDeleted);
 
             if (taskEntity == null)
             {
@@ -39,7 +38,8 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
 
             _mapper.Map(request.UpdateTaskModel, taskEntity);
 
-            await _dbRepository.UpdateAsync(taskEntity);
+            await _unitOfWork.TaskRepository.UpdateAsync(taskEntity);
+            await _unitOfWork.Save();
 
             return Unit.Value;
         }
