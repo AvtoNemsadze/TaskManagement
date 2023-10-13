@@ -16,9 +16,12 @@ namespace TaskManagement.Persistence
             });
 
             services.AddTransient<TaskManagementDbContext>();
-            services.AddTransient<ITaskManagementDbRepository, GenericRepository>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<IGenericRepository, GenericRepository>();
 
             return services;
         }
     }
 }
+
+// PSR
