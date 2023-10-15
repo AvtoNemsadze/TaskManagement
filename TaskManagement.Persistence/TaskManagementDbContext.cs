@@ -16,5 +16,6 @@ namespace TaskManagement.Persistence
         }
 
         public DbSet<TaskEntity> Tasks { get; set; }
+        public object TaskEntity { get; internal set; }
     }
 }

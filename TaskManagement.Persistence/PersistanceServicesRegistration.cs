@@ -15,10 +15,10 @@ namespace TaskManagement.Persistence
                 options.UseSqlServer(configuration.GetConnectionString("TaskManagementConnectionString"));
             });
 
-            services.AddSingleton<TaskManagementDbContext>();
-            services.AddScoped<GenericRepository, GenericRepository>();
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+
             return services;
         }
     }

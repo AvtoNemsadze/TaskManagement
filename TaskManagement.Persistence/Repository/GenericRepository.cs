@@ -4,98 +4,55 @@ using TaskManagement.Common.Interfaces.Repositories;
 
 namespace TaskManagement.Persistence.Repository
 {
-    public class GenericRepository : IGenericRepository
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
+        private readonly TaskManagementDbContext _dbContext;
 
-        public TaskManagementDbContext _context { get; set; }
-
-        public GenericRepository(TaskManagementDbContext context)
+        public GenericRepository(TaskManagementDbContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public async Task<T> Add(T entity)
         {
-            return _context.SaveChangesAsync(cancellationToken);
+            await _dbContext.AddAsync(entity);
+            return entity;
         }
 
-        public virtual async Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+        public async Task Delete(T entity)
         {
-            await _context.AddAsync(entity, cancellationToken);
-            await _context.SaveChangesAsync();
+            _dbContext.Set<T>().Remove(entity);
         }
 
-        public virtual async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+        public async Task<bool> Exists(int id)
         {
-            _context.Update(entity);
-            await _context.SaveChangesAsync();
+            var entity = await Get(id);
+            return entity != null;
         }
 
-        public async virtual void HardDelete<TEntity>(TEntity entity) where TEntity : class
+        public async Task<T> Get(int id)
         {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync();
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public virtual void HardDeleteRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        public async Task<IReadOnlyList<T>> GetAll()
         {
-            _context.RemoveRange(entities);
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public virtual async Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> @where, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+        //public async Task<IReadOnlyList<T>> GetAll(Expression<Func<T, bool>> predicate)
+        //{
+        //    return await _dbContext.Set<T>().Where(predicate).ToListAsync();
+        //}
+
+        public async Task Update(T entity)
         {
-            return await _context.Set<TEntity>().AnyAsync(where, cancellationToken);
+            _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public virtual async Task<int> CountAsync<TEntity>(Expression<Func<TEntity, bool>> @where, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+        public virtual async Task<T> GetSingleAsync(Expression<Func<T, bool>> @where, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _context.Set<TEntity>().CountAsync(where, cancellationToken);
-        }
-
-        public virtual async Task<int> CountAsync<TEntity>(IQueryable<TEntity> data, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
-        {
-            return await data.CountAsync(cancellationToken);
-        }
-
-        public virtual async Task<List<TEntity>> GetAllAsync<TEntity>(CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
-        {
-            return await _context.Set<TEntity>().ToListAsync(cancellationToken);
-        }
-
-        public virtual async Task<List<TEntity>> GetAllAsync<TEntity>(Expression<Func<TEntity, bool>> @where, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
-        {
-            return await _context.Set<TEntity>().Where(where).ToListAsync(cancellationToken);
-        }
-
-        public virtual TEntity GetSingleByDynamicFunc<TEntity>(Func<TEntity, bool> @where) where TEntity : class
-        {
-            return _context.Set<TEntity>().FirstOrDefault(@where);
-        }
-
-        public virtual IEnumerable<TEntity> GetAllByDynamicFunc<TEntity>(Func<TEntity, bool> @where) where TEntity : class
-        {
-            return _context.Set<TEntity>().Where(@where);
-        }
-
-        public virtual async Task<List<TEntity>> ToListAsync<TEntity>(IQueryable<TEntity> data, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
-        {
-            return await data.ToListAsync(cancellationToken);
-        }
-
-        public virtual async Task<TEntity> GetSingleAsync<TEntity>(Expression<Func<TEntity, bool>> @where, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
-        {
-            return await _context.Set<TEntity>().FirstOrDefaultAsync(where, cancellationToken);
-        }
-
-        public virtual void Detach<TEntity>(TEntity entity) where TEntity : class
-        {
-            _context.Entry(entity).State = EntityState.Detached;
-            _context.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _context?.Dispose();
+            return await _dbContext.Set<T>().FirstOrDefaultAsync(where, cancellationToken);
         }
     }
 }

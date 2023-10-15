@@ -47,21 +47,21 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
             var taskStatus = TaskStatus.Started.ToString();
 
             // default deadlines
-            if (request.DueDate == null)
+            if (request.CreateTaskModel.DueDate == null)
             {
-                request.DueDate = DateTime.Now.AddDays(7);
+                request.CreateTaskModel.DueDate = DateTime.Now.AddDays(7);
             }
 
             var newTask = new TaskEntity
             {
-                Title = request.Title,
-                Description = request.Description,
-                DueDate = request.DueDate,
+                Title = request.CreateTaskModel.Title,
+                Description = request.CreateTaskModel.Description,
+                DueDate = request.CreateTaskModel.DueDate,
                 Status = taskStatus,
-                Priority = request.Priority,
+                Priority = request.CreateTaskModel.Priority,
             };
 
-            await _unitOfWork.TaskRepository.AddAsync(newTask);
+            await _unitOfWork.TaskRepository.Add(newTask);
             await _unitOfWork.Save();
 
             var response = new BaseCommandResponse

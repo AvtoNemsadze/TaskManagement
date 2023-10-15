@@ -18,7 +18,7 @@
 
 //        public async Task<GetTaskListModel> Handle(GetTaskListQuery request, CancellationToken cancellationToken)
 //        {
-//            var tasks = await _unitOfWork.TaskRepository.GetAllAsync<TaskEntity>(o =>
+//            var tasks = await _unitOfWork.TaskRepository.GetAll<TaskEntity>(o =>
 //             !o.IsDeleted &&
 //             (string.IsNullOrEmpty(request.Title) || o.Title.Contains(request.Title)) &&
 //             (string.IsNullOrEmpty(request.Description) || o.Description.Contains(request.Description)) &&

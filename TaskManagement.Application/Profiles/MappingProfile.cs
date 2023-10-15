@@ -11,22 +11,27 @@ namespace TaskManagement.Application.Profiles
         public MappingProfile()
         {
             #region Task
-            // Create Task
-            CreateMap<TaskEntity, CreateTaskModel>();
-
+            // create task
             CreateMap<CreateTaskModel, CreateTaskCommand>()
-            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.DueDate))
-            .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.Priority))
-            .ForMember(dest => dest.AttachFile, opt => opt.MapFrom(src => src.AttachFile));
+                .ConstructUsing(src => new CreateTaskCommand
+                {
+                    CreateTaskModel = new CreateTaskModel
+                    {
+                        Title = src.Title,
+                        Description = src.Description,
+                        DueDate = src.DueDate,
+                        Priority = src.Priority,
+                        AttachFile = src.AttachFile
+                    }
+                });
 
             CreateMap<CreateTaskCommand, CreateTaskModel>()
-                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.DueDate))
-                .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.Priority))
-                .ForMember(dest => dest.AttachFile, opt => opt.MapFrom(src => src.AttachFile));
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.CreateTaskModel.Title))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CreateTaskModel.Description))
+                .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.CreateTaskModel.DueDate))
+                .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.CreateTaskModel.Priority))
+                .ForMember(dest => dest.AttachFile, opt => opt.MapFrom(src => src.CreateTaskModel.AttachFile));
+
 
             // GetTask Details
             CreateMap<TaskEntity, GetTaskDetailsModel>()
