@@ -1,4 +1,5 @@
 ﻿using TaskManagement.Common.Interfaces.Repositories;
+using TaskManagement.Domain.Entities;
 
 namespace TaskManagement.Persistence.Repository
 {

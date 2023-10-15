@@ -34,36 +34,36 @@ namespace TaskManagement.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GetTaskDetailsModel>> GetTaskDetails([FromRoute] int id)
-        {
-            var task = await _mediator.Send(new GetTaskDetailsQuery { TaskId = id });
-            return Ok(task);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<GetTaskDetailsModel>> GetTaskDetails([FromRoute] int id)
+        //{
+        //    var task = await _mediator.Send(new GetTaskDetailsQuery { TaskId = id });
+        //    return Ok(task);
+        //}
 
-        [HttpGet]
-        public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks()
-        {
-            var tasks = await _mediator.Send(new GetTaskListQuery());
-            return Ok(tasks);
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks()
+        //{
+        //    var tasks = await _mediator.Send(new GetTaskListQuery());
+        //    return Ok(tasks);
+        //}
 
-        [HttpDelete("{taskId}")]
-        public async Task<ActionResult> DeleteTask(int taskId)
-        {
-            var command = new DeleteTaskCommand { TaskId = taskId };
-            await _mediator.Send(command);
+        //[HttpDelete("{taskId}")]
+        //public async Task<ActionResult> DeleteTask(int taskId)
+        //{
+        //    var command = new DeleteTaskCommand { TaskId = taskId };
+        //    await _mediator.Send(command);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        [HttpPut("{taskId}")]
-        public async Task<ActionResult> UpdateTask(int taskId, [FromForm] UpdateTaskModel updateTaskModel)
-        {
-            var command = new UpdateTaskCommand { Id = taskId, UpdateTaskModel = updateTaskModel };
-            await _mediator.Send(command);
+        //[HttpPut("{taskId}")]
+        //public async Task<ActionResult> UpdateTask(int taskId, [FromForm] UpdateTaskModel updateTaskModel)
+        //{
+        //    var command = new UpdateTaskCommand { Id = taskId, UpdateTaskModel = updateTaskModel };
+        //    await _mediator.Send(command);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
     }
 }
