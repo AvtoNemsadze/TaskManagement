@@ -38,12 +38,13 @@ namespace TaskManagement.Persistence.Repository
         public async Task<IReadOnlyList<T>> GetAll()
         {
             return await _dbContext.Set<T>().ToListAsync();
+            
         }
 
-        //public async Task<IReadOnlyList<T>> GetAll(Expression<Func<T, bool>> predicate)
-        //{
-        //    return await _dbContext.Set<T>().Where(predicate).ToListAsync();
-        //}
+        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        {
+            return await _dbContext.Set<T>().Where(predicate).ToListAsync(cancellationToken);
+        }
 
         public async Task Update(T entity)
         {

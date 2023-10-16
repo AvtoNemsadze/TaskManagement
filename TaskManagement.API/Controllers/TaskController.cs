@@ -27,9 +27,9 @@ namespace TaskManagement.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
         {
-            var mapTaskModel = _mapper.Map<CreateTaskCommand>(taskModel);
+            var mapCreateTask = _mapper.Map<CreateTaskCommand>(taskModel);
 
-            var response = await _mediator.Send(mapTaskModel);
+            var response = await _mediator.Send(mapCreateTask);
 
             return Ok(response);
         }
@@ -41,29 +41,29 @@ namespace TaskManagement.API.Controllers
             return Ok(task);
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks()
-        //{
-        //    var tasks = await _mediator.Send(new GetTaskListQuery());
-        //    return Ok(tasks);
-        //}
-
-        [HttpDelete("{taskId}")]
-        public async Task<ActionResult> DeleteTask(int taskId)
+        [HttpGet]
+        public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks()
         {
-            var command = new DeleteTaskCommand { TaskId = taskId };
+            var tasks = await _mediator.Send(new GetTaskListQuery());
+            return Ok(tasks);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTask(int id)
+        {
+            var command = new DeleteTaskCommand { TaskId = id };
             await _mediator.Send(command);
 
             return NoContent();
         }
 
-        //[HttpPut("{taskId}")]
-        //public async Task<ActionResult> UpdateTask(int taskId, [FromForm] UpdateTaskModel updateTaskModel)
-        //{
-        //    var command = new UpdateTaskCommand { Id = taskId, UpdateTaskModel = updateTaskModel };
-        //    await _mediator.Send(command);
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateTask(int id, [FromForm] UpdateTaskModel updateTaskModel)
+        {
+            var command = new UpdateTaskCommand { Id = id, UpdateTaskModel = updateTaskModel };
+            await _mediator.Send(command);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }

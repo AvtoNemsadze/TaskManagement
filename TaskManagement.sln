@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Persistence"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C7EE5C61-3164-482E-9631-9293087C0979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Common", "TaskManagement.Common\TaskManagement.Common.csproj", "{F2F571EE-C40C-492B-A089-540FC77E559D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Common", "TaskManagement.Common\TaskManagement.Common.csproj", "{F2F571EE-C40C-492B-A089-540FC77E559D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

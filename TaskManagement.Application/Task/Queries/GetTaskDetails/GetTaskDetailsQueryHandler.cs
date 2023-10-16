@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Security.Cryptography.Xml;
 using TaskManagement.Application.Task.Queries.GetTaskList;
 using TaskManagement.Common.Exceptions;
 using TaskManagement.Common.Interfaces.Repositories;
-using TaskManagement.Domain.Entities;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 {

@@ -4,6 +4,7 @@ using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 using AutoMapper;
 using MediatR;
 using TaskManagement.Common.Interfaces.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace TaskManagement.Application.Task.Commands.CreateTask
 {
@@ -52,6 +53,14 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 request.CreateTaskModel.DueDate = DateTime.Now.AddDays(7);
             }
 
+            // upload file
+            string? fileToSave = null;
+
+            if (request.CreateTaskModel.File != null && request.CreateTaskModel.File.Length > 0)
+            {
+                fileToSave = await SaveFileAsync(request.CreateTaskModel.File);
+            }
+
             var newTask = new TaskEntity
             {
                 Title = request.CreateTaskModel.Title,
@@ -59,6 +68,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 DueDate = request.CreateTaskModel.DueDate,
                 Status = taskStatus,
                 Priority = request.CreateTaskModel.Priority,
+                AttachFile = fileToSave,
             };
 
             await _unitOfWork.TaskRepository.Add(newTask);
@@ -72,6 +82,21 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
             };
 
             return response;
+        }
+
+        private static async Task<string> SaveFileAsync(IFormFile? file)
+        {
+            string baseDirectory = "Documents";
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file?.FileName);
+            string filePath = Path.Combine(baseDirectory, uniqueFileName);
+
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            return filePath;
         }
     }
 }

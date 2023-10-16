@@ -18,5 +18,9 @@
     <ProjectReference Include="..\TaskManagement.Common\TaskManagement.Common.csproj" />
     <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Documents\" />
+  </ItemGroup>
 
 </Project>

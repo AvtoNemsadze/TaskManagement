@@ -21,7 +21,7 @@ namespace TaskManagement.Application.Profiles
                         Description = src.Description,
                         DueDate = src.DueDate,
                         Priority = src.Priority,
-                        AttachFile = src.AttachFile
+                        File = src.File
                     }
                 });
 
@@ -30,7 +30,7 @@ namespace TaskManagement.Application.Profiles
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CreateTaskModel.Description))
                 .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.CreateTaskModel.DueDate))
                 .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.CreateTaskModel.Priority))
-                .ForMember(dest => dest.AttachFile, opt => opt.MapFrom(src => src.CreateTaskModel.AttachFile));
+                .ForMember(dest => dest.File, opt => opt.MapFrom(src => src.CreateTaskModel.File));
 
 
             // GetTask Details
@@ -39,8 +39,8 @@ namespace TaskManagement.Application.Profiles
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.DueDate))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-                .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.Priority))
-                .ForMember(dest => dest.AttachFile, opt => opt.MapFrom(src => src.AttachFile));
+                .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.Priority));
+                //.ForMember(dest => dest.AttachFile, opt => opt.MapFrom(src => src.AttachFile));
 
             // update task
             CreateMap<UpdateTaskModel, UpdateTaskCommand>();

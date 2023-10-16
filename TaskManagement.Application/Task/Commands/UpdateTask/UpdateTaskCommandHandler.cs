@@ -1,47 +1,53 @@
-﻿//using AutoMapper;
-//using MediatR;
-//using TaskManagement.Common.Exceptions;
-//using TaskManagement.Common.Interfaces.Repositories;
-//using TaskManagement.Domain.Entities;
+﻿using AutoMapper;
+using MediatR;
+using TaskManagement.Common.Exceptions;
+using TaskManagement.Common.Interfaces.Repositories;
 
-//namespace TaskManagement.Application.Task.Commands.UpdateTask
-//{
-//    public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, Unit>
-//    {
-//        private readonly IMapper _mapper;
-//        private readonly IUnitOfWork _unitOfWork;
+namespace TaskManagement.Application.Task.Commands.UpdateTask
+{
+    public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, Unit>
+    {
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-//        public UpdateTaskCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-//        {
-//            _unitOfWork = unitOfWork;
-//            _mapper = mapper;
-//        }
+        public UpdateTaskCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
-//        public async Task<Unit> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
-//        {
-//            var validator = new UpdateTaskModelValidator();
+        public async Task<Unit> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
+        {
+            var validator = new UpdateTaskModelValidator();
 
-//            var validationResult = await validator.ValidateAsync(request.UpdateTaskModel);
+            var validationResult = await validator.ValidateAsync(request.UpdateTaskModel);
 
-//            if (!validationResult.IsValid)
-//            {
-//                throw new ValidationException(validationResult);
-//            }
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult);
+            }
 
-//            // Retrieve the task entity from the database
-//            var taskEntity = await _unitOfWork.TaskRepository.GetSingleAsync<TaskEntity>(t => t.Id == request.Id && !t.IsDeleted);
+            // default deadlines
+            if (request.UpdateTaskModel.DueDate == null)
+            {
+                request.UpdateTaskModel.DueDate = DateTime.Now.AddDays(7);
+            }
 
-//            if (taskEntity == null)
-//            {
-//                throw new NotFoundException("Task", request.Id);
-//            }
+            var taskEntity = await _unitOfWork.TaskRepository.GetSingleAsync(o => o.Id == request.Id && !o.IsDeleted, cancellationToken);
 
-//            _mapper.Map(request.UpdateTaskModel, taskEntity);
+            if (taskEntity == null)
+            {
+                throw new NotFoundException("Task", request.Id);
+            }
 
-//            await _unitOfWork.TaskRepository.UpdateAsync(taskEntity);
-//            await _unitOfWork.Save();
+            _mapper.Map(request.UpdateTaskModel, taskEntity);
 
-//            return Unit.Value;
-//        }
-//    }
-//}
+            taskEntity.UpdatedAt = DateTime.Now;
+
+            await _unitOfWork.TaskRepository.Update(taskEntity);
+            await _unitOfWork.Save();
+
+            return Unit.Value;
+        }
+    }
+}

@@ -13,12 +13,5 @@ namespace TaskManagement.Persistence.Repository
         {
             _dbContext = dbContext;
         }
-
-        //public async Task<TaskEntity> GetTaskWithDetails(Expression<Func<TaskEntity, bool>> predicate, CancellationToken cancellationToken)
-        //{
-        //    return await _dbContext.Tasks
-        //        .Where(predicate)
-        //        .FirstOrDefaultAsync(cancellationToken);
-        //}
     }
 }
