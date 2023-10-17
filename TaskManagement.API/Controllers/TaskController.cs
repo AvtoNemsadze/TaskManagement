@@ -23,7 +23,6 @@ namespace TaskManagement.API.Controllers
             _mapper = mapper;
         }
 
-
         [HttpPost]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
         {
@@ -48,6 +47,7 @@ namespace TaskManagement.API.Controllers
             return Ok(tasks);
         }
 
+        // soft delete
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTask(int id)
         {
@@ -64,6 +64,30 @@ namespace TaskManagement.API.Controllers
             await _mediator.Send(command);
 
             return NoContent();
+        }
+
+
+        [HttpGet("Download/{taskId}")]
+        public async Task<IActionResult> DownloadFile(int taskId)
+        {
+            var taskDetails = await _mediator.Send(new GetTaskDetailsQuery { TaskId = taskId });
+
+            if (taskDetails == null)
+            {
+                return NotFound("Task not found");
+            }
+
+            var filePath = taskDetails.AttachFile;
+
+            if (filePath == null)
+            {
+                return NotFound("File not found");
+            }
+
+            var fileStream = System.IO.File.OpenRead(filePath);
+            var fileName = Path.GetFileName(filePath);
+
+            return File(fileStream, "application/octet-stream", fileName);
         }
     }
 }

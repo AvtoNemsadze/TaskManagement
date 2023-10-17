@@ -48,9 +48,14 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
             var taskStatus = TaskStatus.Started.ToString();
 
             // default deadlines
+            //if (request.CreateTaskModel.DueDate == null)
+            //{
+            //    request.CreateTaskModel.DueDate = DateTime.Now.AddDays(7);
+            //}
+
             if (request.CreateTaskModel.DueDate == null)
             {
-                request.CreateTaskModel.DueDate = DateTime.Now.AddDays(7);
+                request.CreateTaskModel.DueDate = DateTime.Now.AddMinutes(1);
             }
 
             // upload file
@@ -98,5 +103,11 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
             }
             return filePath;
         }
+
+        //public async Task<IEnumerable<TaskEntity>> GetTasksWithPastDeadlinesAsync()
+        //{
+        //    var currentTime = DateTime.Now;
+        //    return await _unitOfWork.TaskRepository.GetTasksWithPastDeadlinesAsync(currentTime);
+        //}
     }
 }

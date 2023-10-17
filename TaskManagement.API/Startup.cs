@@ -114,7 +114,7 @@ namespace TaskManagement.API
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "HR Leave Management Api",
+                    Title = "Task Management API",
 
                 });
 
