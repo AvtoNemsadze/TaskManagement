@@ -20,17 +20,14 @@ namespace TaskManagement.Infrastructure.Scheduler
             {
                 using (var scope = _serviceProvider.CreateScope())
                 {
-                    // Obtain necessary services from the scoped provider
                     var taskService = scope.ServiceProvider.GetRequiredService<ITaskRepository>();
                     var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
                     var currentTime = DateTime.Now;
-                    // Get tasks with past deadlines
                     var tasksWithPastDeadlines = await taskService.GetTasksWithPastDeadlinesAsync(currentTime);
 
                     foreach (var task in tasksWithPastDeadlines)
                     {
-                        // Update the task status to "failed"
                         task.Status = TaskStatus.Failed.ToString();
                         await unitOfWork.TaskRepository.Update(task);
                     }
@@ -38,8 +35,7 @@ namespace TaskManagement.Infrastructure.Scheduler
                     await unitOfWork.Save();
                 }
 
-                // Sleep for a certain interval before the next check
-                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken); // Adjust the interval as needed
+                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken); 
             }
         }
     }
