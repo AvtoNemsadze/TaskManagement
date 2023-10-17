@@ -17,7 +17,7 @@ namespace TaskManagement.Persistence.Repository
         public async Task<IEnumerable<TaskEntity>> GetTasksWithPastDeadlinesAsync(DateTime currentTime)
         {
             return await _dbContext.Tasks
-                .Where(task => task.Status != TaskStatus.Failed.ToString() && task.DueDate < currentTime)
+                .Where(task => task.Status != TaskStatus.Failed.ToString() && task.Status != TaskStatus.Completed.ToString() && task.DueDate < currentTime)
                 .ToListAsync();
         }
     }

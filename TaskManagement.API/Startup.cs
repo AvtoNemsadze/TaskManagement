@@ -2,6 +2,7 @@
 using TaskManagement.Persistence;
 using Microsoft.OpenApi.Models;
 using TaskManagement.API.Middleware;
+using TaskManagement.Infrastructure.Scheduler;
 
 namespace TaskManagement.API
 {
@@ -25,6 +26,8 @@ namespace TaskManagement.API
             services.ConfigureApplicationServices();
             services.ConfigurePersistenceServices(Configuration);
             services.AddControllers();
+
+            services.AddHostedService<TaskDeadlineCheckerService>();
 
             services.AddCors(o =>
             {

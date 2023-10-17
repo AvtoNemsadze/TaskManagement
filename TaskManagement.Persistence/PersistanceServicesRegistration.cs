@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Common.Interfaces.Repositories;
-using TaskManagement.Infrastructure.Scheduler;
 using TaskManagement.Persistence.Repository;
 
 namespace TaskManagement.Persistence
@@ -19,7 +18,6 @@ namespace TaskManagement.Persistence
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITaskRepository, TaskRepository>();
-            services.AddTransient<TaskDeadlineCheckerService>();   
 
             return services;
         }

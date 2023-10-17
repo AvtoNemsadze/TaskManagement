@@ -2,6 +2,7 @@
 using MediatR;
 using TaskManagement.Common.Exceptions;
 using TaskManagement.Common.Interfaces.Repositories;
+using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 
 namespace TaskManagement.Application.Task.Commands.UpdateTask
 {
@@ -43,6 +44,7 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
             _mapper.Map(request.UpdateTaskModel, taskEntity);
 
             taskEntity.UpdatedAt = DateTime.Now;
+            taskEntity.Status = TaskStatus.InProgress.ToString();
 
             await _unitOfWork.TaskRepository.Update(taskEntity);
             await _unitOfWork.Save();
