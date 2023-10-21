@@ -19,5 +19,8 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
         // filter task list
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
+        // search
+        public string? SearchQuery { get; set; }
     }
 }

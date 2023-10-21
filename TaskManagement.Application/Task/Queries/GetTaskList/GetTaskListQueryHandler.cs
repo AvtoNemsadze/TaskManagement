@@ -33,10 +33,20 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
 
             var metadata = new PaginationMetadata(totalItemCount, request.PageSize, request.PageNumber);
 
-            // Add date filtering if a date range is provided
+            // Add date filtering
             if (request.StartDate.HasValue && request.EndDate.HasValue)
             {
                 query = query.Where(o => o.CreatedAt >= request.StartDate && o.CreatedAt <= request.EndDate);
+            }
+
+            // Add search functionality
+            if (!string.IsNullOrEmpty(request.SearchQuery))
+            {
+                var searchQuery = request.SearchQuery.Trim(); 
+                query = query.Where(o =>
+                    o.Title.Contains(searchQuery) ||
+                    (o.Description != null && o.Description.Contains(searchQuery))
+                );
             }
 
             // limit page size
@@ -46,6 +56,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
                 request.PageSize = maxTasksPageSize;
             }
 
+            // pagination
             var tasks = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
@@ -54,7 +65,10 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
             var taskListModel = new GetTaskListModel
             {
                 Tasks = _mapper.Map<List<GetTaskDetailsModel>>(tasks),
-                Pagination = metadata
+                Pagination = metadata,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                SearchQuery = request.SearchQuery,
             };
 
             return taskListModel;

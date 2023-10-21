@@ -57,7 +57,8 @@ namespace TaskManagement.API.Controllers
                 PageSize = dto.PageSize,
                 PageNumber = dto.PageNumber,
                 StartDate = dto.StartDate, 
-                EndDate = dto.EndDate
+                EndDate = dto.EndDate,
+                SearchQuery = dto.SearchQuery,
             };
 
             var tasks = await _mediator.Send(query);
