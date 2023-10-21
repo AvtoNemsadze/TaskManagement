@@ -6,5 +6,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
     {
         public List<GetTaskDetailsModel> Tasks { get; set; } = new List<GetTaskDetailsModel>();
         public PaginationMetadata Pagination { get; set; } = null!;
+        public DateTime? StartDate { get; set; } 
+        public DateTime? EndDate { get; set; }
     }
 }

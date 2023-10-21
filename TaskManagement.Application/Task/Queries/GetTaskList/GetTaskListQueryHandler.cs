@@ -33,6 +33,12 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
 
             var metadata = new PaginationMetadata(totalItemCount, request.PageSize, request.PageNumber);
 
+            // Add date filtering if a date range is provided
+            if (request.StartDate.HasValue && request.EndDate.HasValue)
+            {
+                query = query.Where(o => o.CreatedAt >= request.StartDate && o.CreatedAt <= request.EndDate);
+            }
+
             // limit page size
             int maxTasksPageSize = 20;
             if (request.PageSize > maxTasksPageSize)

@@ -5,6 +5,7 @@ using System.Text.Json;
 using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Application.Task.Commands.DeleteTask;
 using TaskManagement.Application.Task.Commands.UpdateTask;
+using TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery;
 using TaskManagement.Application.Task.Queries.GetTaskList;
 using TaskManagement.Common.Models;
 
@@ -41,13 +42,22 @@ namespace TaskManagement.API.Controllers
             return Ok(task);
         }
 
+        [HttpGet("last-created")]
+        public async Task<ActionResult<GetTaskDetailsModel>> GetLastCreatedTask()
+        {
+            var task = await _mediator.Send(new GetLastCreatedTaskQuery());
+            return Ok(task);
+        }
+
         [HttpGet]
-        public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks([FromQuery] int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult<GetTaskListModel>> GetAllTasks([FromQuery] TaskListQueryDto dto)
         {
             var query = new GetTaskListQuery
             {
-                PageSize = pageSize,
-                PageNumber = pageNumber
+                PageSize = dto.PageSize,
+                PageNumber = dto.PageNumber,
+                StartDate = dto.StartDate, 
+                EndDate = dto.EndDate
             };
 
             var tasks = await _mediator.Send(query);

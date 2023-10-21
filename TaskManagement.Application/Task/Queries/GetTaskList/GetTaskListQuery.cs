@@ -11,7 +11,13 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
         public string? Status { get; set; }
         public string? Priority { get; set; }
         public string? AttachFile { get; set; }
+
+        // pagination 
         public int PageNumber { get; set; } = 1; 
-        public int PageSize { get; set; } = 10; 
+        public int PageSize { get; set; } = 10;
+
+        // filter task list
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }
