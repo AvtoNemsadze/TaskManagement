@@ -1,5 +1,4 @@
-﻿using TaskManagement.Common.Mapping;
-using TaskManagement.Domain.Entities;
+﻿using TaskManagement.Common.Models;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskList
 {

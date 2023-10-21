@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Common.Interfaces.Repositories;
+using TaskManagement.Common.Models;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskList
 {
@@ -30,10 +31,17 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
 
             var totalItemCount = await query.CountAsync(cancellationToken);
 
-            var metadata = new PaginationMetadata(totalItemCount, request.PageSize, request.Page);
+            var metadata = new PaginationMetadata(totalItemCount, request.PageSize, request.PageNumber);
+
+            // limit page size
+            int maxTasksPageSize = 20;
+            if (request.PageSize > maxTasksPageSize)
+            {
+                request.PageSize = maxTasksPageSize;
+            }
 
             var tasks = await query
-                .Skip((request.Page - 1) * request.PageSize)
+                .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Application.Task.Commands.DeleteTask;
 using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Application.Task.Queries.GetTaskList;
+using TaskManagement.Common.Models;
 
 namespace TaskManagement.API.Controllers
 {
@@ -21,7 +23,6 @@ namespace TaskManagement.API.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
-
 
         [HttpPost]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
@@ -41,11 +42,12 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks([FromQuery] int pageSize = 10)
+        public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks([FromQuery] int pageNumber = 1, int pageSize = 10)
         {
             var query = new GetTaskListQuery
             {
-                PageSize = pageSize
+                PageSize = pageSize,
+                PageNumber = pageNumber
             };
 
             var tasks = await _mediator.Send(query);
