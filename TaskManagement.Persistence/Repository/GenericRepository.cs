@@ -55,5 +55,10 @@ namespace TaskManagement.Persistence.Repository
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(where, cancellationToken);
         }
+
+        public IQueryable<T> GetAllQueryable()
+        {
+            return _dbContext.Set<T>().AsQueryable();
+        }
     }
 }

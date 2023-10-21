@@ -35,7 +35,7 @@ namespace TaskManagement.Infrastructure.Scheduler
                     await unitOfWork.Save();
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken); 
+                await Task.Delay(TimeSpan.FromDays(2), stoppingToken); 
             }
         }
     }

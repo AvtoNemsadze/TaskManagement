@@ -11,7 +11,6 @@ namespace TaskManagement.API.Controllers
     [ApiController]
     //[ApiVersion("1.0")]
     //[Route("api/v{version:apiVersion}/[controller]")]
-
     [Route("api/[controller]")]
     public class TaskController : ControllerBase
     {
@@ -22,6 +21,7 @@ namespace TaskManagement.API.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+
 
         [HttpPost]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
@@ -41,13 +41,17 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks()
+        public async Task<ActionResult<List<GetTaskListModel>>> GetAllTasks([FromQuery] int pageSize = 10)
         {
-            var tasks = await _mediator.Send(new GetTaskListQuery());
+            var query = new GetTaskListQuery
+            {
+                PageSize = pageSize
+            };
+
+            var tasks = await _mediator.Send(query);
             return Ok(tasks);
         }
 
-        // soft delete
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTask(int id)
         {

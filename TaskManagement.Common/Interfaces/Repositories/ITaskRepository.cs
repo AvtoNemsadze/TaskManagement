@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using TaskManagement.Domain.Entities;
+﻿using TaskManagement.Domain.Entities;
 
 namespace TaskManagement.Common.Interfaces.Repositories
 {
