@@ -49,7 +49,7 @@ namespace TaskManagement.API.Controllers
             return Ok(task);
         }
 
-        [HttpGet]
+        [HttpGet("GetAllTasks")]
         public async Task<ActionResult<GetTaskListModel>> GetAllTasks([FromQuery] TaskListQueryDto dto)
         {
             var query = new GetTaskListQuery
@@ -63,24 +63,6 @@ namespace TaskManagement.API.Controllers
 
             var tasks = await _mediator.Send(query);
             return Ok(tasks);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTask(int id)
-        {
-            var command = new DeleteTaskCommand { TaskId = id };
-            await _mediator.Send(command);
-
-            return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTask(int id, [FromForm] UpdateTaskModel updateTaskModel)
-        {
-            var command = new UpdateTaskCommand { Id = id, UpdateTaskModel = updateTaskModel };
-            await _mediator.Send(command);
-
-            return NoContent();
         }
 
 
@@ -105,6 +87,24 @@ namespace TaskManagement.API.Controllers
             var fileName = Path.GetFileName(filePath);
 
             return File(fileStream, "application/octet-stream", fileName);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateTask(int id, [FromForm] UpdateTaskModel updateTaskModel)
+        {
+            var command = new UpdateTaskCommand { Id = id, UpdateTaskModel = updateTaskModel };
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTask(int id)
+        {
+            var command = new DeleteTaskCommand { TaskId = id };
+            await _mediator.Send(command);
+
+            return NoContent();
         }
     }
 }

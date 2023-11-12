@@ -16,11 +16,11 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
         public int PageNumber { get; set; } = 1; 
         public int PageSize { get; set; } = 10;
 
-        // filter task list
+        // filtering
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        // search
+        // searching
         public string? SearchQuery { get; set; }
     }
 }
