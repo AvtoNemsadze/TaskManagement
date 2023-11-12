@@ -55,7 +55,7 @@ namespace TaskManagement.API.Middleware
 
     public class ErrorDeatils
     {
-        public string ErrorType { get; set; }
-        public string ErrorMessage { get; set; }
+        public string? ErrorType { get; set; }
+        public string? ErrorMessage { get; set; }
     }
 }
