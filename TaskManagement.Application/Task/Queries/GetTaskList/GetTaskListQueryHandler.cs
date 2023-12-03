@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Common.Infrastructure;
 using TaskManagement.Common.Interfaces.Repositories;
-using TaskManagement.Common.Models;
+using TaskEntity = TaskManagement.Domain.Entities.TaskEntity;
+using System.Linq.Expressions;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskList
 {
@@ -31,8 +33,6 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
 
             var totalItemCount = await query.CountAsync(cancellationToken);
 
-            var metadata = new PaginationMetadata(totalItemCount, request.PageSize, request.PageNumber);
-
             // Add date filtering
             if (request.StartDate.HasValue && request.EndDate.HasValue)
             {
@@ -42,25 +42,21 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
             // Add search functionality
             if (!string.IsNullOrEmpty(request.SearchQuery))
             {
-                var searchQuery = request.SearchQuery.Trim(); 
+                var searchQuery = request.SearchQuery.Trim();
                 query = query.Where(o =>
                     o.Title.Contains(searchQuery) ||
                     (o.Description != null && o.Description.Contains(searchQuery))
                 );
             }
 
-            // limit page size
-            int maxTasksPageSize = 20;
-            if (request.PageSize > maxTasksPageSize)
-            {
-                request.PageSize = maxTasksPageSize;
-            }
-
-            // pagination
-            var tasks = await query
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .ToListAsync(cancellationToken);
+            //  pagination
+            var paginationHelper = new PaginationHelper<TaskEntity>();
+            var (tasks, metadata) = await paginationHelper.PaginateAsync(
+                query,
+                request.PageNumber,
+                request.PageSize,
+                cancellationToken
+            );
 
             var taskListModel = new GetTaskListModel
             {
