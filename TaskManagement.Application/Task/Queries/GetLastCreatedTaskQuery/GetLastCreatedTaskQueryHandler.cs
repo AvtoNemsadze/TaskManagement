@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using TaskManagement.Application.Task.Queries.GetTaskList;
 using TaskManagement.Common.Interfaces.Repositories;
 

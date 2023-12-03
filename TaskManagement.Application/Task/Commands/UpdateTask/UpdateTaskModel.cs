@@ -1,4 +1,6 @@
-﻿namespace TaskManagement.Application.Task.Commands.UpdateTask
+﻿using AutoMapper;
+using TaskManagement.Domain.Entities;
+namespace TaskManagement.Application.Task.Commands.UpdateTask
 {
     public class UpdateTaskModel
     {
@@ -7,5 +9,13 @@
         public DateTime? DueDate { get; set; }
         public string Priority { get; set; }
         public string? AttachFile { get; set; }
+    }
+
+    public class UpdateTaskMapping : Profile
+    {
+        public UpdateTaskMapping() 
+        {
+            CreateMap<UpdateTaskModel, TaskEntity>();
+        }    
     }
 }

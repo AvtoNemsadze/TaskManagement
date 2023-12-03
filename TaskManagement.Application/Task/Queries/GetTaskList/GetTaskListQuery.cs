@@ -11,6 +11,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
         public string? Status { get; set; }
         public string? Priority { get; set; }
         public string? AttachFile { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         // pagination 
         public int PageNumber { get; set; } = 1; 

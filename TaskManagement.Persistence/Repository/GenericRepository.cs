@@ -38,7 +38,6 @@ namespace TaskManagement.Persistence.Repository
         public async Task<IReadOnlyList<T>> GetAll()
         {
             return await _dbContext.Set<T>().ToListAsync();
-            
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
@@ -48,7 +47,7 @@ namespace TaskManagement.Persistence.Repository
 
         public async Task Update(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
+             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
         public virtual async Task<T> GetSingleAsync(Expression<Func<T, bool>> @where, CancellationToken cancellationToken = new CancellationToken())
