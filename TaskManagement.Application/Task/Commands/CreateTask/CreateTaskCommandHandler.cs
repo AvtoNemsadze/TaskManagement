@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using TaskManagement.Common.Interfaces.Repositories;
 using Microsoft.AspNetCore.Http;
+using TaskManagement.Domain.Entities.Task;
 
 namespace TaskManagement.Application.Task.Commands.CreateTask
 {
@@ -27,7 +28,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
 
             var validator = new CreateTaskModelValidator();
 
-            var validationResult = await validator.ValidateAsync(createTaskModel);
+            var validationResult = await validator.ValidateAsync(createTaskModel, cancellationToken);
 
             if (!validationResult.IsValid)
             {
@@ -67,6 +68,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 Description = request.CreateTaskModel.Description,
                 DueDate = request.CreateTaskModel.DueDate,
                 Status = taskStatus,
+                TaskLevelId = request.CreateTaskModel.TaskLevelId,
                 Priority = request.CreateTaskModel.Priority,
                 AttachFile = fileToSave,
             };

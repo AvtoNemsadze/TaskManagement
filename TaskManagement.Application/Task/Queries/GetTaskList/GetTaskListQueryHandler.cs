@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using TaskManagement.Common.Infrastructure;
+using TaskManagement.Application.Task.Queries.GetTaskDetails;
+using TaskManagement.Common.Helpers;
 using TaskManagement.Common.Interfaces.Repositories;
-using TaskEntity = TaskManagement.Domain.Entities.TaskEntity;
+using TaskEntity = TaskManagement.Domain.Entities.Task.TaskEntity;
 
 
 namespace TaskManagement.Application.Task.Queries.GetTaskList
@@ -25,7 +25,10 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
             var spec = new TaskListSpecification(request);
             var filterExpression = spec.GetFilterExpression();
 
-            var query = _unitOfWork.TaskRepository.GetAllQueryable().Where(filterExpression);
+            var query = _unitOfWork.TaskRepository
+                .GetAllQueryable()
+                .Include(t => t.TaskLevelEntity)
+                .Where(filterExpression);
 
             var paginationHelper = new PaginationHelper<TaskEntity>();
             var (tasks, metadata) = await paginationHelper.PaginateAsync(query, request.PageNumber, request.PageSize, cancellationToken);

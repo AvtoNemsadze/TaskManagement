@@ -1,4 +1,5 @@
-﻿using TaskManagement.Common.Models;
+﻿using TaskManagement.Application.Task.Queries.GetTaskDetails;
+using TaskManagement.Common.Models;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskList
 {

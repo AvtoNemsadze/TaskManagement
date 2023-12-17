@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using TaskManagement.Common.Interfaces.Repositories;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 
-namespace TaskManagement.Infrastructure.Scheduler
+namespace TaskManagement.Persistence.Scheduler
 {
     public class TaskDeadlineCheckerService : BackgroundService
     {
@@ -35,7 +35,7 @@ namespace TaskManagement.Infrastructure.Scheduler
                     await unitOfWork.Save();
                 }
 
-                await Task.Delay(TimeSpan.FromDays(2), stoppingToken); 
+                await Task.Delay(TimeSpan.FromDays(2), stoppingToken);
             }
         }
     }

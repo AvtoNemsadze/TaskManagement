@@ -6,6 +6,7 @@ using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Application.Task.Commands.DeleteTask;
 using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery;
+using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Task.Queries.GetTaskList;
 using TaskManagement.Common.Models;
 
@@ -59,6 +60,7 @@ namespace TaskManagement.API.Controllers
                 StartDate = dto.StartDate, 
                 EndDate = dto.EndDate,
                 SearchQuery = dto.SearchQuery,
+                TaskLevelIds = dto.TaskLevelIds,
             };
 
             var tasks = await _mediator.Send(query);

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace TaskManagement.Application.Task.Queries.GetTaskList
+namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 {
     public class GetTaskDetailsQuery : IRequest<GetTaskDetailsModel>
     {

@@ -20,8 +20,10 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
         // filter task list
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public List<int> TaskLevelIds { get; set; } = new List<int>();
 
         // search
         public string? SearchQuery { get; set; }
+
     }
 }

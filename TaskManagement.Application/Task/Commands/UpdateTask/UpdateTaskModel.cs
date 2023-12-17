@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using TaskManagement.Domain.Entities;
+using TaskManagement.Domain.Entities.Task;
+
 namespace TaskManagement.Application.Task.Commands.UpdateTask
 {
     public class UpdateTaskModel

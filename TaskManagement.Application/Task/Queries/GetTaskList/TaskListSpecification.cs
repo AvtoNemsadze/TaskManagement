@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using TaskEntity = TaskManagement.Domain.Entities.TaskEntity;
+using TaskEntity = TaskManagement.Domain.Entities.Task.TaskEntity;
 using TaskManagement.Common.Infrastructure.Extensions.Lambda;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskList
@@ -37,11 +37,14 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
                 result = result.AndAlso(searchFilter);
             }
 
-            /// სტატუსები და პრიორიტები უნდა იყოს int - ებად ბაზაში  !!!   
-            //if (_filter.TaskStatusStrings != null && _filter.TaskStatusStrings.Any())
-            //{
-            //    result = result.And(e => _filter.TaskStatusStrings.Contains(e.Status));
-            //}
+            // Filter by multiple TaskLevelIds
+            if (_filter.TaskLevelIds != null && _filter.TaskLevelIds.Any())
+            {
+                Expression<Func<TaskEntity, bool>> taskLevelFilter = task =>
+                    _filter.TaskLevelIds.Contains(task.TaskLevelId);
+
+                result = result.AndAlso(taskLevelFilter);
+            }
 
             return result;
         }

@@ -20,6 +20,10 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 .GreaterThan(DateTime.UtcNow)
                 .When(dto => dto.DueDate.HasValue);
 
+            RuleFor(dto => dto.TaskLevelId)
+                   .InclusiveBetween(1, 3)
+                   .WithMessage("'Task Level Id' must be between 1 and 3.");
+
             RuleFor(dto => dto.Priority)
                  .IsEnumName(typeof(TaskPriorityEnum), caseSensitive: false)
                  .WithMessage("Invalid priority value. Please provide a valid priority.");

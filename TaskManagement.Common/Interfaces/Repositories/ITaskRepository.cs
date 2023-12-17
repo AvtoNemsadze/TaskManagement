@@ -1,4 +1,4 @@
-﻿using TaskManagement.Domain.Entities;
+﻿using TaskManagement.Domain.Entities.Task;
 
 namespace TaskManagement.Common.Interfaces.Repositories
 {

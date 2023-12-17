@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TaskManagement.Application.Task.Queries.GetTaskList;
+using TaskManagement.Application.Task.Queries.GetTaskDetails;
 
 namespace TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery
 {

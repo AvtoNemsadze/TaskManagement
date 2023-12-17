@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TaskManagement.Application.Task.Queries.GetTaskList;
+using TaskManagement.Application.Task.Queries.GetTaskDetails;
+using TaskManagement.Common.Exceptions;
 using TaskManagement.Common.Interfaces.Repositories;
 
 namespace TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery
@@ -21,15 +22,18 @@ namespace TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery
         {
             var lastCreatedTask = await _unitOfWork.TaskRepository.GetAllQueryable()
                 .Where(t => !t.IsDeleted)
+                .Include(t => t.TaskLevelEntity)
                 .OrderByDescending(t => t.CreatedAt)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (lastCreatedTask == null)
             {
-                return null; 
+                throw new ArgumentNullException(nameof(lastCreatedTask));
             }
 
-            return _mapper.Map<GetTaskDetailsModel>(lastCreatedTask);
+            var result = _mapper.Map<GetTaskDetailsModel>(lastCreatedTask);
+
+            return result;
         }
     }
 }

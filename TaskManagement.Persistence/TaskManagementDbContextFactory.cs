@@ -11,7 +11,7 @@ namespace TaskManagement.Persistence
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsetings.json")
+            .AddJsonFile("appsettings.json")
             .Build();
 
             var builder = new DbContextOptionsBuilder<TaskManagementDbContext>();

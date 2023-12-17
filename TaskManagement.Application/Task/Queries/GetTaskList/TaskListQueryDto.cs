@@ -12,5 +12,6 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string? SearchQuery { get; set; }
+        public List<int> TaskLevelIds { get; set; } = new List<int>();
     }
 }

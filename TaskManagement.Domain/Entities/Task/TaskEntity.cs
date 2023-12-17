@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.Domain.Entities
+﻿namespace TaskManagement.Domain.Entities.Task
 {
     public class TaskEntity : BaseEntity
     {
@@ -7,6 +7,9 @@
         public DateTime? DueDate { get; set; }
         public string Status { get; set; } = null!;
         public string Priority { get; set; } = null!;
-        public string? AttachFile { get; set; } 
+        public int TaskLevelId { get; set; }
+        public string? AttachFile { get; set; }
+
+        public TaskLevelEntity TaskLevelEntity { get; set; } = null!;
     }
 }

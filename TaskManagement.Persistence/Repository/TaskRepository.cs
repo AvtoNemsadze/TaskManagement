@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManagement.Common.Interfaces.Repositories;
-using TaskManagement.Domain.Entities;
+using TaskManagement.Domain.Entities.Task;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 
 namespace TaskManagement.Persistence.Repository

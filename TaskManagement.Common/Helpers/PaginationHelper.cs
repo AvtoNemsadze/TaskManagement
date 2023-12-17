@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace TaskManagement.Common.Infrastructure
+namespace TaskManagement.Common.Helpers
 {
     public class PaginationHelper<T>
     {

@@ -50,9 +50,21 @@ namespace TaskManagement.Persistence.Repository
              _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public virtual async Task<T> GetSingleAsync(Expression<Func<T, bool>> @where, CancellationToken cancellationToken = new CancellationToken())
+        //public virtual async Task<T> GetSingleAsync(Expression<Func<T, bool>> @where, CancellationToken cancellationToken = new CancellationToken())
+        //{
+        //    return await _dbContext.Set<T>().FirstOrDefaultAsync(where, cancellationToken);
+        //}
+
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes)
         {
-            return await _dbContext.Set<T>().FirstOrDefaultAsync(where, cancellationToken);
+            var query = _dbContext.Set<T>().AsQueryable();
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            return await query.FirstOrDefaultAsync(where, cancellationToken);
         }
 
         public IQueryable<T> GetAllQueryable()

@@ -1,6 +1,4 @@
-using TaskManagement.API;
-
-namespace HR.LeaveManagement.Api
+namespace TaskManagement.API
 {
     public class Program
     {

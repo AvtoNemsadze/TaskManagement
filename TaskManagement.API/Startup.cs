@@ -2,7 +2,7 @@
 using TaskManagement.Persistence;
 using Microsoft.OpenApi.Models;
 using TaskManagement.API.Middleware;
-using TaskManagement.Infrastructure.Scheduler;
+using TaskManagement.Persistence.Scheduler;
 
 namespace TaskManagement.API
 {
