@@ -8,7 +8,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
         public string? Title { get; set; }
         public string? Description { get; set; }
         public DateTime? DueDate { get; set; }
-        public string Priority { get; set; }
+        public int TaskPriorityId { get; set; }
         public int TaskLevelId { get; set; }
         public IFormFile? File { get; set; }
     }
@@ -21,7 +21,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.CreateTaskModel.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CreateTaskModel.Description))
             .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.CreateTaskModel.DueDate))
-            .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.CreateTaskModel.Priority))
+            .ForMember(dest => dest.TaskPriorityId, opt => opt.MapFrom(src => src.CreateTaskModel.TaskPriorityId))
             .ForMember(dest => dest.TaskLevelId, opt => opt.MapFrom(src => src.CreateTaskModel.TaskLevelId))
             .ForMember(dest => dest.File, opt => opt.MapFrom(src => src.CreateTaskModel.File)).ReverseMap();
         }

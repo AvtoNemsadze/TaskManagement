@@ -69,7 +69,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 DueDate = request.CreateTaskModel.DueDate,
                 TaskStatusId = taskStatus,
                 TaskLevelId = request.CreateTaskModel.TaskLevelId,
-                Priority = request.CreateTaskModel.Priority,
+                TaskPriorityId = request.CreateTaskModel.TaskPriorityId,
                 AttachFile = fileToSave,
             };
 

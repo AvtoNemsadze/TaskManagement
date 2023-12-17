@@ -20,9 +20,9 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
                 .GreaterThan(DateTime.UtcNow)
                 .When(dto => dto.DueDate.HasValue);
 
-            RuleFor(t => t.Priority)
-                 .IsEnumName(typeof(TaskPriorityEnum), caseSensitive: false)
-                 .WithMessage("Invalid priority value. Please provide a valid priority.");
+            RuleFor(t => t.TaskPriorityId)
+                .InclusiveBetween(1, 4)
+                .WithMessage("'Task Priority Id' must be between 1 and 3.");
         }
     }
 }

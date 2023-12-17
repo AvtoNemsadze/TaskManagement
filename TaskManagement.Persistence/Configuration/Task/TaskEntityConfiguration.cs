@@ -21,10 +21,7 @@ namespace TaskManagement.Persistence.Configuration.Task
               .IsRequired()
               .HasDefaultValue(false);
 
-            builder.Property(e => e.Priority)
-                .IsRequired()
-            .HasConversion<string>();
-
+         
             builder.HasOne(e => e.TaskLevelEntity)
                .WithMany(e => e.Tasks)
                .HasForeignKey(e => e.TaskLevelId)
@@ -37,6 +34,16 @@ namespace TaskManagement.Persistence.Configuration.Task
                .WithMany(e => e.Tasks)
                .HasForeignKey(e => e.TaskStatusId)
                .HasConstraintName("FK_Tasks_TaskStatuses_TaskStatusId");
+
+
+            builder.HasOne(e => e.TaskPriorityEntity)
+              .WithMany(e => e.Tasks)
+              .HasForeignKey(e => e.TaskPriorityId)
+              .HasConstraintName("FK_Tasks_TaskPriorities_TaskPriorityId");
+
+            builder.Property(e => e.TaskPriorityId)
+                .IsRequired()
+                .HasConversion<int>();
 
             builder.Property(e => e.TaskStatusId)
               .IsRequired()

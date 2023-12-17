@@ -23,7 +23,8 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
                 .GetSingleAsync
                 (o => o.Id == request.TaskId && !o.IsDeleted, cancellationToken,
                 t => t.TaskLevelEntity,
-                t => t.TaskStatusEntity)
+                t => t.TaskStatusEntity,
+                t => t.TaskPriorityEntity)
                 ?? throw new NotFoundException("Task", request.TaskId);
 
             var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(taskEntity);

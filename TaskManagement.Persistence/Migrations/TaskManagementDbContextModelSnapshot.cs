@@ -47,11 +47,10 @@ namespace TaskManagement.Persistence.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("Priority")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TaskLevelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskPriorityId")
                         .HasColumnType("int");
 
                     b.Property<int>("TaskStatusId")
@@ -68,9 +67,11 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.HasIndex("TaskLevelId");
 
+                    b.HasIndex("TaskPriorityId");
+
                     b.HasIndex("TaskStatusId");
 
-                    b.ToTable("Tasks", (string)null);
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskLevelEntity", b =>
@@ -98,29 +99,87 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaskLevels", (string)null);
+                    b.ToTable("TaskLevels");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7754),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5675),
                             IsDeleted = false,
                             Name = "Easy"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7766),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5686),
                             IsDeleted = false,
                             Name = "Medium"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7767),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5687),
                             IsDeleted = false,
                             Name = "Difficult"
+                        });
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskPriorityEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaskPriorities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5832),
+                            IsDeleted = false,
+                            Name = "Low"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5834),
+                            IsDeleted = false,
+                            Name = "Medium"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5835),
+                            IsDeleted = false,
+                            Name = "High"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5836),
+                            IsDeleted = false,
+                            Name = "Urgent"
                         });
                 });
 
@@ -149,41 +208,41 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaskStatuses", (string)null);
+                    b.ToTable("TaskStatuses");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7891),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5884),
                             IsDeleted = false,
                             Name = "NotStarted"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7892),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5886),
                             IsDeleted = false,
                             Name = "Started"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7893),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5887),
                             IsDeleted = false,
                             Name = "InProgress"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7894),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5888),
                             IsDeleted = false,
                             Name = "Failed"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7895),
+                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5889),
                             IsDeleted = false,
                             Name = "Completed"
                         });
@@ -198,6 +257,13 @@ namespace TaskManagement.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Tasks_TaskLevels_TaskLevelId");
 
+                    b.HasOne("TaskManagement.Domain.Entities.Task.TaskPriorityEntity", "TaskPriorityEntity")
+                        .WithMany("Tasks")
+                        .HasForeignKey("TaskPriorityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Tasks_TaskPriorities_TaskPriorityId");
+
                     b.HasOne("TaskManagement.Domain.Entities.Task.TaskStatusEntity", "TaskStatusEntity")
                         .WithMany("Tasks")
                         .HasForeignKey("TaskStatusId")
@@ -207,10 +273,17 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.Navigation("TaskLevelEntity");
 
+                    b.Navigation("TaskPriorityEntity");
+
                     b.Navigation("TaskStatusEntity");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskLevelEntity", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskPriorityEntity", b =>
                 {
                     b.Navigation("Tasks");
                 });

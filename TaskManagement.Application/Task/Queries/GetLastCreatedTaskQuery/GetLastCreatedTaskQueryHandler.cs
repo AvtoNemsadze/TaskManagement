@@ -24,6 +24,7 @@ namespace TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery
                 .Where(t => !t.IsDeleted)
                 .Include(t => t.TaskLevelEntity)
                 .Include(t => t.TaskStatusEntity)
+                .Include(t => t.TaskPriorityEntity)
                 .OrderByDescending(t => t.CreatedAt)
                 .FirstOrDefaultAsync(cancellationToken);
 
