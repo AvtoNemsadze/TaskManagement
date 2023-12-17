@@ -44,7 +44,7 @@ namespace TaskManagement.Application.Task.Commands.UpdateTask
             _mapper.Map(request.UpdateTaskModel, taskEntity);
 
             taskEntity.UpdatedAt = DateTime.Now;
-            taskEntity.Status = TaskStatus.InProgress.ToString();
+            taskEntity.TaskStatusId = (int)TaskStatus.InProgress;
 
             await _unitOfWork.TaskRepository.Update(taskEntity);
             await _unitOfWork.Save();

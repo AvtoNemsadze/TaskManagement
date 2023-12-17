@@ -46,6 +46,15 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
                 result = result.AndAlso(taskLevelFilter);
             }
 
+            // Filter by multiple TaskStatusIds
+            if (_filter.TaskStatusIds != null && _filter.TaskStatusIds.Any())
+            {
+                Expression<Func<TaskEntity, bool>> taskLevelFilter = task =>
+                    _filter.TaskStatusIds.Contains(task.TaskStatusId);
+
+                result = result.AndAlso(taskLevelFilter);
+            }
+
             return result;
         }
     }

@@ -23,6 +23,7 @@ namespace TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery
             var lastCreatedTask = await _unitOfWork.TaskRepository.GetAllQueryable()
                 .Where(t => !t.IsDeleted)
                 .Include(t => t.TaskLevelEntity)
+                .Include(t => t.TaskStatusEntity)
                 .OrderByDescending(t => t.CreatedAt)
                 .FirstOrDefaultAsync(cancellationToken);
 

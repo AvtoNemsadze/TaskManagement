@@ -16,11 +16,11 @@ namespace TaskManagement.Common.Enums
 
     public enum TaskStatusEnum
     {
-        NotStarted,
-        Started,
-        InProgress,
-        Failed,
-        Completed
+        NotStarted = 1,
+        Started = 2,
+        InProgress = 3,
+        Failed = 4,
+        Completed = 5
     }
 
     public enum TaskLevel

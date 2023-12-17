@@ -61,6 +61,7 @@ namespace TaskManagement.API.Controllers
                 EndDate = dto.EndDate,
                 SearchQuery = dto.SearchQuery,
                 TaskLevelIds = dto.TaskLevelIds,
+                TaskStatusIds = dto.TaskStatusIds,
             };
 
             var tasks = await _mediator.Send(query);

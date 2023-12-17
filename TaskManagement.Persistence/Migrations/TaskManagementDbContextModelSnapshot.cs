@@ -51,11 +51,10 @@ namespace TaskManagement.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TaskLevelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskStatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -69,7 +68,9 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.HasIndex("TaskLevelId");
 
-                    b.ToTable("Tasks");
+                    b.HasIndex("TaskStatusId");
+
+                    b.ToTable("Tasks", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskLevelEntity", b =>
@@ -97,29 +98,94 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaskLevels");
+                    b.ToTable("TaskLevels", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 12, 17, 16, 53, 9, 588, DateTimeKind.Local).AddTicks(9004),
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7754),
                             IsDeleted = false,
                             Name = "Easy"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2023, 12, 17, 16, 53, 9, 588, DateTimeKind.Local).AddTicks(9016),
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7766),
                             IsDeleted = false,
                             Name = "Medium"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2023, 12, 17, 16, 53, 9, 588, DateTimeKind.Local).AddTicks(9017),
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7767),
                             IsDeleted = false,
                             Name = "Difficult"
+                        });
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskStatusEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaskStatuses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7891),
+                            IsDeleted = false,
+                            Name = "NotStarted"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7892),
+                            IsDeleted = false,
+                            Name = "Started"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7893),
+                            IsDeleted = false,
+                            Name = "InProgress"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7894),
+                            IsDeleted = false,
+                            Name = "Failed"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2023, 12, 17, 19, 27, 28, 260, DateTimeKind.Local).AddTicks(7895),
+                            IsDeleted = false,
+                            Name = "Completed"
                         });
                 });
 
@@ -132,10 +198,24 @@ namespace TaskManagement.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Tasks_TaskLevels_TaskLevelId");
 
+                    b.HasOne("TaskManagement.Domain.Entities.Task.TaskStatusEntity", "TaskStatusEntity")
+                        .WithMany("Tasks")
+                        .HasForeignKey("TaskStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Tasks_TaskStatuses_TaskStatusId");
+
                     b.Navigation("TaskLevelEntity");
+
+                    b.Navigation("TaskStatusEntity");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskLevelEntity", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskStatusEntity", b =>
                 {
                     b.Navigation("Tasks");
                 });

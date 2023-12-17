@@ -28,7 +28,7 @@ namespace TaskManagement.Persistence.Scheduler
 
                     foreach (var task in tasksWithPastDeadlines)
                     {
-                        task.Status = TaskStatus.Failed.ToString();
+                        task.TaskStatusId = (int)TaskStatus.Failed;
                         await unitOfWork.TaskRepository.Update(task);
                     }
 

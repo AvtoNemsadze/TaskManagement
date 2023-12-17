@@ -17,6 +17,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         public string? AttachFile { get; set; }
 
         public TaskLevelModel TaskLevel { get; set; } = null!;
+        public TaskStatusModel TaskStatus { get; set; } = null!;
     }
 
 
@@ -25,9 +26,11 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         public GetTaskMapping()
         {
             CreateMap<TaskEntity, GetTaskDetailsModel>()
-                .ForMember(dest => dest.TaskLevel, opt => opt.MapFrom(src => src.TaskLevelEntity));
+                .ForMember(dest => dest.TaskLevel, opt => opt.MapFrom(src => src.TaskLevelEntity))
+                .ForMember(dest => dest.TaskStatus, opt => opt.MapFrom(src => src.TaskStatusEntity));
 
             CreateMap<TaskLevelEntity, TaskLevelModel>();
+            CreateMap<TaskStatusEntity, TaskStatusModel>();
         }
     }
 
@@ -39,6 +42,19 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         public new static void Mapping(Profile profile)
         {
             profile.CreateMap<TaskLevelEntity, TaskLevelModel>()
+                .ForMember(o => o.Id, r => r.MapFrom(o => o.Id))
+                .ForMember(o => o.Name, r => r.MapFrom(o => o.Name));
+        }
+    }
+
+    public class TaskStatusModel : MapFrom<TaskStatusEntity>
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+
+        public new static void Mapping(Profile profile)
+        {
+            profile.CreateMap<TaskStatusEntity, TaskStatusModel>()
                 .ForMember(o => o.Id, r => r.MapFrom(o => o.Id))
                 .ForMember(o => o.Name, r => r.MapFrom(o => o.Name));
         }

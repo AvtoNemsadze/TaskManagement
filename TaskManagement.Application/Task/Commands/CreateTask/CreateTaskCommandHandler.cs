@@ -46,7 +46,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
 
         private async Task<BaseCommandResponse> PerformCreateTaskLogicAsync(CreateTaskCommand request)
         {
-            var taskStatus = TaskStatus.Started.ToString();
+            var taskStatus = (int)TaskStatus.Started;
 
             // default deadlines
             if (request.CreateTaskModel.DueDate == null)
@@ -67,7 +67,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 Title = request.CreateTaskModel.Title,
                 Description = request.CreateTaskModel.Description,
                 DueDate = request.CreateTaskModel.DueDate,
-                Status = taskStatus,
+                TaskStatusId = taskStatus,
                 TaskLevelId = request.CreateTaskModel.TaskLevelId,
                 Priority = request.CreateTaskModel.Priority,
                 AttachFile = fileToSave,

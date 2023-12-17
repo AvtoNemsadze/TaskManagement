@@ -28,6 +28,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
             var query = _unitOfWork.TaskRepository
                 .GetAllQueryable()
                 .Include(t => t.TaskLevelEntity)
+                .Include(t => t.TaskStatusEntity)
                 .Where(filterExpression);
 
             var paginationHelper = new PaginationHelper<TaskEntity>();
