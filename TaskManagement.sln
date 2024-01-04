@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C7EE5C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Common", "TaskManagement.Common\TaskManagement.Common.csproj", "{F2F571EE-C40C-492B-A089-540FC77E559D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Identity", "TaskManagement.Identity\TaskManagement.Identity.csproj", "{DA0EB85B-E9A1-4221-B177-358E0E916C37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{F2F571EE-C40C-492B-A089-540FC77E559D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2F571EE-C40C-492B-A089-540FC77E559D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2F571EE-C40C-492B-A089-540FC77E559D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA0EB85B-E9A1-4221-B177-358E0E916C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0EB85B-E9A1-4221-B177-358E0E916C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA0EB85B-E9A1-4221-B177-358E0E916C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0EB85B-E9A1-4221-B177-358E0E916C37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{C33DE657-6643-4F60-BA98-0B8A390A0D58} = {1B86A80E-71CA-4BF6-BA2A-A0069D06FC1C}
 		{C7EE5C61-3164-482E-9631-9293087C0979} = {8F624F59-BCA9-49B7-B652-50B091ED4E30}
 		{F2F571EE-C40C-492B-A089-540FC77E559D} = {C7EE5C61-3164-482E-9631-9293087C0979}
+		{DA0EB85B-E9A1-4221-B177-358E0E916C37} = {1B86A80E-71CA-4BF6-BA2A-A0069D06FC1C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50E52B8E-C41D-49F0-8C6C-D12EC9DDFAEF}

@@ -3,6 +3,7 @@ using TaskManagement.Persistence;
 using Microsoft.OpenApi.Models;
 using TaskManagement.API.Middleware;
 using TaskManagement.Persistence.Scheduler;
+using TaskManagement.Identity;
 
 namespace TaskManagement.API
 {
@@ -22,7 +23,7 @@ namespace TaskManagement.API
 
             services.ConfigureApplicationServices();
 
-            //services.ConfigureIdentityServices(Configuration);
+            services.ConfigureIdentityServices(Configuration);
             services.ConfigureApplicationServices();
             services.ConfigurePersistenceServices(Configuration);
             services.AddControllers();
