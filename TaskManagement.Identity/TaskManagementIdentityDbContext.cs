@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Application.Constants;
+using TaskManagement.Domain.Entities;
 using TaskManagement.Identity.Configurations;
 using TaskManagement.Identity.Models;
 
@@ -32,26 +34,24 @@ namespace TaskManagement.Identity
             return await base.SaveChangesAsync();
         }
 
-        public void AddTimestamps()
+        private void AddTimestamps()
         {
-            var entries = ChangeTracker.Entries()
-                .Where(e => e.Entity is ApplicationUser &&
-                            (e.State == EntityState.Added || e.State == EntityState.Modified));
+            var entities = ChangeTracker.Entries().Where(x => x.Entity is ApplicationUser
+            && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            foreach (var entry in entries)
+
+            foreach (var entity in entities)
             {
-                var entity = (ApplicationUser)entry.Entity;
-
-                if (entry.State == EntityState.Added)
+                if (entity.State == EntityState.Added)
                 {
-                    entity.UpdatedAt = null;
+                    ((ApplicationUser)entity.Entity).CreatedAt = DateTime.Now;
+                    ((ApplicationUser)entity.Entity).UpdatedAt = DateTime.Now;
                 }
-                else if (entry.State == EntityState.Modified)
+                else
                 {
-                    entity.UpdatedAt = DateTime.Now;
+                    ((ApplicationUser)entity.Entity).UpdatedAt = DateTime.Now;
                 }
             }
-
         }
     }
 }
