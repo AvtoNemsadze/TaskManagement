@@ -20,7 +20,7 @@ namespace TaskManagement.Persistence
             {
                 _httpContextAccessor = this.GetInfrastructure().GetRequiredService<IHttpContextAccessor>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _httpContextAccessor = new HttpContextAccessor();
             }
