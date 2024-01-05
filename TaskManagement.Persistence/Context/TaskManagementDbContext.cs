@@ -7,7 +7,7 @@ using TaskManagement.Application.Constants;
 using TaskManagement.Domain.Entities.Task;
 using BaseEntity = TaskManagement.Domain.Entities.BaseEntity;
 
-namespace TaskManagement.Persistence
+namespace TaskManagement.Persistence.Context
 {
     public class TaskManagementDbContext : DbContext
     {

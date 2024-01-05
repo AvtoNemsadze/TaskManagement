@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManagement.Domain.Entities.Task;
 
-namespace TaskManagement.Persistence
+namespace TaskManagement.Persistence.Context
 {
     public class DataSeeder
     {

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Common.Interfaces.Repositories;
+using TaskManagement.Persistence.Context;
 using TaskManagement.Persistence.Repository;
 
 namespace TaskManagement.Persistence

@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-
-namespace TaskManagement.Persistence
+namespace TaskManagement.Persistence.Context
 {
     public class TaskManagementDbContextFactory : IDesignTimeDbContextFactory<TaskManagementDbContext>
     {

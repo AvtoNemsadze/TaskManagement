@@ -13,9 +13,9 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
         public IFormFile? File { get; set; }
     }
 
-    public class CreateTaskMapping : Profile 
+    public class CreateTaskMapping : Profile
     {
-        public CreateTaskMapping() 
+        public CreateTaskMapping()
         {
             CreateMap<CreateTaskCommand, CreateTaskModel>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.CreateTaskModel.Title))
