@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Persistence;
 
@@ -11,9 +12,11 @@ using TaskManagement.Persistence;
 namespace TaskManagement.Persistence.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    partial class TaskManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240105121338_addTimeStamps")]
+    partial class addTimeStamps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +36,12 @@ namespace TaskManagement.Persistence.Migrations
                     b.Property<string>("AttachFile")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreateUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -90,12 +93,12 @@ namespace TaskManagement.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreateUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -121,8 +124,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5147),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Easy"
@@ -130,8 +133,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5162),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Medium"
@@ -139,8 +142,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5163),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Difficult"
@@ -155,12 +158,12 @@ namespace TaskManagement.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreateUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -186,8 +189,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5304),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Low"
@@ -195,8 +198,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5306),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Medium"
@@ -204,8 +207,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5307),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "High"
@@ -213,8 +216,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5308),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Urgent"
@@ -229,12 +232,12 @@ namespace TaskManagement.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreateUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -260,8 +263,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5322),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "NotStarted"
@@ -269,8 +272,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5324),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Started"
@@ -278,8 +281,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5325),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "InProgress"
@@ -287,8 +290,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5326),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Failed"
@@ -296,8 +299,8 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 5,
-                            CreateUserId = "",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 5, 16, 13, 38, 500, DateTimeKind.Local).AddTicks(5327),
+                            CreatedBy = "",
                             IsDeleted = false,
                             LastModifiedUserId = "",
                             Name = "Completed"

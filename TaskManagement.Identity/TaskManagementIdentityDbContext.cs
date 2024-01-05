@@ -26,7 +26,13 @@ namespace TaskManagement.Identity
                 .ValueGeneratedOnAdd();
         }
 
-        public override int SaveChanges()
+        public async Task<int> SaveChangesAsync()
+        {
+            AddTimestamps();
+            return await base.SaveChangesAsync();
+        }
+
+        public void AddTimestamps()
         {
             var entries = ChangeTracker.Entries()
                 .Where(e => e.Entity is ApplicationUser &&
@@ -46,7 +52,6 @@ namespace TaskManagement.Identity
                 }
             }
 
-            return base.SaveChanges();
         }
     }
 }

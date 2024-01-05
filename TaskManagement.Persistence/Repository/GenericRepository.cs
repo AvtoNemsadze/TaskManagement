@@ -32,7 +32,7 @@ namespace TaskManagement.Persistence.Repository
 
         public async Task<T> Get(int id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            return await _dbContext.Set<T>().FindAsync(id) ?? default!;
         }
 
         public async Task<IReadOnlyList<T>> GetAll()
@@ -64,7 +64,7 @@ namespace TaskManagement.Persistence.Repository
                 query = includes.Aggregate(query, (current, include) => current.Include(include));
             }
 
-            return await query.FirstOrDefaultAsync(where, cancellationToken);
+            return await query.FirstOrDefaultAsync(where, cancellationToken) ?? default!;
         }
 
         public IQueryable<T> GetAllQueryable()

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TaskManagement.Application.Task.Commands.CreateTask;
@@ -27,6 +28,7 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
         {
             var mapCreateTask = _mapper.Map<CreateTaskCommand>(taskModel);

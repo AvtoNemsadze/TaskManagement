@@ -58,7 +58,7 @@ namespace TaskManagement.Identity.Services
                 {
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    _identityDbContext.SaveChanges();
+                    await _identityDbContext.SaveChangesAsync();
 
                     return new RegistrationResponse() { UserId = user.Id };
                 }
