@@ -71,6 +71,7 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> DeleteTask(int id)
         {
             var command = new DeleteTaskCommand { TaskId = id };
