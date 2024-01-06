@@ -8,10 +8,10 @@ namespace TaskManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authenticationService;
-        public UserController(IAuthService authenticationService)
+        public AuthController(IAuthService authenticationService)
         {
             _authenticationService = authenticationService;
         }
@@ -26,6 +26,12 @@ namespace TaskManagement.API.Controllers
         public async Task<ActionResult<RegistrationResponse>> Register(RegistrationRequest request)
         {
             return Ok(await _authenticationService.Register(request));
+        }
+
+        [HttpPost("make-user-admin")]
+        public async Task<ActionResult> MakeUserAdmin(UpdatePermissionRequest request)
+        {
+            return Ok(await _authenticationService.MakeAdminAsync(request));
         }
     }
 }

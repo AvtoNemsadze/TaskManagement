@@ -79,7 +79,7 @@ namespace TaskManagement.Identity.Services
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            if (user == null)
+            if (user is null)
             {
                 throw new Exception($"User with {request.Email} not found.");
             }
@@ -98,15 +98,30 @@ namespace TaskManagement.Identity.Services
                 Id = user.Id,
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
                 Email = user.Email,
-                UserName = user.UserName
+                UserName = user.UserName,
+                IsSucceed = true
             };
 
             return response;
         }
 
+        public async Task<BaseAuthResponse> MakeAdminAsync(UpdatePermissionRequest request)
+        {
+            var user = await _userManager.FindByNameAsync(request.UserName);
+
+            if (user is null)
+                return new BaseAuthResponse() { IsSucceed = false, Message = "Invalid User name !!!" };
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, userRoles);
+
+            await _userManager.AddToRoleAsync(user, "Administrator");
+
+            return new BaseAuthResponse() { IsSucceed = true, Message = "Now user is an Admin" };
+        }
+
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
         {
-
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
 
