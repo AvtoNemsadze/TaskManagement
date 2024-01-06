@@ -14,15 +14,12 @@ namespace TaskManagement.Application.Task.Commands.DeleteTask
 
         public async Task<Unit> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
         {
-            var task = await _unitOfWork.TaskRepository.GetSingleAsync(t => t.Id == request.TaskId);
-
-            if (task == null)
-            {
-                throw new NotFoundException("Task", request.TaskId);
-            }
+            var task = await _unitOfWork.TaskRepository.GetSingleAsync(t => t.Id == request.TaskId)
+                ?? throw new NotFoundException("Task", request.TaskId);
 
             // Soft Delete 
             task.IsDeleted = true;
+
             await _unitOfWork.TaskRepository.Update(task);
             await _unitOfWork.Save();
 
