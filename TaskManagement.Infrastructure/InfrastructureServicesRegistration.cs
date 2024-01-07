@@ -11,7 +11,7 @@ namespace TaskManagement.Infrastructure
 
         public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var emailSettings = configuration.GetSection("EmailSettings").Get<EmailSettings>()!;
+            var emailSettings = configuration.GetSection("EmailSettings").Get<EmailSettings>()! ?? new EmailSettings();
 
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailSender, EmailSender>();
@@ -21,3 +21,4 @@ namespace TaskManagement.Infrastructure
         }
     }
 }
+
