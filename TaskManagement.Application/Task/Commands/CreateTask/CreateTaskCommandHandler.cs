@@ -1,11 +1,11 @@
-﻿using TaskManagement.Application.Responses;
-using TaskManagement.Domain.Entities;
-using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using TaskManagement.Common.Interfaces.Repositories;
 using Microsoft.AspNetCore.Http;
 using TaskManagement.Domain.Entities.Task;
+using TaskManagement.Application.Responses;
+using TaskManagement.Common.Interfaces.Repositories;
+using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
+
 
 namespace TaskManagement.Application.Task.Commands.CreateTask
 {
@@ -16,8 +16,8 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
 
         public CreateTaskCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<BaseCommandResponse> Handle(CreateTaskCommand request, CancellationToken cancellationToken)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,7 +6,9 @@ using System.Security.Claims;
 using System.Text;
 using TaskManagement.Application.Constants;
 using TaskManagement.Application.Contracts.Identity;
+using TaskManagement.Application.Contracts.Infrastructure;
 using TaskManagement.Application.Models.Identity;
+using TaskManagement.Application.Models.Mail;
 using TaskManagement.Identity.Models;
 
 namespace TaskManagement.Identity.Services
@@ -18,16 +19,19 @@ namespace TaskManagement.Identity.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
         private readonly TaskManagementIdentityDbContext _identityDbContext;
+        public IEmailSender _emailSender;
 
         public AuthService(UserManager<ApplicationUser> userManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
-            TaskManagementIdentityDbContext identityDbContext)
+            TaskManagementIdentityDbContext identityDbContext,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings.Value;
             _signInManager = signInManager;
             _identityDbContext = identityDbContext;
+            _emailSender = emailSender;
         }
 
         public async Task<RegistrationResponse> Register(RegistrationRequest request)
@@ -58,7 +62,13 @@ namespace TaskManagement.Identity.Services
                 {
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    await _identityDbContext.SaveChangesAsync();
+                    await _emailSender.SendTemplatedEmailAsync(new TemplatedEmailModel
+                    {
+                        IsBodyHtml = true,
+                        Subject = "Account registered",
+                        Body = $"Thank you {request.FirstName} {request.LastName} your Account registered successfully",
+                        Receiver = request.Email,
+                    });
 
                     return new RegistrationResponse() { UserId = user.Id };
                 }
@@ -82,6 +92,11 @@ namespace TaskManagement.Identity.Services
             if (user is null)
             {
                 throw new Exception($"User with {request.Email} not found.");
+            }
+
+            if(user.UserName == null)
+            {
+                throw new Exception($"User with {user.UserName} not found.");
             }
 
             var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);

@@ -4,6 +4,8 @@ using Microsoft.OpenApi.Models;
 using TaskManagement.API.Middleware;
 using TaskManagement.Persistence.Scheduler;
 using TaskManagement.Identity;
+using TaskManagement.Infrastructure;
+
 
 namespace TaskManagement.API
 {
@@ -26,6 +28,7 @@ namespace TaskManagement.API
             services.ConfigureIdentityServices(Configuration);
             services.ConfigureApplicationServices();
             services.ConfigurePersistenceServices(Configuration);
+            services.ConfigureInfrastructureServices(Configuration);
             services.AddControllers();
 
             services.AddHostedService<TaskDeadlineCheckerService>();

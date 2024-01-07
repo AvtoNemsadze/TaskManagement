@@ -28,7 +28,7 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
         {
             var mapCreateTask = _mapper.Map<CreateTaskCommand>(taskModel);
