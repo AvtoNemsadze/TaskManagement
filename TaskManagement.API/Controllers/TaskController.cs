@@ -14,6 +14,7 @@ namespace TaskManagement.API.Controllers
     [ApiController]
     //[ApiVersion("1.0")]
     //[Route("api/v{version:apiVersion}/[controller]")]
+    //[Authorize]
     [Route("api/[controller]")]
     public class TaskController : ControllerBase
     {
@@ -26,7 +27,6 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
         {
             var mapCreateTask = _mapper.Map<CreateTaskCommand>(taskModel);
@@ -69,7 +69,7 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         public async Task<ActionResult> DeleteTask(int id)
         {
             var command = new DeleteTaskCommand { TaskId = id };

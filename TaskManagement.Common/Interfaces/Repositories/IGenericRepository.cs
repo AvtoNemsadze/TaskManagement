@@ -11,10 +11,8 @@ namespace TaskManagement.Common.Interfaces.Repositories
         Task Update(T entity);
         Task Delete(T entity);
         IQueryable<T> GetAllQueryable();
-
-        //Task<T> GetSingleAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default);
-        Task<T> GetSingleAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes);
-
+        Task<T> GetSingleAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default);
+        Task<T> GetSingleWithIncludesAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes);
         Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
     }
 }

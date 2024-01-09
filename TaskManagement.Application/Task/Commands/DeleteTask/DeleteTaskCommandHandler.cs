@@ -17,7 +17,6 @@ namespace TaskManagement.Application.Task.Commands.DeleteTask
             var task = await _unitOfWork.TaskRepository.GetSingleAsync(t => t.Id == request.TaskId)
                 ?? throw new NotFoundException("Task", request.TaskId);
 
-            // Soft Delete 
             task.IsDeleted = true;
 
             await _unitOfWork.TaskRepository.Update(task);
