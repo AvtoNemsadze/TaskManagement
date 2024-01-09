@@ -2,14 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Application.Task.Commands.DeleteTask;
 using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Task.Queries.GetTaskList;
-using TaskManagement.Common.Models;
 
 namespace TaskManagement.API.Controllers
 {
@@ -41,7 +39,7 @@ namespace TaskManagement.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetTaskDetailsModel>> GetTaskDetails([FromRoute] int id)
         {
-            var task = await _mediator.Send(new GetTaskDetailsQuery { TaskId = id });
+            var task = await _mediator.Send(new GetTaskDetailsQuery { Id = id });
             return Ok(task);
         }
 
@@ -93,7 +91,7 @@ namespace TaskManagement.API.Controllers
         [HttpGet("Download/{taskId}")]
         public async Task<IActionResult> DownloadFile(int taskId)
         {
-            var taskDetails = await _mediator.Send(new GetTaskDetailsQuery { TaskId = taskId });
+            var taskDetails = await _mediator.Send(new GetTaskDetailsQuery { Id = taskId });
 
             if (taskDetails == null)
             {

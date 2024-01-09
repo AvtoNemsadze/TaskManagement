@@ -19,11 +19,11 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         public async Task<GetTaskDetailsModel> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
         {
 
-            var task = await _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.TaskId, cancellationToken);
+            var task = await _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.Id, cancellationToken);
             
             if(task == null)
             {
-                throw new NotFoundException("Task", request.TaskId);
+                throw new NotFoundException("Task", request.Id);
             }
 
             return _mapper.Map<GetTaskDetailsModel>(task);
