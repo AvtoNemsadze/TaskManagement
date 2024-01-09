@@ -14,9 +14,9 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         public DateTime CreatedAt { get; set; }
         public string? AttachFile { get; set; }
 
-        public TaskLevelModel TaskLevel { get; set; } = null!;
-        public TaskStatusModel TaskStatus { get; set; } = null!;
-        public TaskPriorityModel TaskPriority { get; set; } = null!;
+        public TaskLevelModel TaskLevel { get; set; } = new TaskLevelModel();
+        public TaskStatusModel TaskStatus { get; set; } = new TaskStatusModel();
+        public TaskPriorityModel TaskPriority { get; set; } = new TaskPriorityModel();
     }
 
     public class TaskLevelModel 
