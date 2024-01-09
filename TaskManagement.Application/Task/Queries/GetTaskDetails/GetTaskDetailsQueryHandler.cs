@@ -18,18 +18,15 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 
         public async Task<GetTaskDetailsModel> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
         {
-           
-            var taskEntity = await _unitOfWork.TaskRepository
-                .GetSingleAsync
-                (o => o.Id == request.TaskId && !o.IsDeleted, cancellationToken,
-                t => t.TaskLevelEntity,
-                t => t.TaskStatusEntity,
-                t => t.TaskPriorityEntity)
-                ?? throw new NotFoundException("Task", request.TaskId);
 
-            var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(taskEntity);
+            var task = await _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.TaskId, cancellationToken);
+            
+            if(task == null)
+            {
+                throw new NotFoundException("Task", request.TaskId);
+            }
 
-            return taskDetailsModel;
+            return _mapper.Map<GetTaskDetailsModel>(task);
         }
     }
 }

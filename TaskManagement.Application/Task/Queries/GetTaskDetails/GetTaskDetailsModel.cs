@@ -5,7 +5,7 @@ using TaskManagement.Domain.Entities.Task;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 {
-    public class GetTaskDetailsModel : MapFrom<TaskEntity>
+    public class GetTaskDetailsModel
     {
         public int Id { get; set; }
         public string? Title { get; set; }
@@ -19,6 +19,24 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         public TaskPriorityModel TaskPriority { get; set; } = null!;
     }
 
+    public class TaskLevelModel 
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+    }
+
+    public class TaskStatusModel 
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+    }
+
+
+    public class TaskPriorityModel 
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+    }
 
     public class GetTaskMapping : Profile
     {
@@ -32,46 +50,6 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
             CreateMap<TaskLevelEntity, TaskLevelModel>();
             CreateMap<TaskStatusEntity, TaskStatusModel>();
             CreateMap<TaskPriorityEntity, TaskPriorityModel>();
-        }
-    }
-
-    public class TaskLevelModel : MapFrom<TaskLevelEntity>
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = null!;
-
-        public new static void Mapping(Profile profile)
-        {
-            profile.CreateMap<TaskLevelEntity, TaskLevelModel>()
-                .ForMember(o => o.Id, r => r.MapFrom(o => o.Id))
-                .ForMember(o => o.Name, r => r.MapFrom(o => o.Name));
-        }
-    }
-
-    public class TaskStatusModel : MapFrom<TaskStatusEntity>
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = null!;
-
-        public new static void Mapping(Profile profile)
-        {
-            profile.CreateMap<TaskStatusEntity, TaskStatusModel>()
-                .ForMember(o => o.Id, r => r.MapFrom(o => o.Id))
-                .ForMember(o => o.Name, r => r.MapFrom(o => o.Name));
-        }
-    }
-
-
-    public class TaskPriorityModel : MapFrom<TaskPriorityEntity>
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = null!;
-
-        public new static void Mapping(Profile profile)
-        {
-            profile.CreateMap<TaskPriorityEntity, TaskPriorityModel>()
-                .ForMember(o => o.Id, r => r.MapFrom(o => o.Id))
-                .ForMember(o => o.Name, r => r.MapFrom(o => o.Name));
         }
     }
 }
