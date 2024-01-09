@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TaskManagement.Application.Models.Identity;
 using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Common.Mapping;
 using TaskManagement.Domain.Entities.Task;
@@ -17,6 +18,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         public TaskLevelModel TaskLevel { get; set; } = new TaskLevelModel();
         public TaskStatusModel TaskStatus { get; set; } = new TaskStatusModel();
         public TaskPriorityModel TaskPriority { get; set; } = new TaskPriorityModel();
+        public UserResponseModel? UserResponseModel { get; set; }
     }
 
     public class TaskLevelModel 

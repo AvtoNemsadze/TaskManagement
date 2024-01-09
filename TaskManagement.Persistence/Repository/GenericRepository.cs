@@ -56,17 +56,17 @@ namespace TaskManagement.Persistence.Repository
             return await _dbContext.Set<T>().FirstOrDefaultAsync(where, cancellationToken);
         }
 
-        public async Task<T> GetSingleWithIncludesAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes)
-        {
-            var query = _dbContext.Set<T>().AsQueryable();
+        //public async Task<T> GetSingleWithIncludesAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes)
+        //{
+        //    var query = _dbContext.Set<T>().AsQueryable();
 
-            if (includes != null)
-            {
-                query = includes.Aggregate(query, (current, include) => current.Include(include));
-            }
+        //    if (includes != null)
+        //    {
+        //        query = includes.Aggregate(query, (current, include) => current.Include(include));
+        //    }
 
-            return await query.FirstOrDefaultAsync(where, cancellationToken) ?? default!;
-        }
+        //    return await query.FirstOrDefaultAsync(where, cancellationToken) ?? default!;
+        //}
 
         public IQueryable<T> GetAllQueryable()
         {

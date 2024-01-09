@@ -14,7 +14,6 @@ namespace TaskManagement.Persistence.Repository
         {
             _dbContext = dbContext;
         }
-
         public async Task<TaskEntity?> GetTaskWithDetailsAsync(int id, CancellationToken cancellationToken)
         {
             var task = await _dbContext.Tasks
