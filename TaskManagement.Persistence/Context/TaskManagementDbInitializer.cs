@@ -3,7 +3,7 @@ using TaskManagement.Domain.Entities.Task;
 
 namespace TaskManagement.Persistence.Context
 {
-    public class DataSeeder
+    public class TaskManagementDbInitializer
     {
         public static void Seed(ModelBuilder modelBuilder)
         {

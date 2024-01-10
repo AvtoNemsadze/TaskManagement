@@ -30,7 +30,7 @@ namespace TaskManagement.Persistence.Context
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskManagementDbContext).Assembly);
 
-            DataSeeder.Seed(modelBuilder);
+            TaskManagementDbInitializer.Seed(modelBuilder);
         }
 
         public DbSet<TaskEntity> Tasks { get; set; }
@@ -49,19 +49,36 @@ namespace TaskManagement.Persistence.Context
             var entities = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity
             && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            var currentApplicationId = _httpContextAccessor?.HttpContext?.User.FindFirst(CustomClaimTypes.Uid)?.Value;
+            var currentApplicationId = _httpContextAccessor?.HttpContext?.User.FindFirst(CustomClaimTypes.Uid)?.Value ?? string.Empty;
 
             foreach (var entity in entities)
             {
-                if (entity.State == EntityState.Added)
+                if (entity.State == EntityState.Added || entity.State == EntityState.Modified)
                 {
-                    ((BaseEntity)entity.Entity).CreatedAt = DateTime.Now;
-                    ((BaseEntity)entity.Entity).CreateUserId = currentApplicationId ?? string.Empty;
-                }
-                else
-                {
-                    ((BaseEntity)entity.Entity).UpdatedAt = DateTime.Now;
-                    ((BaseEntity)entity.Entity).LastModifiedUserId = currentApplicationId ?? string.Empty;
+                    if (int.TryParse(currentApplicationId, out int userId))
+                    {
+                        if (entity.State == EntityState.Added)
+                        {
+                            ((BaseEntity)entity.Entity).CreatedAt = DateTime.Now;
+                            ((BaseEntity)entity.Entity).CreateUserId = userId;
+                        }
+                        else
+                        {
+                            ((BaseEntity)entity.Entity).UpdatedAt = DateTime.Now;
+                            ((BaseEntity)entity.Entity).LastModifiedUserId = userId;
+                        }
+                    }
+                    else
+                    {
+                        if (entity.State == EntityState.Added)
+                        {
+                            ((BaseEntity)entity.Entity).CreatedAt = DateTime.Now;
+                        }
+                        else
+                        {
+                            ((BaseEntity)entity.Entity).UpdatedAt = DateTime.Now;
+                        }
+                    }
                 }
             }
         }

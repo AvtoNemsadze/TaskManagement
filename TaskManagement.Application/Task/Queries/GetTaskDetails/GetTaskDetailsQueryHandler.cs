@@ -31,21 +31,19 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
                 throw new NotFoundException("Task", request.Id);
             }
 
-            if (!string.IsNullOrEmpty(task.CreateUserId) && int.TryParse(task.CreateUserId, out int userId))
+            var taskCreatorId = task.CreateUserId;
+            if(taskCreatorId > 0)
             {
-                var user = await _userService.GetUser(userId);
+                var user = await _userService.GetUser(task.CreateUserId);
 
                 var taskDetailsModelWithUser = _mapper.Map<GetTaskDetailsModel>(task);
                 taskDetailsModelWithUser.UserResponseModel = user;
 
                 return taskDetailsModelWithUser;
             }
-            else
-            {
-                var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(task);
 
-                return taskDetailsModel;
-            }
+            var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(task);
+            return taskDetailsModel;
         }
     }
 }

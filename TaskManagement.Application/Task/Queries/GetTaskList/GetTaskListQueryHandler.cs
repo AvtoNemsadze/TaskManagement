@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Common.Helpers;
 using TaskManagement.Common.Interfaces.Repositories;
@@ -13,13 +12,11 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
 
-        public GetTaskListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+        public GetTaskListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _userService = userService;
         }
 
         public async Task<GetTaskListModel> Handle(GetTaskListQuery request, CancellationToken cancellationToken)
@@ -42,16 +39,6 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
                 EndDate = request.EndDate,
                 SearchQuery = request.SearchQuery,
             };
-
-            //var users = await _userService.GetAllUsers();
-            //foreach (var task in taskListModel.Tasks)
-            //{
-            //    var userForTask = users.FirstOrDefault(user => user.Id == task.UserResponseModel?.Id);
-
-            //    // Set the user details for each task
-            //    task.UserResponseModel = userForTask;
-            //}
-
 
             return taskListModel;
         }
