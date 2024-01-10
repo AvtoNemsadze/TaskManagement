@@ -31,7 +31,8 @@ namespace TaskManagement.Persistence.Repository
             var tasks = _dbContext.Tasks
                .Include(q => q.TaskLevelEntity)
                .Include(q => q.TaskStatusEntity)
-               .Include(q => q.TaskPriorityEntity).AsNoTracking();
+               .Include(q => q.TaskPriorityEntity)
+               .AsNoTracking();
 
             return tasks;
         }
