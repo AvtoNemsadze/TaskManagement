@@ -1,6 +1,6 @@
 ﻿using MediatR;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Common.Exceptions;
-using TaskManagement.Common.Interfaces.Repositories;
 
 namespace TaskManagement.Application.Task.Commands.DeleteTask
 {

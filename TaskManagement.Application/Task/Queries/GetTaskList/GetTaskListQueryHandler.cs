@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Common.Helpers;
-using TaskManagement.Common.Interfaces.Repositories;
 using TaskEntity = TaskManagement.Domain.Entities.Task.TaskEntity;
 
 

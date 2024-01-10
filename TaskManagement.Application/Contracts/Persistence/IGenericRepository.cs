@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace TaskManagement.Common.Interfaces.Repositories
+namespace TaskManagement.Application.Contracts.Persistence
 {
     public interface IGenericRepository<T> where T : class
     {
@@ -8,8 +8,8 @@ namespace TaskManagement.Common.Interfaces.Repositories
         Task<IReadOnlyList<T>> GetAll();
         Task<T> Add(T entity);
         Task<bool> Exists(int id);
-        Task Update(T entity);
-        Task Delete(T entity);
+        ValueTask Update(T entity);
+        ValueTask Delete(T entity);
         IQueryable<T> GetAllQueryable();
         Task<T> GetSingleAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default);
         //Task<T> GetSingleWithIncludesAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes);

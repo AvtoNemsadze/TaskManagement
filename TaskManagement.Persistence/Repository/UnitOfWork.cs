@@ -1,4 +1,4 @@
-﻿using TaskManagement.Common.Interfaces.Repositories;
+﻿using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Persistence.Context;
 
 namespace TaskManagement.Persistence.Repository
@@ -28,7 +28,7 @@ namespace TaskManagement.Persistence.Repository
             return _context.SaveChanges();
         }
 
-        public async Task Save()
+        public async ValueTask Save()
         {
             await _context.SaveChangesAsync();
         }

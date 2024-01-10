@@ -1,6 +1,6 @@
 ﻿using TaskManagement.Domain.Entities.Task;
 
-namespace TaskManagement.Common.Interfaces.Repositories
+namespace TaskManagement.Application.Contracts.Persistence
 {
     public interface ITaskRepository : IGenericRepository<TaskEntity>
     {

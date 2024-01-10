@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Common.Exceptions;
-using TaskManagement.Common.Interfaces.Repositories;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 
 namespace TaskManagement.Application.Task.Commands.UpdateTask

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using TaskManagement.Common.Interfaces.Repositories;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Persistence.Context;
 
 namespace TaskManagement.Persistence.Repository
@@ -20,7 +20,7 @@ namespace TaskManagement.Persistence.Repository
             return entity;
         }
 
-        public async Task Delete(T entity)
+        public async ValueTask Delete(T entity)
         {
            _dbContext.Set<T>().Remove(entity);
         }
@@ -46,7 +46,7 @@ namespace TaskManagement.Persistence.Repository
             return await _dbContext.Set<T>().Where(predicate).ToListAsync(cancellationToken);
         }
 
-        public async Task Update(T entity)
+        public async ValueTask Update(T entity)
         {
              _dbContext.Entry(entity).State = EntityState.Modified;
         }

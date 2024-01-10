@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagement.Common.Interfaces.Repositories;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Domain.Entities.Task;
 using TaskManagement.Persistence.Context;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
@@ -14,6 +14,7 @@ namespace TaskManagement.Persistence.Repository
         {
             _dbContext = dbContext;
         }
+
         public async Task<TaskEntity?> GetTaskWithDetailsAsync(int id, CancellationToken cancellationToken)
         {
             var task = await _dbContext.Tasks
@@ -30,7 +31,7 @@ namespace TaskManagement.Persistence.Repository
             var tasks = _dbContext.Tasks
                .Include(q => q.TaskLevelEntity)
                .Include(q => q.TaskStatusEntity)
-               .Include(q => q.TaskPriorityEntity);
+               .Include(q => q.TaskPriorityEntity).AsNoTracking();
 
             return tasks;
         }

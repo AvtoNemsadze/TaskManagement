@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TaskManagement.Common.Interfaces.Repositories;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 
 namespace TaskManagement.Persistence.Scheduler

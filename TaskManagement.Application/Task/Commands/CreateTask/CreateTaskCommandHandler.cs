@@ -3,9 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using TaskManagement.Domain.Entities.Task;
 using TaskManagement.Application.Responses;
-using TaskManagement.Common.Interfaces.Repositories;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
-
+using TaskManagement.Application.Contracts.Persistence;
 
 namespace TaskManagement.Application.Task.Commands.CreateTask
 {

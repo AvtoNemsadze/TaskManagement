@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TaskManagement.Common.Interfaces.Repositories;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Persistence.Context;
 using TaskManagement.Persistence.Repository;
 

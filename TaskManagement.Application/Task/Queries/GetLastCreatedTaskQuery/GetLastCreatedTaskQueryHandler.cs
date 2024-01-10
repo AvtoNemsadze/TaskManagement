@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Common.Exceptions;
-using TaskManagement.Common.Interfaces.Repositories;
 
 namespace TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery
 {

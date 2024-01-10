@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using TaskManagement.Application.Constants;
 using TaskManagement.Application.Contracts.Identity;
+using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Common.Exceptions;
-using TaskManagement.Common.Interfaces.Repositories;
 
 namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 {
