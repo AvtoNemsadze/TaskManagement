@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TaskManagement.Application.Constants;
-using TaskManagement.Domain.Entities;
+using System.Data;
 using TaskManagement.Identity.Configurations;
 using TaskManagement.Identity.Models;
 
@@ -26,6 +25,14 @@ namespace TaskManagement.Identity
             modelBuilder.Entity<ApplicationUser>()
                 .Property(u => u.Id)
                 .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+            modelBuilder.Entity<ApplicationRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
+            modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
         }
 
         public async Task<int> SaveChangesAsync()
