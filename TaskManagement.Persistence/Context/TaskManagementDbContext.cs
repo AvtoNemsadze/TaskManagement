@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Constants;
+using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Entities.Task;
 using BaseEntity = TaskManagement.Domain.Entities.BaseEntity;
 
@@ -37,6 +38,7 @@ namespace TaskManagement.Persistence.Context
         public DbSet<TaskLevelEntity> TaskLevels { get; set; }
         public DbSet<TaskStatusEntity> TaskStatuses { get; set; }
         public DbSet<TaskPriorityEntity> TaskPriorities { get; set; }
+        public DbSet<DomainUserEntity> Users { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

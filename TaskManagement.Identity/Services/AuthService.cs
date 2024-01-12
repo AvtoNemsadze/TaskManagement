@@ -9,7 +9,9 @@ using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Infrastructure;
 using TaskManagement.Application.Models.Identity;
 using TaskManagement.Application.Models.Mail;
+using TaskManagement.Domain.Entities;
 using TaskManagement.Identity.Models;
+using TaskManagement.Persistence.Context;
 
 namespace TaskManagement.Identity.Services
 {
@@ -19,18 +21,21 @@ namespace TaskManagement.Identity.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
         private readonly TaskManagementIdentityDbContext _identityDbContext;
+        private readonly TaskManagementDbContext _taskManagementDbContext;
         public IEmailSender _emailSender;
 
         public AuthService(UserManager<ApplicationUser> userManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
             TaskManagementIdentityDbContext identityDbContext,
+            TaskManagementDbContext taskManagementDbContext,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings.Value;
             _signInManager = signInManager;
             _identityDbContext = identityDbContext;
+            _taskManagementDbContext = taskManagementDbContext;
             _emailSender = emailSender;
         }
 
@@ -62,13 +67,22 @@ namespace TaskManagement.Identity.Services
                 {
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    await _emailSender.SendTemplatedEmailAsync(new TemplatedEmailModel
+                    var domainUser = new DomainUserEntity
                     {
-                        IsBodyHtml = true,
-                        Subject = "Account registered",
-                        Body = $"Thank you {request.FirstName} {request.LastName} your Account registered successfully",
-                        Receiver = request.Email,
-                    });
+                        UserId = user.Id,
+                        CreatedAt = DateTime.Now,
+                    };
+
+                    await _taskManagementDbContext.Users.AddAsync(domainUser);
+                    _taskManagementDbContext.SaveChanges();
+
+                    //await _emailSender.SendTemplatedEmailAsync(new TemplatedEmailModel
+                    //{
+                    //    IsBodyHtml = true,
+                    //    Subject = "Account registered",
+                    //    Body = $"Thank you {request.FirstName} {request.LastName} your Account registered successfully",
+                    //    Receiver = request.Email,
+                    //});
 
                     return new RegistrationResponse() { UserId = user.Id };
                 }

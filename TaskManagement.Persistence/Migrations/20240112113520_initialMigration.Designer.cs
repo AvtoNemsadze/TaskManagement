@@ -12,7 +12,7 @@ using TaskManagement.Persistence.Context;
 namespace TaskManagement.Persistence.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    [Migration("20231217162529_initialMigration")]
+    [Migration("20240112113520_initialMigration")]
     partial class initialMigration
     {
         /// <inheritdoc />
@@ -20,10 +20,29 @@ namespace TaskManagement.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.DomainUserEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskEntity", b =>
                 {
@@ -35,6 +54,9 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.Property<string>("AttachFile")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -49,6 +71,9 @@ namespace TaskManagement.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("LastModifiedUserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TaskLevelId")
                         .HasColumnType("int");
@@ -85,6 +110,9 @@ namespace TaskManagement.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -92,6 +120,9 @@ namespace TaskManagement.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("LastModifiedUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -108,22 +139,28 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5675),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Easy"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5686),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Medium"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5687),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Difficult"
                         });
                 });
@@ -136,6 +173,9 @@ namespace TaskManagement.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -143,6 +183,9 @@ namespace TaskManagement.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("LastModifiedUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -159,29 +202,37 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5832),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Low"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5834),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Medium"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5835),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "High"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5836),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Urgent"
                         });
                 });
@@ -194,6 +245,9 @@ namespace TaskManagement.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -201,6 +255,9 @@ namespace TaskManagement.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("LastModifiedUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -217,36 +274,46 @@ namespace TaskManagement.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5884),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "NotStarted"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5886),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Started"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5887),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "InProgress"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5888),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Failed"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5889),
+                            CreateUserId = 0,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
+                            LastModifiedUserId = 0,
                             Name = "Completed"
                         });
                 });

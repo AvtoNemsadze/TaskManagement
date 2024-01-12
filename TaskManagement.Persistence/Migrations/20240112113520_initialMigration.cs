@@ -22,7 +22,9 @@ namespace TaskManagement.Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CreateUserId = table.Column<int>(type: "int", nullable: false),
+                    LastModifiedUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +40,9 @@ namespace TaskManagement.Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CreateUserId = table.Column<int>(type: "int", nullable: false),
+                    LastModifiedUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,11 +58,27 @@ namespace TaskManagement.Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CreateUserId = table.Column<int>(type: "int", nullable: false),
+                    LastModifiedUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaskStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,7 +96,9 @@ namespace TaskManagement.Persistence.Migrations
                     AttachFile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CreateUserId = table.Column<int>(type: "int", nullable: false),
+                    LastModifiedUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,35 +125,35 @@ namespace TaskManagement.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "TaskLevels",
-                columns: new[] { "Id", "CreatedAt", "Name", "UpdatedAt" },
+                columns: new[] { "Id", "CreateUserId", "CreatedAt", "LastModifiedUserId", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5675), "Easy", null },
-                    { 2, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5686), "Medium", null },
-                    { 3, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5687), "Difficult", null }
+                    { 1, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Easy", null },
+                    { 2, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Medium", null },
+                    { 3, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Difficult", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "TaskPriorities",
-                columns: new[] { "Id", "CreatedAt", "Name", "UpdatedAt" },
+                columns: new[] { "Id", "CreateUserId", "CreatedAt", "LastModifiedUserId", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5832), "Low", null },
-                    { 2, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5834), "Medium", null },
-                    { 3, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5835), "High", null },
-                    { 4, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5836), "Urgent", null }
+                    { 1, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Low", null },
+                    { 2, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Medium", null },
+                    { 3, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "High", null },
+                    { 4, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Urgent", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "TaskStatuses",
-                columns: new[] { "Id", "CreatedAt", "Name", "UpdatedAt" },
+                columns: new[] { "Id", "CreateUserId", "CreatedAt", "LastModifiedUserId", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5884), "NotStarted", null },
-                    { 2, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5886), "Started", null },
-                    { 3, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5887), "InProgress", null },
-                    { 4, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5888), "Failed", null },
-                    { 5, new DateTime(2023, 12, 17, 20, 25, 29, 445, DateTimeKind.Local).AddTicks(5889), "Completed", null }
+                    { 1, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "NotStarted", null },
+                    { 2, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Started", null },
+                    { 3, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "InProgress", null },
+                    { 4, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Failed", null },
+                    { 5, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Completed", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -155,6 +177,9 @@ namespace TaskManagement.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Tasks");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "TaskLevels");
