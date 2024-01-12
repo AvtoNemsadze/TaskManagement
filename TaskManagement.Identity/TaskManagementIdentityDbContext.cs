@@ -35,30 +35,30 @@ namespace TaskManagement.Identity
             modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
         }
 
-        public async Task<int> SaveChangesAsync()
-        {
-            AddTimestamps();
-            return await base.SaveChangesAsync();
-        }
+        //public async Task<int> SaveChangesAsync()
+        //{
+        //    AddTimestamps();
+        //    return await base.SaveChangesAsync();
+        //}
 
-        private void AddTimestamps()
-        {
-            var entities = ChangeTracker.Entries().Where(x => x.Entity is ApplicationUser
-            && (x.State == EntityState.Added || x.State == EntityState.Modified));
+        //private void AddTimestamps()
+        //{
+        //    var entities = ChangeTracker.Entries().Where(x => x.Entity is ApplicationUser
+        //    && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
 
-            foreach (var entity in entities)
-            {
-                if (entity.State == EntityState.Added)
-                {
-                    ((ApplicationUser)entity.Entity).CreatedAt = DateTime.Now;
-                    ((ApplicationUser)entity.Entity).UpdatedAt = DateTime.Now;
-                }
-                else
-                {
-                    ((ApplicationUser)entity.Entity).UpdatedAt = DateTime.Now;
-                }
-            }
-        }
+        //    foreach (var entity in entities)
+        //    {
+        //        if (entity.State == EntityState.Added)
+        //        {
+        //            ((ApplicationUser)entity.Entity).CreatedAt = DateTime.Now;
+        //            ((ApplicationUser)entity.Entity).UpdatedAt = DateTime.Now;
+        //        }
+        //        else
+        //        {
+        //            ((ApplicationUser)entity.Entity).UpdatedAt = DateTime.Now;
+        //        }
+        //    }
+        //}
     }
 }
