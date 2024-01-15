@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Constants;
 using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Entities.Task;
+using TaskManagement.Domain.Entities.Team;
 using BaseEntity = TaskManagement.Domain.Entities.BaseEntity;
 
 namespace TaskManagement.Persistence.Context
@@ -34,11 +35,18 @@ namespace TaskManagement.Persistence.Context
             TaskManagementDbInitializer.Seed(modelBuilder);
         }
 
+        // task
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<TaskLevelEntity> TaskLevels { get; set; }
         public DbSet<TaskStatusEntity> TaskStatuses { get; set; }
         public DbSet<TaskPriorityEntity> TaskPriorities { get; set; }
+
+        // user
         public DbSet<DomainUserEntity> Users { get; set; }
+
+        // team
+        public DbSet<TeamEntity> Teams { get; set; }
+        public DbSet<TeamMembersEntity> TeamMembers { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

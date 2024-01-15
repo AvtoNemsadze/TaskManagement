@@ -24,7 +24,7 @@ namespace TaskManagement.Identity.Services
 
             return new UserResponseModel
             {
-                Id = user?.Id,
+                Id = user.Id,
                 Email = user?.Email,
                 Firstname = user?.FirstName,
                 Lastname = user?.LastName,

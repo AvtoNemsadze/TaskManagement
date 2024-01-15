@@ -6,6 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Teams\**" />
+    <EmbeddedResource Remove="Teams\**" />
+    <None Remove="Teams\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
@@ -18,6 +24,12 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskManagement.Common\TaskManagement.Common.csproj" />
     <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Team\Commands\DeleteTeam\" />
+    <Folder Include="Team\Commands\UpdateTeam\" />
+    <Folder Include="Team\Queries\" />
   </ItemGroup>
 
 </Project>

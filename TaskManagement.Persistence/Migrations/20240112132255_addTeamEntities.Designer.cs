@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Persistence.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Persistence.Context;
 namespace TaskManagement.Persistence.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    partial class TaskManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240112132255_addTeamEntities")]
+    partial class addTeamEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,10 @@ namespace TaskManagement.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TeamMembersEntityId")
+                    b.Property<int?>("TeamMembersEntityTeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TeamMembersEntityUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -41,7 +47,7 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TeamMembersEntityId");
+                    b.HasIndex("TeamMembersEntityUserId", "TeamMembersEntityTeamId");
 
                     b.ToTable("Users");
                 });
@@ -359,17 +365,23 @@ namespace TaskManagement.Persistence.Migrations
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Team.TeamMembersEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CreateUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -379,20 +391,12 @@ namespace TaskManagement.Persistence.Migrations
                     b.Property<int>("LastModifiedUserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "TeamId");
 
                     b.HasIndex("TeamId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("TeamMembers");
                 });
@@ -401,7 +405,7 @@ namespace TaskManagement.Persistence.Migrations
                 {
                     b.HasOne("TaskManagement.Domain.Entities.Team.TeamMembersEntity", null)
                         .WithMany("Users")
-                        .HasForeignKey("TeamMembersEntityId");
+                        .HasForeignKey("TeamMembersEntityUserId", "TeamMembersEntityTeamId");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskEntity", b =>
