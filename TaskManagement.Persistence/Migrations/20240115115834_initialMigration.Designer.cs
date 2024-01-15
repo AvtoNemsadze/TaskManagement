@@ -12,8 +12,8 @@ using TaskManagement.Persistence.Context;
 namespace TaskManagement.Persistence.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    [Migration("20240112173934_adjustPK")]
-    partial class adjustPK
+    [Migration("20240115115834_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
