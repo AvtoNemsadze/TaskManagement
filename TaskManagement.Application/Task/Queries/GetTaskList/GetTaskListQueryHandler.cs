@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
+using TaskManagement.Application.Models.Identity;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Common.Helpers;
 using TaskEntity = TaskManagement.Domain.Entities.Task.TaskEntity;
@@ -12,11 +14,13 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        public IUserService _userService { get; private set; }
 
-        public GetTaskListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetTaskListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<GetTaskListModel> Handle(GetTaskListQuery request, CancellationToken cancellationToken)
@@ -31,9 +35,23 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
 
             var (tasks, metadata) = await paginationHelper.PaginateAsync(filteredTasks, request.PageNumber, request.PageSize, cancellationToken);
 
+            var taskList = new List<GetTaskDetailsModel>();
+            foreach (var task in tasks)
+            {
+                var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(task);
+
+                if (task.CreateUserId > 0)
+                {
+                    var user = await _userService.GetUser(task.CreateUserId);
+                    taskDetailsModel.UserResponseModel = _mapper.Map<UserResponseModel>(user);
+                }
+
+                taskList.Add(taskDetailsModel);
+            }
+
             var taskListModel = new GetTaskListModel
             {
-                Tasks = _mapper.Map<List<GetTaskDetailsModel>>(tasks),
+                Tasks = _mapper.Map<List<GetTaskDetailsModel>>(taskList),
                 Pagination = metadata,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,

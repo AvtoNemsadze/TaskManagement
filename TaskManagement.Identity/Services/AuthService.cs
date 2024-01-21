@@ -67,15 +67,6 @@ namespace TaskManagement.Identity.Services
                 {
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    var domainUser = new DomainUserEntity
-                    {
-                        UserId = user.Id,
-                        CreatedAt = DateTime.Now,
-                    };
-
-                    await _taskManagementDbContext.Users.AddAsync(domainUser);
-                    _taskManagementDbContext.SaveChanges();
-
                     //await _emailSender.SendTemplatedEmailAsync(new TemplatedEmailModel
                     //{
                     //    IsBodyHtml = true,

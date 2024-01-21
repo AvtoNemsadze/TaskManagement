@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Responses;
+using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Entities.Team;
 
 namespace TaskManagement.Application.Team.Commands.CreateTeam
@@ -65,13 +66,11 @@ namespace TaskManagement.Application.Team.Commands.CreateTeam
                     var newTeamMembers = new TeamMembersEntity
                     {
                         UserId = memberId,
-                        TeamId = newTeam.Id,
-                        //Team = newTeam
+                        TeamId = newTeam.Id
                     };
 
                     await _unitOfWork.TeamMembersRepository.Add(newTeamMembers);
                     await _unitOfWork.Save();
-                   
                 }
             }
 
@@ -84,5 +83,3 @@ namespace TaskManagement.Application.Team.Commands.CreateTeam
         }
     }
 }
-
-// SqlException: Cannot insert the value NULL into column 'Name', table 'TaskManagementDataBase.dbo.Teams'; column does not allow nulls. INSERT fails.

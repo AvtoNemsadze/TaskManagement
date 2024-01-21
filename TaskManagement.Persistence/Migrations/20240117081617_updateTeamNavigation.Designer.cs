@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Persistence.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Persistence.Context;
 namespace TaskManagement.Persistence.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    partial class TaskManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240117081617_updateTeamNavigation")]
+    partial class updateTeamNavigation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,45 @@ namespace TaskManagement.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DomainUserEntityTeamEntity", b =>
+                {
+                    b.Property<int>("MemebersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MemebersId", "TeamsId");
+
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("DomainUserEntityTeamEntity");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.DomainUserEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("TeamMembersEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamMembersEntityId");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskEntity", b =>
                 {
@@ -373,7 +415,31 @@ namespace TaskManagement.Persistence.Migrations
 
                     b.HasIndex("TeamId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("TeamMembers");
+                });
+
+            modelBuilder.Entity("DomainUserEntityTeamEntity", b =>
+                {
+                    b.HasOne("TaskManagement.Domain.Entities.DomainUserEntity", null)
+                        .WithMany()
+                        .HasForeignKey("MemebersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TaskManagement.Domain.Entities.Team.TeamEntity", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.DomainUserEntity", b =>
+                {
+                    b.HasOne("TaskManagement.Domain.Entities.Team.TeamMembersEntity", null)
+                        .WithMany("Users")
+                        .HasForeignKey("TeamMembersEntityId");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskEntity", b =>
@@ -419,10 +485,22 @@ namespace TaskManagement.Persistence.Migrations
                         .WithMany("TeamMembers")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_TeamMembers_Teams_TeamId");
+                        .IsRequired();
+
+                    b.HasOne("TaskManagement.Domain.Entities.DomainUserEntity", "User")
+                        .WithMany("TeamMembers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Team");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Entities.DomainUserEntity", b =>
+                {
+                    b.Navigation("TeamMembers");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskLevelEntity", b =>
@@ -448,6 +526,8 @@ namespace TaskManagement.Persistence.Migrations
             modelBuilder.Entity("TaskManagement.Domain.Entities.Team.TeamMembersEntity", b =>
                 {
                     b.Navigation("Teams");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

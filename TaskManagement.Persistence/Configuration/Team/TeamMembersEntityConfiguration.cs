@@ -19,14 +19,10 @@ namespace TaskManagement.Persistence.Configuration.Team
             builder.Property(e => e.Id)
                  .ValueGeneratedOnAdd();
 
-            builder.HasOne(ut => ut.User)
-                .WithMany(u => u.TeamMembers)
-                .HasForeignKey(ut => ut.UserId)
-                .IsRequired();
-
             builder.HasOne(ut => ut.Team)
                 .WithMany(t => t.TeamMembers)
                 .HasForeignKey(ut => ut.TeamId)
+                .HasConstraintName("FK_TeamMembers_Teams_TeamId")
                 .IsRequired();
 
             builder.Property(e => e.IsDeleted)

@@ -41,9 +41,6 @@ namespace TaskManagement.Persistence.Context
         public DbSet<TaskStatusEntity> TaskStatuses { get; set; }
         public DbSet<TaskPriorityEntity> TaskPriorities { get; set; }
 
-        // user
-        public DbSet<DomainUserEntity> Users { get; set; }
-
         // team
         public DbSet<TeamEntity> Teams { get; set; }
         public DbSet<TeamMembersEntity> TeamMembers { get; set; }
