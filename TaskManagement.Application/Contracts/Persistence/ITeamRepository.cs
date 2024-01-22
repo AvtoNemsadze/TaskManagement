@@ -10,6 +10,6 @@ namespace TaskManagement.Application.Contracts.Persistence
 {
     public interface ITeamRepository : IGenericRepository<TeamEntity>
     {
-       
+        Task<TeamEntity?> GetTeamWithDetailsAsync(int id, CancellationToken cancellationToken);
     }
 }

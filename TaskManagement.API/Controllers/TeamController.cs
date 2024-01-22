@@ -4,7 +4,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using TaskManagement.Application.Responses;
+using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Team.Commands.CreateTeam;
+using TaskManagement.Application.Team.Queries.GetTeamDetails;
 
 namespace TaskManagement.API.Controllers
 {
@@ -29,6 +31,14 @@ namespace TaskManagement.API.Controllers
             var response = await _mediator.Send(teamToCreate);
 
             return Ok(response);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetTeamDetailsModel>> GetTeamDetails([FromRoute] int id)
+        {
+            var team = await _mediator.Send(new GetTeamDetailsQuery { Id = id });
+            return Ok(team);
         }
     }
 }

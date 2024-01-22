@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,12 @@ namespace TaskManagement.Persistence.Repository
             _dbContext = dbContext;
         }
 
-        
+        public async Task<TeamEntity?> GetTeamWithDetailsAsync(int id, CancellationToken cancellationToken)
+        {
+            var team = await _dbContext.Teams
+                 .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken);
+
+            return team;
+        }
     }
 }
