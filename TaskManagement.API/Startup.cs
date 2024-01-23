@@ -5,7 +5,10 @@ using TaskManagement.API.Middleware;
 using TaskManagement.Persistence.Scheduler;
 using TaskManagement.Identity;
 using TaskManagement.Infrastructure;
-
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using System.Reflection;
+using System;
 
 namespace TaskManagement.API
 {
@@ -32,6 +35,7 @@ namespace TaskManagement.API
             services.AddControllers();
 
             services.AddHostedService<TaskDeadlineCheckerService>();
+            services.AddHostedService<BlockedTeamMembersChecker>();
 
             services.AddCors(o =>
             {

@@ -9,5 +9,7 @@ namespace TaskManagement.Application.Contracts.Persistence
 {
     public interface ITeamMembersRepository : IGenericRepository<TeamMembersEntity>
     {
+        Task<List<int>> GetUserIdsByTeamIdAsync(int teamId, CancellationToken cancellationToken);
+        Task<IEnumerable<TeamMembersEntity>> GetBlockedUserWithExpireBlockDateAsync(DateTime currentTime);
     }
 }

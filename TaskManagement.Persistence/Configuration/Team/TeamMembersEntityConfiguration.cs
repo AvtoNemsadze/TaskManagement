@@ -28,6 +28,10 @@ namespace TaskManagement.Persistence.Configuration.Team
             builder.Property(e => e.IsDeleted)
               .IsRequired()
               .HasDefaultValue(false);
+
+
+            builder.Property(e => e.IsBlocked)
+              .HasDefaultValue(false);
         }
     }
 }

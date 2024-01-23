@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
+using TaskManagement.Application.Models.Identity;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Common.Exceptions;
 
@@ -34,18 +35,18 @@ namespace TaskManagement.Application.Team.Queries.GetTeamDetails
                 throw new NotFoundException("Team", request.Id);
             }
 
-            //var taskCreatorId = team.CreateUserId;
-            //if (taskCreatorId > 0)
-            //{
-            //    var user = await _userService.GetUser(team.CreateUserId);
-
-            //    var teamDetailsModelWithUser = _mapper.Map<GetTaskDetailsModel>(team);
-            //    taskDetailsModelWithUser.UserResponseModel = user;
-
-            //    return taskDetailsModelWithUser;
-            //}
-
             var teamDetailsModel = _mapper.Map<GetTeamDetailsModel>(team);
+
+            var userIds = team.TeamMembers.Select(tm => tm.UserId).ToList();
+
+            teamDetailsModel.UserResponses = new List<UserResponseModel>();
+
+            foreach (var userId in userIds)
+            {
+                var userResponse = await _userService.GetUser(userId);
+                teamDetailsModel.UserResponses.Add(userResponse);
+            }
+
             return teamDetailsModel;
         }
     }

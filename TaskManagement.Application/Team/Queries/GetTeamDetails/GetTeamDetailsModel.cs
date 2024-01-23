@@ -16,8 +16,8 @@ namespace TaskManagement.Application.Team.Queries.GetTeamDetails
         public int TeamId { get; set; }
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
-        public DateTime? CreatedAt { get; set; }  
-        public UserResponseModel? UserResponse { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public List<UserResponseModel> UserResponses { get; set; } = new List<UserResponseModel>();
     }
 
     public class GetTeamMapping : Profile
