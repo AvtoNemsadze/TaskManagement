@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading;
-using TaskManagement.Application.Responses;
-using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Team.Commands.CreateTeam;
+using TaskManagement.Application.Team.Commands.UpdateTeam.BlockTeamMember;
 using TaskManagement.Application.Team.Commands.UpdateTeam.RemoveUserFromTeam;
 using TaskManagement.Application.Team.Queries.GetTeamDetails;
 using TaskManagement.Application.Team.Queries.GetTeamMembersList;
@@ -43,7 +40,7 @@ namespace TaskManagement.API.Controllers
             return Ok(team);
         }
 
-        [HttpPut("remove-member")]
+        [HttpPut("remove-team-member")]
         public async Task<IActionResult> RemoveTeamMember(RemoveTeamMemberModel model)
         {
             var command = new RemoveTeamMemberCommand
@@ -65,6 +62,30 @@ namespace TaskManagement.API.Controllers
             var userIds = await _mediator.Send(query);
 
             return Ok(userIds);
+        }
+
+        [HttpPut("block-team-member")]
+        public async Task<IActionResult> BlockTeamMember(BlockTeamMemberModel requestModel)
+        {
+            var validator = new BlockTeamMemberModelValidator();
+            var validationResult = validator.Validate(requestModel);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            var command = new BlockTeamMemberCommand
+            {
+               TeamId = requestModel.TeamId,
+               UserIdToBlock = requestModel.UserIdToBlock,
+               RequestingUserId = requestModel.RequestingUserId,
+               Duration = requestModel.Duration
+            };
+
+            var response = await _mediator.Send(command);
+
+            return Ok(response);
         }
     }
 }

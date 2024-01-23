@@ -10,6 +10,9 @@ namespace TaskManagement.Domain.Entities.Team
     {
         public int UserId { get; set; }
         public int TeamId { get; set; }
+
+        public bool IsBlocked { get; set; }
+        public DateTime? BlockedUntil { get; set; }
         public TeamEntity Team { get; set; } = null!;
     }
 }

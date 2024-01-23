@@ -31,5 +31,12 @@ namespace TaskManagement.Persistence.Repository
 
             return userIds;
         }
+
+        public async Task<IEnumerable<TeamMembersEntity>> GetBlockedUserWithExpireBlockDateAsync(DateTime currentTime)
+        {
+            return await _dbContext.TeamMembers
+                .Where(x => x.BlockedUntil < currentTime)
+                .ToListAsync();
+        }
     }
 }
