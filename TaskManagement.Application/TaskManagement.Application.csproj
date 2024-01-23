@@ -25,9 +25,5 @@
     <ProjectReference Include="..\TaskManagement.Common\TaskManagement.Common.csproj" />
     <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
   </ItemGroup>
-	
-  <ItemGroup>
-    <Folder Include="Team\Commands\DeleteTeam\" />
-  </ItemGroup>
 
 </Project>

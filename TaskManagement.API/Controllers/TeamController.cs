@@ -1,11 +1,20 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using TaskManagement.API.AuthConfig;
+using TaskManagement.Application.Constants;
+using TaskManagement.Application.Contracts.Interfaces;
 using TaskManagement.Application.Team.Commands.CreateTeam;
+using TaskManagement.Application.Team.Commands.DeleteTeam;
 using TaskManagement.Application.Team.Commands.UpdateTeam.BlockTeamMember;
 using TaskManagement.Application.Team.Commands.UpdateTeam.RemoveUserFromTeam;
 using TaskManagement.Application.Team.Queries.GetTeamDetails;
 using TaskManagement.Application.Team.Queries.GetTeamMembersList;
+using TaskManagement.Application.Team.Queries.TeamHelper;
+using TaskManagement.Identity.Models;
 
 namespace TaskManagement.API.Controllers
 {
@@ -15,13 +24,23 @@ namespace TaskManagement.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        public TeamController(IMediator mediator, IMapper mapper)
+        public ITeamAuthorizationService _teamAuthorizationService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public TeamController(
+            IMediator mediator,
+            IMapper mapper, 
+            ITeamAuthorizationService teamAuthorizationService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _teamAuthorizationService = teamAuthorizationService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> CreateTeam([FromBody] CreateTeamModel teamModel)
         {
 
@@ -86,6 +105,33 @@ namespace TaskManagement.API.Controllers
             var response = await _mediator.Send(command);
 
             return Ok(response);
+        }
+
+        [HttpDelete("{teamId}")]
+        [Authorize]
+        public async Task<ActionResult> DeleteTeam(int teamId)
+        {
+            // only admin can delete this team (CreateUserId)
+            var currentUserId = _httpContextAccessor?.HttpContext?.User.FindFirst(CustomClaimTypes.Uid)?.Value ?? string.Empty;
+
+            if (int.TryParse(currentUserId, out var userId))
+            {
+                var isAuthorized = await _teamAuthorizationService.IsUserTeamAdminAsync(userId, teamId);
+
+                if (!isAuthorized)
+                {
+                    return Forbid();
+                }
+
+                var command = new DeleteTeamCommand { TeamId = teamId };
+                await _mediator.Send(command);
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest("Invalid user ID format.");
+            }
         }
     }
 }

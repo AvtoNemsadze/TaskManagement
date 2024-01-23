@@ -9,6 +9,8 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using System.Reflection;
 using System;
+using TaskManagement.Application.Contracts.Interfaces;
+using TaskManagement.Application.Team.Queries.TeamHelper;
 
 namespace TaskManagement.API
 {
@@ -33,10 +35,10 @@ namespace TaskManagement.API
             services.ConfigurePersistenceServices(Configuration);
             services.ConfigureInfrastructureServices(Configuration);
             services.AddControllers();
-
+            services.AddScoped<ITeamAuthorizationService, TeamAuthorizationService>();
             services.AddHostedService<TaskDeadlineCheckerService>();
             services.AddHostedService<BlockedTeamMembersChecker>();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors(o =>
             {
                 o.AddPolicy("CorsPolicy",
