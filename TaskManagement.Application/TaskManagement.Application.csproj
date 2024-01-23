@@ -28,7 +28,6 @@
 	
   <ItemGroup>
     <Folder Include="Team\Commands\DeleteTeam\" />
-    <Folder Include="Team\Commands\UpdateTeam\" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,9 @@ using System.Threading;
 using TaskManagement.Application.Responses;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Team.Commands.CreateTeam;
+using TaskManagement.Application.Team.Commands.UpdateTeam.RemoveUserFromTeam;
 using TaskManagement.Application.Team.Queries.GetTeamDetails;
+using TaskManagement.Application.Team.Queries.GetTeamMembersList;
 
 namespace TaskManagement.API.Controllers
 {
@@ -39,6 +41,30 @@ namespace TaskManagement.API.Controllers
         {
             var team = await _mediator.Send(new GetTeamDetailsQuery { Id = id });
             return Ok(team);
+        }
+
+        [HttpPut("remove-member")]
+        public async Task<IActionResult> RemoveTeamMember(RemoveTeamMemberModel model)
+        {
+            var command = new RemoveTeamMemberCommand
+            {
+                TeamId = model.TeamId,
+                UserIdToRemove = model.UserIdToRemove,
+                RequestingUserId = model.RequestingUserId
+            };
+
+            var response = await _mediator.Send(command);
+
+            return Ok(response);
+        }
+
+        [HttpGet("{teamId}/user-ids")]
+        public async Task<IActionResult> GetUserIdsByTeamId(int teamId)
+        {
+            var query = new GetTeamMembersQuery { TeamId = teamId };
+            var userIds = await _mediator.Send(query);
+
+            return Ok(userIds);
         }
     }
 }

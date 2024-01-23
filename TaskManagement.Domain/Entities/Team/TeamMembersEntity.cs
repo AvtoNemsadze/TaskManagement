@@ -11,7 +11,5 @@ namespace TaskManagement.Domain.Entities.Team
         public int UserId { get; set; }
         public int TeamId { get; set; }
         public TeamEntity Team { get; set; } = null!;
-
-        public ICollection<TeamEntity> Teams { get; set; } = null!;
     }
 }

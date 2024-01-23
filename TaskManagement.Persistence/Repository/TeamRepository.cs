@@ -23,7 +23,8 @@ namespace TaskManagement.Persistence.Repository
         public async Task<TeamEntity?> GetTeamWithDetailsAsync(int id, CancellationToken cancellationToken)
         {
             var team = await _dbContext.Teams
-                 .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken);
+                .Include(q => q.TeamMembers)
+                .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken);
 
             return team;
         }
