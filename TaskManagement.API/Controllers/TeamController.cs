@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TaskManagement.API.AuthConfig;
@@ -13,8 +12,6 @@ using TaskManagement.Application.Team.Commands.UpdateTeam.BlockTeamMember;
 using TaskManagement.Application.Team.Commands.UpdateTeam.RemoveUserFromTeam;
 using TaskManagement.Application.Team.Queries.GetTeamDetails;
 using TaskManagement.Application.Team.Queries.GetTeamMembersList;
-using TaskManagement.Application.Team.Queries.TeamHelper;
-using TaskManagement.Identity.Models;
 
 namespace TaskManagement.API.Controllers
 {
@@ -24,11 +21,11 @@ namespace TaskManagement.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        public ITeamAuthorizationService _teamAuthorizationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        public ITeamAuthorizationService _teamAuthorizationService;
 
-        public TeamController(
-            IMediator mediator,
+        public TeamController
+            (IMediator mediator,
             IMapper mapper, 
             ITeamAuthorizationService teamAuthorizationService,
             IHttpContextAccessor httpContextAccessor)
@@ -36,7 +33,7 @@ namespace TaskManagement.API.Controllers
             _mediator = mediator;
             _mapper = mapper;
             _teamAuthorizationService = teamAuthorizationService;
-            _httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         [HttpPost]
@@ -111,12 +108,11 @@ namespace TaskManagement.API.Controllers
         [Authorize]
         public async Task<ActionResult> DeleteTeam(int teamId)
         {
-            // only admin can delete this team (CreateUserId)
-            var currentUserId = _httpContextAccessor?.HttpContext?.User.FindFirst(CustomClaimTypes.Uid)?.Value ?? string.Empty;
+            var currentUserId = ClaimsPrincipalExtensions.GetUserId(_httpContextAccessor);
 
-            if (int.TryParse(currentUserId, out var userId))
+            if (currentUserId.HasValue)
             {
-                var isAuthorized = await _teamAuthorizationService.IsUserTeamAdminAsync(userId, teamId);
+                var isAuthorized = await _teamAuthorizationService.IsUserTeamAdminAsync(currentUserId.Value, teamId);
 
                 if (!isAuthorized)
                 {

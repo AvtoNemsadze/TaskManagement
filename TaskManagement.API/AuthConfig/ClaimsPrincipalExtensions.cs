@@ -1,20 +1,18 @@
-﻿using System.Security.Claims;
+﻿using AutoMapper;
+using MediatR;
+using System.Security.Claims;
+using TaskManagement.Application.Constants;
+using TaskManagement.Application.Contracts.Interfaces;
 
 namespace TaskManagement.API.AuthConfig
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static int? GetUserId(this ClaimsPrincipal principal)
+        public static int? GetUserId(IHttpContextAccessor httpContextAccessor)
         {
-            if (principal == null)
-                throw new ArgumentNullException(nameof(principal));
+            var currentUserId = httpContextAccessor?.HttpContext?.User.FindFirst(CustomClaimTypes.Uid)?.Value;
 
-            var val = principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (int.TryParse(val, out int res))
-            {
-                return res;
-            }
-            return null;
+            return int.TryParse(currentUserId, out var userId) ? userId : (int?)null;
         }
     }
 }
