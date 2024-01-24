@@ -1,4 +1,6 @@
-﻿namespace TaskManagement.Domain.Entities.Task
+﻿using TaskManagement.Domain.Entities.Comment;
+
+namespace TaskManagement.Domain.Entities.Task
 {
     public class TaskEntity : BaseEntity
     {
@@ -13,5 +15,6 @@
         public TaskLevelEntity TaskLevelEntity { get; set; } = null!;
         public TaskPriorityEntity TaskPriorityEntity { get; set; } = null!;
         public TaskStatusEntity TaskStatusEntity { get; set; } = null!;
+        public ICollection<CommentEntity>? Comments { get; set; }
     }
 }

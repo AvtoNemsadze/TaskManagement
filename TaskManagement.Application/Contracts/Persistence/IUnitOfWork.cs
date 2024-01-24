@@ -5,6 +5,7 @@
         ITaskRepository TaskRepository { get; }
         ITeamRepository TeamRepository { get; }
         ITeamMembersRepository TeamMembersRepository { get; }
+        ICommentRepository CommentRepository { get; }
         ValueTask Save();
     }
 }

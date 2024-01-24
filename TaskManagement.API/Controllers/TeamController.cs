@@ -38,7 +38,7 @@ namespace TaskManagement.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> CreateTeam([FromBody] CreateTeamModel teamModel)
+        public async Task<IActionResult> CreateTeam([FromBody] CreateTeamModel teamModel)
         {
 
             var teamToCreate = _mapper.Map<CreateTeamCommand>(teamModel);
@@ -106,7 +106,7 @@ namespace TaskManagement.API.Controllers
 
         [HttpDelete("{teamId}")]
         [Authorize]
-        public async Task<ActionResult> DeleteTeam(int teamId)
+        public async Task<IActionResult> DeleteTeam(int teamId)
         {
             var currentUserId = ClaimsPrincipalExtensions.GetUserId(_httpContextAccessor);
 

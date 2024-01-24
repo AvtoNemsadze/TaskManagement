@@ -20,6 +20,7 @@ namespace TaskManagement.Persistence
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ITeamMembersRepository, TeamMembersRepository>();
 
             return services;

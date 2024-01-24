@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Constants;
 using TaskManagement.Domain.Entities;
+using TaskManagement.Domain.Entities.Comment;
 using TaskManagement.Domain.Entities.Task;
 using TaskManagement.Domain.Entities.Team;
 using BaseEntity = TaskManagement.Domain.Entities.BaseEntity;
@@ -44,6 +45,9 @@ namespace TaskManagement.Persistence.Context
         // team
         public DbSet<TeamEntity> Teams { get; set; }
         public DbSet<TeamMembersEntity> TeamMembers { get; set; }
+
+        // comment
+        public DbSet<CommentEntity> Comments { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

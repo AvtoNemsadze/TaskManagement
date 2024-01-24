@@ -8,14 +8,21 @@ namespace TaskManagement.Persistence.Repository
         private readonly TaskManagementDbContext _context;
         private ITaskRepository _taskRepository;
         private ITeamRepository _teamRepository;
-        ITeamMembersRepository _teamMembersRepository;
+        private ITeamMembersRepository _teamMembersRepository;
+        private ICommentRepository _commentRepository;
 
-        public UnitOfWork(TaskManagementDbContext context, ITaskRepository taskRepository, ITeamRepository teamRepository, ITeamMembersRepository teamMembersRepository)
+        public UnitOfWork(
+            TaskManagementDbContext context,
+            ITaskRepository taskRepository,
+            ITeamRepository teamRepository,
+            ITeamMembersRepository teamMembersRepository,
+            ICommentRepository commentRepository)
         {
             _context = context;
             _taskRepository = taskRepository;
             _teamRepository = teamRepository;
             _teamMembersRepository = teamMembersRepository;
+            _commentRepository = commentRepository;
         }
 
         public ITaskRepository TaskRepository =>
@@ -26,6 +33,9 @@ namespace TaskManagement.Persistence.Repository
 
         public ITeamMembersRepository TeamMembersRepository =>
           _teamMembersRepository ??= new TeamMembersRepository(_context);
+
+        public ICommentRepository CommentRepository =>
+          _commentRepository ??= new CommentRepository(_context);
 
         public void Dispose()
         {
