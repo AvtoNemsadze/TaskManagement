@@ -22,6 +22,7 @@ namespace TaskManagement.Persistence.Repository
                  .Include(q => q.TaskLevelEntity)
                  .Include(q => q.TaskStatusEntity)
                  .Include(q => q.TaskPriorityEntity)
+                 .Include(q => q.Comments)
                  .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken);
 
              return task;
@@ -33,6 +34,7 @@ namespace TaskManagement.Persistence.Repository
                .Include(q => q.TaskLevelEntity)
                .Include(q => q.TaskStatusEntity)
                .Include(q => q.TaskPriorityEntity)
+               .Include(q => q.Comments)
                .AsNoTracking();
 
             return tasks;

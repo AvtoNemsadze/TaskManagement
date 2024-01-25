@@ -51,7 +51,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
 
             var taskListModel = new GetTaskListModel
             {
-                Tasks = _mapper.Map<List<GetTaskDetailsModel>>(taskList),
+                Tasks = taskList,
                 Pagination = metadata,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,

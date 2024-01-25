@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Models.Identity;
-using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Common.Exceptions;
 
 namespace TaskManagement.Application.Team.Queries.GetTeamDetails
