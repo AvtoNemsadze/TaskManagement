@@ -3,7 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Comment.Commands.CreateCommentCommand;
+using TaskManagement.Application.Comment.Commands.UpdateComment;
 using TaskManagement.Application.Contracts.Interfaces;
+using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Application.Team.Commands.CreateTeam;
 using TaskManagement.Domain.Entities.Comment;
 
@@ -38,10 +40,19 @@ namespace TaskManagement.API.Controllers
             return Ok(response);
         }
 
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateComment(int id, [FromForm] string commentText)
+        {
+            var command = new UpdateCommentCommand 
+            {
+                CommentId = id,
+                CommentText = commentText
+            };
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
+
     }
 }
-
-// SqlException: The INSERT statement conflicted
-// with the FOREIGN KEY constraint
-// "FK_Comments_Tasks_TaskId". The conflict occurred
-// in database "TaskManagementDataBase", table "dbo.Tasks", column 'Id'.
