@@ -3,34 +3,34 @@ using MediatR;
 using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Responses;
+using TaskManagement.Common.Exceptions;
 using TaskManagement.Domain.Entities.Comment;
 
-namespace TaskManagement.Application.Comment
+namespace TaskManagement.Application.Comment.Commands.CreateCommentCommand
 {
     public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, BaseCommandResponse>
     {
-        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        public IUserService _userService { get; set; }
-        public CreateCommentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+        public readonly IUserService _userService;
+
+        public CreateCommentCommandHandler(IUnitOfWork unitOfWork, IUserService userService)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         public async Task<BaseCommandResponse> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
         {
-            var user = _userService.GetUser(request.UserId);
-            if(user == null)
+            var user = await _userService.UserExistAsync(request.UserId);
+            if (!user)
             {
-                throw new ArgumentNullException(nameof(user));
+                throw new NotFoundException("User", request.UserId);
             }
 
-            var task = _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.TaskId, cancellationToken);
-            if(task == null) 
+            var task = await _unitOfWork.TaskRepository.Exists(request.TaskId);
+            if (!task)
             {
-                throw new ArgumentNullException(nameof(task));
+                throw new NotFoundException("Task", request.TaskId);
             }
 
             var comment = new CommentEntity

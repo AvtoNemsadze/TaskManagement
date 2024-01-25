@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagement.Application.Comment
+namespace TaskManagement.Application.Comment.Commands.CreateCommentCommand
 {
     public class CreateCommentModel
     {

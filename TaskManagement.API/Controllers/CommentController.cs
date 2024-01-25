@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManagement.Application.Comment;
+using TaskManagement.Application.Comment.Commands.CreateCommentCommand;
 using TaskManagement.Application.Contracts.Interfaces;
 using TaskManagement.Application.Team.Commands.CreateTeam;
 using TaskManagement.Domain.Entities.Comment;
@@ -40,3 +40,8 @@ namespace TaskManagement.API.Controllers
 
     }
 }
+
+// SqlException: The INSERT statement conflicted
+// with the FOREIGN KEY constraint
+// "FK_Comments_Tasks_TaskId". The conflict occurred
+// in database "TaskManagementDataBase", table "dbo.Tasks", column 'Id'.

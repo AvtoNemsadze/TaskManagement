@@ -51,7 +51,7 @@ namespace TaskManagement.Persistence.Repository
              _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public virtual async Task<T?> GetSingleAsync(Expression<Func<T, bool>> @where, CancellationToken cancellationToken = new CancellationToken())
+        public virtual async Task<T?> GetSingleAsync(Expression<Func<T, bool>> @where, CancellationToken cancellationToken)
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(where, cancellationToken);
         }

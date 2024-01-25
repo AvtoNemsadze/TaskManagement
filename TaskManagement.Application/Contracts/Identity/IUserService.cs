@@ -8,5 +8,6 @@ namespace TaskManagement.Application.Contracts.Identity
         Task<List<UserResponseModel>> GetAllUsers();
         Task<List<UserResponseModel>> GetAdministrators();
         Task<bool> DeleteUser(int id);
+        Task<bool> UserExistAsync(int userId);
     }
 }

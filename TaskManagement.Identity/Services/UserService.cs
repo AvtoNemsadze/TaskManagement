@@ -80,5 +80,11 @@ namespace TaskManagement.Identity.Services
 
             return result.Succeeded;
         }
+
+        public async Task<bool> UserExistAsync(int userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            return user != null;
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagement.Application.Responses;
 
-namespace TaskManagement.Application.Comment
+namespace TaskManagement.Application.Comment.Commands.CreateCommentCommand
 {
     public class CreateCommentCommand : IRequest<BaseCommandResponse>
     {
