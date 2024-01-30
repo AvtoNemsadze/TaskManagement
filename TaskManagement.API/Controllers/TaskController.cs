@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Application.Task.Commands.DeleteTask;
 using TaskManagement.Application.Task.Commands.UpdateTask;

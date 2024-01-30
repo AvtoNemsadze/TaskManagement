@@ -33,14 +33,6 @@ namespace TaskManagement.API
             services.ConfigureInfrastructureServices(Configuration);
             services.AddControllers();
 
-            services.AddScoped<LanguageService>();
-            services.AddScoped<ITeamAuthorizationService, TeamAuthorizationService>();
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddHostedService<TaskDeadlineCheckerService>();
-            services.AddHostedService<BlockedTeamMembersChecker>();
-
             services.AddCors(o =>
             {
                 o.AddPolicy("CorsPolicy",
@@ -57,6 +49,11 @@ namespace TaskManagement.API
                 setupAction.ReportApiVersions = true;
             });
 
+            services.AddScoped<ITeamAuthorizationService, TeamAuthorizationService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHostedService<TaskDeadlineCheckerService>();
+            services.AddHostedService<BlockedTeamMembersChecker>();
+            services.AddScoped<LanguageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

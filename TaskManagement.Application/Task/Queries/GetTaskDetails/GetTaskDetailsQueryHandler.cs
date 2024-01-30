@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using TaskManagement.Application.Constants;
 using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Translation;
@@ -12,21 +15,21 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly LanguageService _languageService;
+        private readonly LanguageService _lanuageService;
 
-        public GetTaskDetailsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService, LanguageService languageService)
+        public GetTaskDetailsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService, LanguageService lanuageService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userService = userService;
-            _languageService = languageService; 
+            _lanuageService = lanuageService ?? throw new ArgumentNullException(nameof(lanuageService));
         }
 
         public async Task<GetTaskDetailsModel> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
         {
-            var task = await _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.Id, cancellationToken);
+            string languagePrefix = _lanuageService.GetAcceptedLanguage();
 
-          //  string languageId = _languageService.GetAcceptedLanguage();
+            var task = await _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.Id, cancellationToken);
 
             if (task == null)
             {
