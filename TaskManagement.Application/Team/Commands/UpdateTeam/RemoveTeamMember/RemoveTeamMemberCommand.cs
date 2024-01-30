@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagement.Application.Responses;
 
-namespace TaskManagement.Application.Team.Commands.UpdateTeam.RemoveUserFromTeam
+namespace TaskManagement.Application.Team.Commands.UpdateTeam.RemoveTeamMember
 {
     public class RemoveTeamMemberCommand : IRequest<BaseCommandResponse>
     {

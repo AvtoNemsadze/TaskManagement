@@ -5,12 +5,9 @@ using TaskManagement.API.Middleware;
 using TaskManagement.Persistence.Scheduler;
 using TaskManagement.Identity;
 using TaskManagement.Infrastructure;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using System.Reflection;
-using System;
-using TaskManagement.Application.Contracts.Interfaces;
 using TaskManagement.Application.Team.Queries.TeamHelper;
+using TaskManagement.Application.Contracts.Services;
+using TaskManagement.Application.Translation;
 
 namespace TaskManagement.API
 {
@@ -35,10 +32,15 @@ namespace TaskManagement.API
             services.ConfigurePersistenceServices(Configuration);
             services.ConfigureInfrastructureServices(Configuration);
             services.AddControllers();
+
+            services.AddScoped<LanguageService>();
             services.AddScoped<ITeamAuthorizationService, TeamAuthorizationService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddHostedService<TaskDeadlineCheckerService>();
             services.AddHostedService<BlockedTeamMembersChecker>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddCors(o =>
             {
                 o.AddPolicy("CorsPolicy",
@@ -54,24 +56,31 @@ namespace TaskManagement.API
                 setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
                 setupAction.ReportApiVersions = true;
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
             app.UseMiddleware<ExceptionMiddleware>();
+
+            //app.UseMiddleware<LocalizationMiddleware>();
+
+            app.UseMiddleware<TimingMiddleware>();
 
             app.UseAuthentication();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskManagement.Api v1"));
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -86,8 +95,6 @@ namespace TaskManagement.API
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-          
         }
 
         private void AddSwaggerDoc(IServiceCollection services)
@@ -104,6 +111,8 @@ namespace TaskManagement.API
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
+                //c.OperationFilter<AcceptLanguageOperationFilter>();
+                c.DocumentFilter<AcceptLanguageOperationFilter>();
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
@@ -130,10 +139,8 @@ namespace TaskManagement.API
                     Title = "Task Management API",
 
                 });
-
             });
-        }
-
+        }      
     }
 }
 

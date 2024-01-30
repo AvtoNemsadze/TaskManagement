@@ -3,7 +3,7 @@ using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Responses;
 
-namespace TaskManagement.Application.Team.Commands.UpdateTeam.RemoveUserFromTeam
+namespace TaskManagement.Application.Team.Commands.UpdateTeam.RemoveTeamMember
 {
     public class RemoveTeamMemberCommandHandler : IRequestHandler<RemoveTeamMemberCommand, BaseCommandResponse>
     {

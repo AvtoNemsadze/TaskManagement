@@ -2,14 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using TaskManagement.API.AuthConfig;
-using TaskManagement.Application.Constants;
-using TaskManagement.Application.Contracts.Interfaces;
+using TaskManagement.Application.Contracts.Services;
 using TaskManagement.Application.Team.Commands.CreateTeam;
 using TaskManagement.Application.Team.Commands.DeleteTeam;
 using TaskManagement.Application.Team.Commands.UpdateTeam.BlockTeamMember;
-using TaskManagement.Application.Team.Commands.UpdateTeam.RemoveUserFromTeam;
+using TaskManagement.Application.Team.Commands.UpdateTeam.RemoveTeamMember;
 using TaskManagement.Application.Team.Queries.GetTeamDetails;
 using TaskManagement.Application.Team.Queries.GetTeamMembersList;
 

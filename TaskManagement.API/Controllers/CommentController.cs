@@ -2,12 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManagement.Application.Comment.Commands.CreateCommentCommand;
+using TaskManagement.Application.Comment.Commands.CreateComment;
 using TaskManagement.Application.Comment.Commands.UpdateComment;
-using TaskManagement.Application.Contracts.Interfaces;
-using TaskManagement.Application.Task.Commands.UpdateTask;
-using TaskManagement.Application.Team.Commands.CreateTeam;
-using TaskManagement.Domain.Entities.Comment;
 
 namespace TaskManagement.API.Controllers
 {

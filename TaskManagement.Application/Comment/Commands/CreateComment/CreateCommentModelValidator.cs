@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace TaskManagement.Application.Comment.Commands.CreateCommentCommand
+namespace TaskManagement.Application.Comment.Commands.CreateComment
 {
 
     public class CreateCommentModelValidator : AbstractValidator<CreateCommentModel>

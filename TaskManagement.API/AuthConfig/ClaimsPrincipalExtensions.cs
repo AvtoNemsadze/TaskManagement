@@ -2,7 +2,7 @@
 using MediatR;
 using System.Security.Claims;
 using TaskManagement.Application.Constants;
-using TaskManagement.Application.Contracts.Interfaces;
+//using TaskManagement.Application.Contracts.Interfaces;
 
 namespace TaskManagement.API.AuthConfig
 {

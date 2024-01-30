@@ -6,7 +6,7 @@ using TaskManagement.Application.Responses;
 using TaskManagement.Common.Exceptions;
 using TaskManagement.Domain.Entities.Comment;
 
-namespace TaskManagement.Application.Comment.Commands.CreateCommentCommand
+namespace TaskManagement.Application.Comment.Commands.CreateComment
 {
     public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, BaseCommandResponse>
     {
