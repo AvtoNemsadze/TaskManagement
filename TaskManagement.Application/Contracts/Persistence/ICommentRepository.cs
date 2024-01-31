@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskManagement.Domain.Entities.Comment;
-using TaskManagement.Domain.Entities.Task;
+﻿using TaskManagement.Domain.Entities.Comment;
 
 namespace TaskManagement.Application.Contracts.Persistence
 {

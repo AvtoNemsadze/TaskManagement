@@ -22,6 +22,8 @@ namespace TaskManagement.Persistence
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ITeamMembersRepository, TeamMembersRepository>();
+            services.AddScoped<IContentRepository, ContentRepository>();
+            services.AddScoped<ILanguageRepository, LanguageRepository>();
 
             return services;
         }

@@ -70,8 +70,6 @@ namespace TaskManagement.API
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            //app.UseMiddleware<LocalizationMiddleware>();
-
             app.UseMiddleware<TimingMiddleware>();
 
             app.UseAuthentication();

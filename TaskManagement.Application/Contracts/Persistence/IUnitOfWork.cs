@@ -6,6 +6,8 @@
         ITeamRepository TeamRepository { get; }
         ITeamMembersRepository TeamMembersRepository { get; }
         ICommentRepository CommentRepository { get; }
+        IContentRepository ContentRepository { get; }
+        ILanguageRepository LanguageRepository { get; }
         ValueTask Save();
     }
 }

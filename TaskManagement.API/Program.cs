@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Options;
+using TaskManagement.Persistence.Context;
+
 namespace TaskManagement.API
 {
     public class Program

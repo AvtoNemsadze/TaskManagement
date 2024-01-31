@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Persistence.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Persistence.Context;
 namespace TaskManagement.Persistence.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    partial class TaskManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240131110212_addLanguageEntites")]
+    partial class addLanguageEntites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,28 +131,6 @@ namespace TaskManagement.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Georgia",
-                            Prefix = "ka-GE"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "English",
-                            Prefix = "en-US"
-                        });
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Language.TranslationEntity", b =>
@@ -284,35 +265,6 @@ namespace TaskManagement.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaskLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Easy"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Medium"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Difficult"
-                        });
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskPriorityEntity", b =>
@@ -347,44 +299,6 @@ namespace TaskManagement.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaskPriorities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Low"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Medium"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "High"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Urgent"
-                        });
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskStatusEntity", b =>
@@ -419,53 +333,6 @@ namespace TaskManagement.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaskStatuses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "NotStarted"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Started"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "InProgress"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Failed"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreateUserId = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            LastModifiedUserId = 0,
-                            Name = "Completed"
-                        });
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Team.TeamEntity", b =>

@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Constants;
-using TaskManagement.Domain.Entities;
 using TaskManagement.Domain.Entities.Comment;
+using TaskManagement.Domain.Entities.Language;
 using TaskManagement.Domain.Entities.Task;
 using TaskManagement.Domain.Entities.Team;
 using BaseEntity = TaskManagement.Domain.Entities.BaseEntity;
@@ -36,18 +36,19 @@ namespace TaskManagement.Persistence.Context
             TaskManagementDbInitializer.Seed(modelBuilder);
         }
 
-        // task
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<TaskLevelEntity> TaskLevels { get; set; }
         public DbSet<TaskStatusEntity> TaskStatuses { get; set; }
         public DbSet<TaskPriorityEntity> TaskPriorities { get; set; }
 
-        // team
         public DbSet<TeamEntity> Teams { get; set; }
         public DbSet<TeamMembersEntity> TeamMembers { get; set; }
 
-        // comment
         public DbSet<CommentEntity> Comments { get; set; }
+
+        public DbSet<LanguageEntity> Languages { get; set; }
+        public DbSet<ContentEntity> Contents { get; set; }
+        public DbSet<TranslationEntity> Translations { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
