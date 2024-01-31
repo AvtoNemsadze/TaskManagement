@@ -8,6 +8,7 @@ using TaskManagement.Infrastructure;
 using TaskManagement.Application.Team.Queries.TeamHelper;
 using TaskManagement.Application.Contracts.Services;
 using TaskManagement.Application.Translation;
+using TaskManagement.Common.OperationFilter;
 
 namespace TaskManagement.API
 {
@@ -108,7 +109,6 @@ namespace TaskManagement.API
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
-                //c.OperationFilter<AcceptLanguageOperationFilter>();
                 c.DocumentFilter<AcceptLanguageOperationFilter>();
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()

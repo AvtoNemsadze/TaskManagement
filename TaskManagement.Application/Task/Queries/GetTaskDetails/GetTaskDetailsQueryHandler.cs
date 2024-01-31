@@ -27,7 +27,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 
         public async Task<GetTaskDetailsModel> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
         {
-            string languagePrefix = _lanuageService.GetAcceptedLanguage();
+            // string languagePrefix = _lanuageService.GetAcceptedLanguage();
 
             var task = await _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.Id, cancellationToken);
 
