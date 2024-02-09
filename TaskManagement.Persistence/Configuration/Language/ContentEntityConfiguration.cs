@@ -9,7 +9,11 @@ namespace TaskManagement.Persistence.Configuration.Language
         public void Configure(EntityTypeBuilder<ContentEntity> builder)
         {
             builder.HasKey(c => c.Id);
-            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+
+            builder.Property(e => e.Id)
+                   .ValueGeneratedOnAdd()
+                   .UseIdentityColumn(1, 1);
+
             builder.Property(c => c.Key).IsRequired();
 
             // Configure one-to-many relationship with translations

@@ -9,7 +9,8 @@ namespace TaskManagement.Persistence.Configuration.Language
         public void Configure(EntityTypeBuilder<TranslationEntity> builder)
         {
             builder.HasKey(l => l.Id);
-            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+            builder.Property(e => e.Id).ValueGeneratedOnAdd()
+                .UseIdentityColumn(1, 1);
 
             builder.Property(l => l.Value).IsRequired();
 

@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-using TaskManagement.Application.Constants;
 using TaskManagement.Application.Contracts.Identity;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Translation;
@@ -27,13 +24,30 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
 
         public async Task<GetTaskDetailsModel> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
         {
-            // string languagePrefix = _lanuageService.GetAcceptedLanguage();
-
             var task = await _unitOfWork.TaskRepository.GetTaskWithDetailsAsync(request.Id, cancellationToken);
-
             if (task == null)
             {
                 throw new NotFoundException("Task", request.Id);
+            }
+
+            var languageId = await _lanuageService.GetLanguageId();
+            
+            var taskLevelName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskLevelEntity.TranslatedId, languageId);
+            if (taskLevelName != null)
+            {
+                task.TaskLevelEntity.Name = taskLevelName;
+            }
+
+            var taskStatusName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskStatusEntity.TranslatedId, languageId);
+            if (taskStatusName != null)
+            {
+                task.TaskStatusEntity.Name = taskStatusName;
+            }
+
+            var taskPriorityName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskPriorityEntity.TranslatedId, languageId);
+            if (taskPriorityName != null)
+            {
+                task.TaskPriorityEntity.Name = taskPriorityName;
             }
 
             var taskCreatorId = task.CreateUserId;

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Persistence.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Persistence.Context;
 namespace TaskManagement.Persistence.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    partial class TaskManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240209123306_addTranslatedId")]
+    partial class addTranslatedId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,22 +92,12 @@ namespace TaskManagement.Persistence.Migrations
                     b.Property<int?>("TaskLevelEntityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TaskPriorityEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TaskStatusEntityId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TaskLevelEntityId");
-
-                    b.HasIndex("TaskPriorityEntityId");
-
-                    b.HasIndex("TaskStatusEntityId");
 
                     b.ToTable("Contents");
                 });
@@ -362,9 +355,6 @@ namespace TaskManagement.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranslatedId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -380,8 +370,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "Low",
-                            TranslatedId = 0
+                            Name = "Low"
                         },
                         new
                         {
@@ -390,8 +379,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "Medium",
-                            TranslatedId = 0
+                            Name = "Medium"
                         },
                         new
                         {
@@ -400,8 +388,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "High",
-                            TranslatedId = 0
+                            Name = "High"
                         },
                         new
                         {
@@ -410,8 +397,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "Urgent",
-                            TranslatedId = 0
+                            Name = "Urgent"
                         });
                 });
 
@@ -441,9 +427,6 @@ namespace TaskManagement.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranslatedId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -459,8 +442,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "NotStarted",
-                            TranslatedId = 0
+                            Name = "NotStarted"
                         },
                         new
                         {
@@ -469,8 +451,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "Started",
-                            TranslatedId = 0
+                            Name = "Started"
                         },
                         new
                         {
@@ -479,8 +460,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "InProgress",
-                            TranslatedId = 0
+                            Name = "InProgress"
                         },
                         new
                         {
@@ -489,8 +469,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "Failed",
-                            TranslatedId = 0
+                            Name = "Failed"
                         },
                         new
                         {
@@ -499,8 +478,7 @@ namespace TaskManagement.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedUserId = 0,
-                            Name = "Completed",
-                            TranslatedId = 0
+                            Name = "Completed"
                         });
                 });
 
@@ -603,14 +581,6 @@ namespace TaskManagement.Persistence.Migrations
                     b.HasOne("TaskManagement.Domain.Entities.Task.TaskLevelEntity", null)
                         .WithMany("Content")
                         .HasForeignKey("TaskLevelEntityId");
-
-                    b.HasOne("TaskManagement.Domain.Entities.Task.TaskPriorityEntity", null)
-                        .WithMany("Content")
-                        .HasForeignKey("TaskPriorityEntityId");
-
-                    b.HasOne("TaskManagement.Domain.Entities.Task.TaskStatusEntity", null)
-                        .WithMany("Content")
-                        .HasForeignKey("TaskStatusEntityId");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Language.TranslationEntity", b =>
@@ -693,15 +663,11 @@ namespace TaskManagement.Persistence.Migrations
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskPriorityEntity", b =>
                 {
-                    b.Navigation("Content");
-
                     b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Entities.Task.TaskStatusEntity", b =>
                 {
-                    b.Navigation("Content");
-
                     b.Navigation("Tasks");
                 });
 
