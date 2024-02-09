@@ -12,14 +12,14 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly LanguageService _lanuageService;
+        private readonly LanguageService _languageService;
 
         public GetTaskDetailsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService, LanguageService lanuageService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userService = userService;
-            _lanuageService = lanuageService ?? throw new ArgumentNullException(nameof(lanuageService));
+            _languageService = lanuageService ?? throw new ArgumentNullException(nameof(lanuageService));
         }
 
         public async Task<GetTaskDetailsModel> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
                 throw new NotFoundException("Task", request.Id);
             }
 
-            var languageId = await _lanuageService.GetLanguageId();
+            var languageId = await _languageService.GetLanguageId();
 
             var taskLevelName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskLevelEntity.TranslatedId, languageId);
             var taskStatusName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskStatusEntity.TranslatedId, languageId);
@@ -48,9 +48,9 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
             }
 
             var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(task);
-                taskDetailsModel.TaskLevel.Name = taskLevelName ?? throw new ArgumentNullException(nameof(taskLevelName));
-                taskDetailsModel.TaskStatus.Name = taskStatusName ?? throw new ArgumentNullException(nameof(taskLevelName));
-                taskDetailsModel.TaskPriority.Name = taskPriorityName ?? throw new ArgumentNullException(nameof(taskLevelName));
+                taskDetailsModel.TaskLevel.Name = taskLevelName ?? taskDetailsModel.TaskLevel.Name;
+                taskDetailsModel.TaskStatus.Name = taskStatusName ?? taskDetailsModel.TaskStatus.Name;
+                taskDetailsModel.TaskPriority.Name = taskPriorityName ?? taskDetailsModel.TaskPriority.Name;
 
             return taskDetailsModel;
         }
