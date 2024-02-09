@@ -31,27 +31,13 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
             }
 
             var languageId = await _lanuageService.GetLanguageId();
-            
+
             var taskLevelName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskLevelEntity.TranslatedId, languageId);
-            if (taskLevelName != null)
-            {
-                task.TaskLevelEntity.Name = taskLevelName;
-            }
-
             var taskStatusName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskStatusEntity.TranslatedId, languageId);
-            if (taskStatusName != null)
-            {
-                task.TaskStatusEntity.Name = taskStatusName;
-            }
-
             var taskPriorityName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskPriorityEntity.TranslatedId, languageId);
-            if (taskPriorityName != null)
-            {
-                task.TaskPriorityEntity.Name = taskPriorityName;
-            }
 
             var taskCreatorId = task.CreateUserId;
-            if(taskCreatorId > 0)
+            if (taskCreatorId > 0)
             {
                 var user = await _userService.GetUser(task.CreateUserId);
 
@@ -62,6 +48,10 @@ namespace TaskManagement.Application.Task.Queries.GetTaskDetails
             }
 
             var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(task);
+                taskDetailsModel.TaskLevel.Name = taskLevelName ?? throw new ArgumentNullException(nameof(taskLevelName));
+                taskDetailsModel.TaskStatus.Name = taskStatusName ?? throw new ArgumentNullException(nameof(taskLevelName));
+                taskDetailsModel.TaskPriority.Name = taskPriorityName ?? throw new ArgumentNullException(nameof(taskLevelName));
+
             return taskDetailsModel;
         }
     }
