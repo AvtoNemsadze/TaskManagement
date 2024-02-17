@@ -12,9 +12,9 @@ namespace TaskManagement.Domain.Entities.Task
         public int TaskLevelId { get; set; }
         public string? AttachFile { get; set; }
 
-        public TaskLevelEntity TaskLevelEntity { get; set; } = null!;
-        public TaskPriorityEntity TaskPriorityEntity { get; set; } = null!;
-        public TaskStatusEntity TaskStatusEntity { get; set; } = null!;
+        public virtual TaskLevelEntity TaskLevelEntity { get; set; } = null!;
+        public virtual TaskPriorityEntity TaskPriorityEntity { get; set; } = null!;
+        public virtual TaskStatusEntity TaskStatusEntity { get; set; } = null!;
         public ICollection<CommentEntity>? Comments { get; set; }
     }
 }
