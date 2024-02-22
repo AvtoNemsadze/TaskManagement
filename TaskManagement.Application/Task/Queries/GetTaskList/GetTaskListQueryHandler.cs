@@ -15,7 +15,7 @@ namespace TaskManagement.Application.Task.Queries.GetTaskList
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public IUserService _userService;
+        private readonly IUserService _userService;
         private readonly LanguageService _languageService;
         public GetTaskListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService, LanguageService lanuageService)
         {
