@@ -28,8 +28,8 @@ namespace TaskManagement.Application.Comment.Commands.UpdateComment
 
             comment.Comment = request.CommentText;
 
-            await _unitOfWork.CommentRepository.Update(comment);
-            await _unitOfWork.Save();
+             _unitOfWork.CommentRepository.Update(comment);
+             await _unitOfWork.Save();
 
             return Unit.Value;
         }

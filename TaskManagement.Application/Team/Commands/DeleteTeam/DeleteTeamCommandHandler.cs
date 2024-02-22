@@ -32,7 +32,7 @@ namespace TaskManagement.Application.Team.Commands.DeleteTeam
                 members.IsDeleted = true;
             }
 
-            await _unitOfWork.TeamRepository.Update(team);
+            _unitOfWork.TeamRepository.Update(team);
             await _unitOfWork.Save();
 
             return Unit.Value;

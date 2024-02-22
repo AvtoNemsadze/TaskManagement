@@ -8,21 +8,34 @@ namespace TaskManagement.Persistence.Repository
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly TaskManagementDbContext _dbContext;
+        private readonly DbSet<T> _db;
 
         public GenericRepository(TaskManagementDbContext dbContext)
         {
             _dbContext = dbContext;
+            _db = _dbContext.Set<T>();
         }
 
         public async Task<T> Add(T entity)
         {
-            await _dbContext.AddAsync(entity);
+            await _db.AddAsync(entity);
             return entity;
         }
 
-        public async ValueTask Delete(T entity)
+        public async ValueTask AddRange(IEnumerable<T> entities)
         {
-           _dbContext.Set<T>().Remove(entity);
+            await _db.AddRangeAsync(entities);
+        }
+
+        public async ValueTask Delete(int id)
+        {
+            var entity = await _db.FindAsync(id) ?? default!;
+            _db.Remove(entity);
+        }
+
+        public void DeleteRange(IEnumerable<T> entities)
+        {
+            _db.RemoveRange(entities);
         }
 
         public async Task<bool> Exists(int id)
@@ -33,44 +46,46 @@ namespace TaskManagement.Persistence.Repository
 
         public async Task<T> Get(int id)
         {
-            return await _dbContext.Set<T>().FindAsync(id) ?? default!;
+            return await _db.FindAsync(id) ?? default!;
         }
 
         public async Task<IReadOnlyList<T>> GetAll()
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            return await _db.ToListAsync();
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _dbContext.Set<T>().Where(predicate).ToListAsync(cancellationToken);
+            return await _db.Where(predicate).ToListAsync(cancellationToken);
         }
 
-        public async ValueTask Update(T entity)
+        public void Update(T entity)
         {
-             _dbContext.Entry(entity).State = EntityState.Modified;
+            _db.Attach(entity);        
+            _dbContext.Entry(entity).State = EntityState.Modified;  
         }
 
         public virtual async Task<T?> GetSingleAsync(Expression<Func<T, bool>> @where, CancellationToken cancellationToken)
         {
-            return await _dbContext.Set<T>().FirstOrDefaultAsync(where, cancellationToken);
+            return await _db.FirstOrDefaultAsync(where, cancellationToken);
         }
 
-        //public async Task<T> GetSingleWithIncludesAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes)
-        //{
-        //    var query = _dbContext.Set<T>().AsQueryable();
-
-        //    if (includes != null)
-        //    {
-        //        query = includes.Aggregate(query, (current, include) => current.Include(include));
-        //    }
-
-        //    return await query.FirstOrDefaultAsync(where, cancellationToken) ?? default!;
-        //}
 
         public IQueryable<T> GetAllQueryable()
         {
-            return _dbContext.Set<T>().AsQueryable();
+            return _db.AsQueryable();
+        }
+
+        public async Task<T> GetSingleWithIncludesAsync(Expression<Func<T, bool>> where, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includes)
+        {
+            var query = _db.AsQueryable();
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            return await query.AsNoTracking().FirstOrDefaultAsync(where, cancellationToken) ?? default!;
         }
     }
 }

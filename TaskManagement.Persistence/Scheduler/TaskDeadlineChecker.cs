@@ -29,7 +29,7 @@ namespace TaskManagement.Persistence.Scheduler
                     foreach (var task in tasksWithPastDeadlines)
                     {
                         task.TaskStatusId = (int)TaskStatus.Failed;
-                        await unitOfWork.TaskRepository.Update(task);
+                        unitOfWork.TaskRepository.Update(task);
                     }
 
                     await unitOfWork.Save();

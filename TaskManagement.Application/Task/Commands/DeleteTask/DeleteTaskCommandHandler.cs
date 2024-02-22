@@ -19,7 +19,7 @@ namespace TaskManagement.Application.Task.Commands.DeleteTask
 
             task.IsDeleted = true;
 
-            await _unitOfWork.TaskRepository.Update(task);
+            _unitOfWork.TaskRepository.Update(task);
             await _unitOfWork.Save();
 
             return Unit.Value;

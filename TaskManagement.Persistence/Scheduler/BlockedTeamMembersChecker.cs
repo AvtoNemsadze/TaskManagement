@@ -33,7 +33,7 @@ namespace TaskManagement.Persistence.Scheduler
                     foreach (var teamMember in teamMemberExpireBlockDate)
                     {
                         teamMember.IsBlocked = false;
-                        await unitOfWork.TeamMembersRepository.Update(teamMember);
+                        unitOfWork.TeamMembersRepository.Update(teamMember);
                     }
 
                     await unitOfWork.Save();
