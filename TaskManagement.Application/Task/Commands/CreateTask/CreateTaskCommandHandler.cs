@@ -87,8 +87,13 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
 
         private static async Task<string> SaveFileAsync(IFormFile? file)
         {
+            if (file == null)
+            {
+                throw new ArgumentNullException(nameof(file), "File cannot be null.");
+            }
+
             string baseDirectory = "Documents";
-            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file?.FileName);
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             string filePath = Path.Combine(baseDirectory, uniqueFileName);
 
             string fullPath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
@@ -97,6 +102,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
             {
                 await file.CopyToAsync(stream);
             }
+
             return filePath;
         }
     }
