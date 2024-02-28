@@ -21,32 +21,6 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
 
         public async Task<BaseCommandResponse> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
         {
-            var response = new BaseCommandResponse();
-
-            var createTaskModel = _mapper.Map<CreateTaskModel>(request);
-
-            var validator = new CreateTaskModelValidator();
-
-            var validationResult = await validator.ValidateAsync(createTaskModel, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                response.Success = false;
-                response.Message = "Task Creation Failed";
-                response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
-            }
-            else
-            {
-                response = await PerformCreateTaskLogicAsync(request);
-            }
-
-            return response;
-        }
-
-        private async Task<BaseCommandResponse> PerformCreateTaskLogicAsync(CreateTaskCommand request)
-        {
-            var taskStatus = (int)TaskStatus.Started;
-
             // default deadlines
             if (request.CreateTaskModel.DueDate == null)
             {
@@ -66,7 +40,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
                 Title = request.CreateTaskModel.Title,
                 Description = request.CreateTaskModel.Description,
                 DueDate = request.CreateTaskModel.DueDate,
-                TaskStatusId = taskStatus,
+                TaskStatusId = (int)TaskStatus.Started,
                 TaskLevelId = request.CreateTaskModel.TaskLevelId,
                 TaskPriorityId = request.CreateTaskModel.TaskPriorityId,
                 AttachFile = fileToSave,

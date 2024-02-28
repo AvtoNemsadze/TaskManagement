@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Task.Commands.CreateTask;
@@ -7,6 +8,7 @@ using TaskManagement.Application.Task.Commands.UpdateTask;
 using TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Task.Queries.GetTaskList;
+using TaskManagement.Application.Team.Commands.UpdateTeam.BlockTeamMember;
 
 namespace TaskManagement.API.Controllers
 {
@@ -28,6 +30,14 @@ namespace TaskManagement.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
         {
+            var validator = new CreateTaskModelValidator();
+            var validationResult = await validator.ValidateAsync(taskModel);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             var mapCreateTask = _mapper.Map<CreateTaskCommand>(taskModel);
 
             var response = await _mediator.Send(mapCreateTask);
