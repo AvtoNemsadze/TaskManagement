@@ -11,6 +11,7 @@ namespace TaskManagement.Domain.Entities.Task
         public int TaskPriorityId { get; set; } 
         public int TaskLevelId { get; set; }
         public string? AttachFile { get; set; }
+        public bool IsDuplicated { get; set; }
 
         public virtual TaskLevelEntity TaskLevelEntity { get; set; } = null!;
         public virtual TaskPriorityEntity TaskPriorityEntity { get; set; } = null!;

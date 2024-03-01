@@ -7,5 +7,6 @@ namespace TaskManagement.Application.Contracts.Persistence
         Task<TaskEntity?> GetTaskWithDetailsAsync(int id, CancellationToken cancellationToken);
         Task<IQueryable<TaskEntity>> GetTaskListWithDetailsAsync();
         Task<IEnumerable<TaskEntity>> GetTasksWithPastDeadlinesAsync(DateTime currentTime);
+        Task<IQueryable<TaskEntity>> GetDuplicatedTaskListWithDetailsAsync();
     }
 }

@@ -41,6 +41,19 @@ namespace TaskManagement.Persistence.Repository
             return tasks;
         }
 
+        public async Task<IQueryable<TaskEntity>> GetDuplicatedTaskListWithDetailsAsync()
+        {
+            var tasks = _dbContext.Tasks
+               .Include(q => q.TaskLevelEntity)
+               .Include(q => q.TaskStatusEntity)
+               .Include(q => q.TaskPriorityEntity)
+               .Include(q => q.Comments)
+               .Where(x => x.IsDuplicated && !x.IsDeleted)
+               .AsNoTracking();
+
+            return tasks;
+        }
+
         public async Task<IEnumerable<TaskEntity>> GetTasksWithPastDeadlinesAsync(DateTime currentTime)
         {
             return await _dbContext.Tasks

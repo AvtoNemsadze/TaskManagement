@@ -2,9 +2,12 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagement.Application.Comment.Commands.CreateComment;
 using TaskManagement.Application.Task.Commands.CreateTask;
 using TaskManagement.Application.Task.Commands.DeleteTask;
+using TaskManagement.Application.Task.Commands.DuplicateTask;
 using TaskManagement.Application.Task.Commands.UpdateTask;
+using TaskManagement.Application.Task.Queries.GetDuplicatedTask.cs;
 using TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Task.Queries.GetTaskList;
@@ -28,7 +31,7 @@ namespace TaskManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
+        public async Task<IActionResult> CreateTask([FromForm] CreateTaskModel taskModel)
         {
             var validator = new CreateTaskModelValidator();
             var validationResult = await validator.ValidateAsync(taskModel);
@@ -41,6 +44,16 @@ namespace TaskManagement.API.Controllers
             var mapCreateTask = _mapper.Map<CreateTaskCommand>(taskModel);
 
             var response = await _mediator.Send(mapCreateTask);
+
+            return Ok(response);
+        }
+
+        [HttpPost("duplicateTask")]
+        public async Task<IActionResult> DuplicateTask([FromQuery] int taskId)
+        {
+            var taskToDuplicate = new DuplicateTaskCommand { TaskId = taskId };
+
+            var response = await _mediator.Send(taskToDuplicate);
 
             return Ok(response);
         }
@@ -75,6 +88,14 @@ namespace TaskManagement.API.Controllers
 
             var tasks = await _mediator.Send(query);
             return Ok(tasks);
+        }
+
+        [HttpGet("GetDuplicatedTaskList")]
+        public async Task<ActionResult<GetDuplicatedTaskModel>> GetAllDuplicatedTasks()
+        {
+
+            var task = await _mediator.Send(new GetDuplicatedTaskListQuery());
+            return Ok(task);
         }
 
         [HttpDelete("{id}")]
