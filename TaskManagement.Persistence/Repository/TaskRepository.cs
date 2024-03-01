@@ -2,6 +2,7 @@
 using System.Threading;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Domain.Entities.Task;
+using TaskManagement.Domain.Entities.Team;
 using TaskManagement.Persistence.Context;
 using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 

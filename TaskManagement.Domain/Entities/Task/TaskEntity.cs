@@ -15,6 +15,6 @@ namespace TaskManagement.Domain.Entities.Task
         public virtual TaskLevelEntity TaskLevelEntity { get; set; } = null!;
         public virtual TaskPriorityEntity TaskPriorityEntity { get; set; } = null!;
         public virtual TaskStatusEntity TaskStatusEntity { get; set; } = null!;
-        public ICollection<CommentEntity>? Comments { get; set; }
+        public virtual ICollection<CommentEntity>? Comments { get; set; }
     }
 }
