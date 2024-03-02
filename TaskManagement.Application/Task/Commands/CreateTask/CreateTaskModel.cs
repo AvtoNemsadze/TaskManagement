@@ -17,13 +17,7 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
     {
         public CreateTaskMapping()
         {
-            CreateMap<CreateTaskCommand, CreateTaskModel>()
-            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.CreateTaskModel.Title))
-            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CreateTaskModel.Description))
-            .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.CreateTaskModel.DueDate))
-            .ForMember(dest => dest.TaskPriorityId, opt => opt.MapFrom(src => src.CreateTaskModel.TaskPriorityId))
-            .ForMember(dest => dest.TaskLevelId, opt => opt.MapFrom(src => src.CreateTaskModel.TaskLevelId))
-            .ForMember(dest => dest.File, opt => opt.MapFrom(src => src.CreateTaskModel.File)).ReverseMap();
+            CreateMap<CreateTaskModel, CreateTaskCommand>();
         }
     }
 }

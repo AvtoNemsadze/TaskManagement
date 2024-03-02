@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using TaskManagement.Domain.Entities.Task;
 using TaskManagement.Application.Responses;
-using TaskStatus = TaskManagement.Common.Enums.TaskStatusEnum;
 using TaskManagement.Application.Contracts.Persistence;
 
 namespace TaskManagement.Application.Task.Commands.CreateTask
@@ -21,30 +20,26 @@ namespace TaskManagement.Application.Task.Commands.CreateTask
 
         public async Task<BaseCommandResponse> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
         {
-            // default deadlines
-            if (request.CreateTaskModel.DueDate == null)
+            if (request.DueDate == null)
             {
-                request.CreateTaskModel.DueDate = DateTime.Now.AddDays(7);
+                request.DueDate = DateTime.Now.AddDays(7);
             }
 
-            // upload file
             string? fileToSave = null;
 
-            if (request.CreateTaskModel.File != null && request.CreateTaskModel.File.Length > 0)
+            if (request.File != null && request.File.Length > 0)
             {
-                fileToSave = await SaveFileAsync(request.CreateTaskModel.File);
+                fileToSave = await SaveFileAsync(request.File);
             }
 
-            var newTask = new TaskEntity
-            {
-                Title = request.CreateTaskModel.Title,
-                Description = request.CreateTaskModel.Description,
-                DueDate = request.CreateTaskModel.DueDate,
-                TaskStatusId = (int)TaskStatus.Started,
-                TaskLevelId = request.CreateTaskModel.TaskLevelId,
-                TaskPriorityId = request.CreateTaskModel.TaskPriorityId,
-                AttachFile = fileToSave,
-            };
+            var newTask = new TaskEntity(
+                request.Title,
+                request.Description,
+                request.DueDate,
+                request.TaskLevelId,
+                request.TaskPriorityId,
+                fileToSave
+            );
 
             await _unitOfWork.TaskRepository.Add(newTask);
             await _unitOfWork.Save();
