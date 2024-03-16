@@ -5,6 +5,7 @@ using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Application.Models.Identity;
 using TaskManagement.Application.Task.Queries.GetTaskDetails;
 using TaskManagement.Application.Translation;
+using TaskManagement.Domain.Entities.Task;
 
 namespace TaskManagement.Application.Task.Queries.GetDuplicatedTask.cs
 {
@@ -22,9 +23,12 @@ namespace TaskManagement.Application.Task.Queries.GetDuplicatedTask.cs
             _languageService = lanuageService;
         }
 
-        public async Task<GetDuplicatedTaskModel> Handle(GetDuplicatedTaskListQuery requst, CancellationToken cancellationToken)
+
+        public async Task<GetDuplicatedTaskModel> Handle(GetDuplicatedTaskListQuery request, CancellationToken cancellationToken)
         {
-            var query = await _unitOfWork.TaskRepository.GetDuplicatedTaskListWithDetailsAsync();
+            var query = (await _unitOfWork.TaskRepository.GetDuplicatedTaskListWithDetailsAsync()).ToList();
+
+            var languageId = await _languageService.GetLanguageId();
 
             var taskList = new List<GetTaskDetailsModel>();
 
@@ -33,14 +37,13 @@ namespace TaskManagement.Application.Task.Queries.GetDuplicatedTask.cs
                 var taskDetailsModel = _mapper.Map<GetTaskDetailsModel>(task);
 
                 // Get translated names for task level, status, and priority
-                //var languageId = await _languageService.GetLanguageId();
-                //var taskLevelName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskLevelEntity.TranslatedId, languageId);
-                //var taskStatusName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskStatusEntity.TranslatedId, languageId);
-                //var taskPriorityName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskPriorityEntity.TranslatedId, languageId);
+                var taskLevelName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskLevelEntity.TranslatedId, languageId);
+                var taskStatusName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskStatusEntity.TranslatedId, languageId);
+                var taskPriorityName = await _unitOfWork.LanguageRepository.GetTranslatedValueAsync(task.TaskPriorityEntity.TranslatedId, languageId);
 
-                //taskDetailsModel.TaskLevel.Name = taskLevelName ?? taskDetailsModel.TaskLevel.Name;
-                //taskDetailsModel.TaskStatus.Name = taskStatusName ?? taskDetailsModel.TaskStatus.Name;
-                //taskDetailsModel.TaskPriority.Name = taskPriorityName ?? taskDetailsModel.TaskPriority.Name;
+                taskDetailsModel.TaskLevel.Name = taskLevelName ?? taskDetailsModel.TaskLevel.Name;
+                taskDetailsModel.TaskStatus.Name = taskStatusName ?? taskDetailsModel.TaskStatus.Name;
+                taskDetailsModel.TaskPriority.Name = taskPriorityName ?? taskDetailsModel.TaskPriority.Name;
 
                 if (task.CreateUserId > 0)
                 {
@@ -58,5 +61,6 @@ namespace TaskManagement.Application.Task.Queries.GetDuplicatedTask.cs
 
             return taskListModel;
         }
+
     }
 }
