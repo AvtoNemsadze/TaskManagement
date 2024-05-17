@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Hosting;
 using System.Reflection.Emit;
 using TaskManagement.Domain.Entities.Task;
 
@@ -14,6 +15,8 @@ namespace TaskManagement.Persistence.Configuration.Task
             builder.Property(e => e.Id)
                  .ValueGeneratedOnAdd();
 
+            builder.HasQueryFilter(e => !e.IsDeleted);
+
             builder.Property(e => e.Title)
                 .IsRequired();
 
@@ -21,7 +24,6 @@ namespace TaskManagement.Persistence.Configuration.Task
               .IsRequired()
               .HasDefaultValue(false);
 
-         
             builder.HasOne(e => e.TaskLevelEntity)
                .WithMany(e => e.Tasks)
                .HasForeignKey(e => e.TaskLevelId)
@@ -35,7 +37,6 @@ namespace TaskManagement.Persistence.Configuration.Task
                .HasForeignKey(e => e.TaskStatusId)
                .HasConstraintName("FK_Tasks_TaskStatuses_TaskStatusId");
 
-
             builder.HasOne(e => e.TaskPriorityEntity)
               .WithMany(e => e.Tasks)
               .HasForeignKey(e => e.TaskPriorityId)
@@ -47,7 +48,7 @@ namespace TaskManagement.Persistence.Configuration.Task
 
             builder.Property(e => e.TaskStatusId)
               .IsRequired()
-              .HasConversion<int>();
+            .HasConversion<int>();
         }
     }
 }

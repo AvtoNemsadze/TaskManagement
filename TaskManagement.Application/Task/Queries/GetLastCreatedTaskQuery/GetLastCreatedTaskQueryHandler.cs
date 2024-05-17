@@ -21,7 +21,6 @@ namespace TaskManagement.Application.Task.Queries.GetLastCreatedTaskQuery
         public async Task<GetTaskDetailsModel> Handle(GetLastCreatedTaskQuery request, CancellationToken cancellationToken)
         {
             var lastCreatedTask = await _unitOfWork.TaskRepository.GetAllQueryable()
-                .Where(t => !t.IsDeleted)
                 .Include(t => t.TaskLevelEntity)
                 .Include(t => t.TaskStatusEntity)
                 .Include(t => t.TaskPriorityEntity)

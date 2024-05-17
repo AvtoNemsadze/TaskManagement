@@ -19,6 +19,8 @@ namespace TaskManagement.Persistence.Configuration.Task
             builder.Property(e => e.Id)
                  .ValueGeneratedOnAdd();
 
+            builder.HasQueryFilter(e => !e.IsDeleted);
+
             builder.Property(e => e.Name)
                 .IsRequired();
 

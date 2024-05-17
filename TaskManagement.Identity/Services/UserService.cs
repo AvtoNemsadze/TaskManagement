@@ -36,7 +36,7 @@ namespace TaskManagement.Identity.Services
 
         public async Task<List<UserResponseModel>> GetAllUsers()
         {
-            var users = await _userManager.Users.Where(u => !u.IsDeleted).ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
 
             var userResponseList = users.Select(user => new UserResponseModel
             {

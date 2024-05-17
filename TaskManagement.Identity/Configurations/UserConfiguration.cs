@@ -36,6 +36,8 @@ namespace TaskManagement.Identity.Configurations
             };
 
             builder.HasData(user1, user2);
+
+            builder.HasQueryFilter(u => !u.IsDeleted);
         }
     }
 }
