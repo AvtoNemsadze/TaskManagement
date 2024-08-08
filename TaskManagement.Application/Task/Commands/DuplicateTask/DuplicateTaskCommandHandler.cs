@@ -24,6 +24,7 @@ namespace TaskManagement.Application.Task.Commands.DuplicateTask
             if(task == null)
             {
                 throw new NotFoundException("task", request.TaskId);
+
             }
 
             var mapEntityToModel = _mapper.Map<DuplicateTaskModel>(task);

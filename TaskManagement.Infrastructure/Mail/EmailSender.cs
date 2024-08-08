@@ -17,7 +17,8 @@ namespace TaskManagement.Infrastructure.Mail
         {
             var client = new SendGridClient(_emailSettings.ApiKey);
             
-            SendGridMessage message = MailHelper.CreateSingleEmail(new EmailAddress(_emailSettings.Email), new EmailAddress(request.Receiver), request.Subject, request.Body, request.Body);
+            SendGridMessage message = MailHelper.CreateSingleEmail(new EmailAddress(_emailSettings.Email),
+                new EmailAddress(request.Receiver), request.Subject, request.Body, request.Body);
             
             var response = await client.SendEmailAsync(message);
 
